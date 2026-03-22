@@ -7,119 +7,301 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
-:root{--g:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;--nv:#0D1B2A;--nm:#1A2E45;--cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C}
+:root{
+  --g:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;
+  --nv:#0D1B2A;--nm:#1A2E45;--nl:#243B55;
+  --cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C;
+  --sid:220px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-height:100vh}
+html,body{height:100%;font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr)}
+
+/* ─── SPIN ─────────────────────────────────── */
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-#LP{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.1),transparent 50%),var(--nv);padding:20px}
-.lb{background:linear-gradient(145deg,rgba(26,46,69,.96),rgba(13,27,42,.98));border:1px solid rgba(201,168,76,.2);border-radius:22px;padding:44px 38px;width:100%;max-width:420px;box-shadow:0 28px 72px rgba(0,0,0,.4);animation:fu .6s ease;text-align:center}
-.lb .ic{font-size:2.8rem;margin-bottom:18px}
-.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
-.lsb{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:30px}
-.roles{display:flex;gap:9px;margin-bottom:20px}
-.rb{flex:1;padding:11px;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;color:rgba(245,240,232,.45);font-family:'Cairo',sans-serif;font-size:.88rem;cursor:pointer;transition:all .3s}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── LOGIN ─────────────────────────────────── */
+#LP{min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.12),transparent 55%),var(--nv);
+    padding:16px}
+.lb{background:linear-gradient(145deg,rgba(26,46,69,.97),rgba(13,27,42,.99));
+    border:1px solid rgba(201,168,76,.22);border-radius:20px;padding:40px 32px;
+    width:100%;max-width:400px;box-shadow:0 24px 64px rgba(0,0,0,.45);
+    animation:fu .6s ease;text-align:center}
+.lb .ic{font-size:2.6rem;margin-bottom:16px}
+.lb h1{font-size:1.4rem;font-weight:900;
+       background:linear-gradient(135deg,var(--gl),var(--g));
+       -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.lsb{font-size:.8rem;color:rgba(245,240,232,.35);font-family:'Tajawal',sans-serif;margin-bottom:28px}
+.roles{display:flex;gap:8px;margin-bottom:18px}
+.rb{flex:1;padding:10px;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.16);
+    border-radius:9px;color:rgba(245,240,232,.42);font-family:'Cairo',sans-serif;
+    font-size:.85rem;cursor:pointer;transition:all .3s}
 .rb.on{background:rgba(201,168,76,.12);border-color:var(--g);color:var(--gl);font-weight:700}
-.lf{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:right}
-.lf label{font-size:.8rem;color:rgba(245,240,232,.55);font-family:'Tajawal',sans-serif}
-.lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:11px 14px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.92rem;outline:none;width:100%;transition:all .3s}
+.lf{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;text-align:right}
+.lf label{font-size:.78rem;color:rgba(245,240,232,.52);font-family:'Tajawal',sans-serif}
+.lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.16);border-radius:9px;
+          padding:10px 13px;color:var(--cr);font-family:'Cairo',sans-serif;
+          font-size:.9rem;outline:none;width:100%;transition:all .3s}
 .lf input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
-.lf input::placeholder{color:rgba(245,240,232,.18)}
-.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gl),var(--gd));border:none;border-radius:11px;color:var(--nv);font-family:'Cairo',sans-serif;font-size:.98rem;font-weight:900;cursor:pointer;margin-top:7px;transition:all .3s;box-shadow:0 7px 22px rgba(201,168,76,.28)}
+.lf input::placeholder{color:rgba(245,240,232,.16)}
+.lbtn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gl),var(--gd));
+      border:none;border-radius:10px;color:var(--nv);font-family:'Cairo',sans-serif;
+      font-size:.95rem;font-weight:900;cursor:pointer;margin-top:6px;
+      transition:all .3s;box-shadow:0 6px 20px rgba(201,168,76,.28)}
 .lbtn:hover{transform:translateY(-2px)}
-.lerr{color:#FF6B6B;font-size:.8rem;font-family:'Tajawal',sans-serif;margin-top:11px;display:none}
-.hint{font-size:.68rem;color:rgba(245,240,232,.18);margin-top:18px;font-family:'Tajawal',sans-serif}
-#DP{display:none}
-.lay{display:grid;grid-template-columns:255px 1fr;min-height:100vh}
-.sid{background:linear-gradient(180deg,var(--nm),var(--nv));border-left:1px solid rgba(201,168,76,.09);display:flex;flex-direction:column;padding:26px 0;position:fixed;top:0;right:0;width:255px;height:100vh;overflow-y:auto;z-index:100}
-.slog{padding:0 22px 24px;border-bottom:1px solid rgba(201,168,76,.09);text-align:center}
-.slog .em{font-size:1.9rem;margin-bottom:7px}
-.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.slog p{font-size:.69rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-.rbdg{display:inline-flex;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gl);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
-.nav{padding:18px 14px 0}
-.nlbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.4px;color:rgba(245,240,232,.22);font-family:'Tajawal',sans-serif;padding:0 7px;margin-bottom:7px}
-.ni{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(245,240,232,.46);font-size:.88rem;font-family:'Tajawal',sans-serif;margin-bottom:3px}
+.lerr{color:#FF6B6B;font-size:.78rem;font-family:'Tajawal',sans-serif;margin-top:10px;display:none}
+.hint{font-size:.64rem;color:rgba(245,240,232,.15);margin-top:16px;font-family:'Tajawal',sans-serif}
+
+/* ─── DASHBOARD SHELL ───────────────────────── */
+#DP{display:none;height:100vh;overflow:hidden}
+.shell{display:flex;height:100vh;overflow:hidden}
+
+/* ─── SIDEBAR (desktop) ─────────────────────── */
+.sid{
+  width:var(--sid);flex-shrink:0;
+  background:linear-gradient(180deg,var(--nm),var(--nv));
+  border-left:1px solid rgba(201,168,76,.1);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;
+  position:relative;z-index:10;
+}
+.slog{padding:20px 18px 18px;border-bottom:1px solid rgba(201,168,76,.09);text-align:center}
+.slog .em{font-size:1.7rem;margin-bottom:6px}
+.slog h2{font-size:.9rem;font-weight:900;
+         background:linear-gradient(135deg,var(--gl),var(--g));
+         -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slog p{font-size:.65rem;color:rgba(245,240,232,.26);font-family:'Tajawal',sans-serif}
+.rbdg{display:inline-flex;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.25);
+      color:var(--gl);padding:2px 10px;border-radius:16px;font-size:.65rem;
+      font-family:'Tajawal',sans-serif;margin-top:8px}
+.nav{padding:14px 10px 0;flex:1}
+.nlbl{font-size:.58rem;text-transform:uppercase;letter-spacing:1.4px;
+      color:rgba(245,240,232,.2);font-family:'Tajawal',sans-serif;padding:0 6px;margin-bottom:6px}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+    cursor:pointer;transition:all .2s;color:rgba(245,240,232,.44);
+    font-size:.85rem;font-family:'Tajawal',sans-serif;margin-bottom:2px}
 .ni:hover{background:rgba(201,168,76,.07);color:var(--cr)}
 .ni.on{background:rgba(201,168,76,.11);color:var(--gl);font-weight:700}
-.ni .ico{font-size:1.05rem;width:22px;text-align:center}
-.nbdg{margin-right:auto;background:var(--gd);color:var(--nv);font-size:.62rem;font-weight:900;padding:2px 7px;border-radius:9px}
-.sft{margin-top:auto;padding:14px}
-.lout{width:100%;padding:9px;background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.18);border-radius:9px;color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+.ni .ico{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.nbdg{margin-right:auto;background:var(--gd);color:var(--nv);
+      font-size:.6rem;font-weight:900;padding:2px 7px;border-radius:8px}
+.sft{padding:12px}
+.lout{width:100%;padding:8px;background:rgba(231,76,60,.09);
+      border:1px solid rgba(231,76,60,.17);border-radius:8px;
+      color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s}
 .lout:hover{background:rgba(231,76,60,.18)}
-.mn{margin-right:255px;padding:26px;min-height:100vh}
-.topb{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px}
-.topb h1{font-size:1.35rem;font-weight:900}
-.tact{display:flex;gap:9px}
-.btn{padding:8px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;font-weight:600;border:none}
+
+/* ─── MAIN AREA ─────────────────────────────── */
+.mn{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+
+/* Topbar */
+.topb{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px;border-bottom:1px solid rgba(201,168,76,.08);
+  flex-wrap:wrap;gap:8px;flex-shrink:0;
+  background:rgba(13,27,42,.6);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:5;
+}
+.topb h1{font-size:1.15rem;font-weight:900}
+.tact{display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:7px 14px;border-radius:7px;font-family:'Cairo',sans-serif;
+     font-size:.8rem;cursor:pointer;transition:all .2s;font-weight:600;border:none;white-space:nowrap}
 .bgold{background:linear-gradient(135deg,var(--gl),var(--gd));color:var(--nv)}
 .bgh{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.19)!important;color:var(--gl)}
 .bgh:hover{background:rgba(201,168,76,.15)}
-.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:26px}
-.stc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px}
-.stlbl{font-size:.72rem;color:rgba(245,240,232,.37);font-family:'Tajawal',sans-serif;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
-.stval{font-size:1.9rem;font-weight:900;color:var(--gl);line-height:1;margin-bottom:3px}
-.stsub{font-size:.72rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-.pnl{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:17px;overflow:hidden;display:none}
-.pnl.on{display:block}
-.phead{padding:18px 22px;border-bottom:1px solid rgba(201,168,76,.09);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.ptit{font-size:.97rem;font-weight:700;color:var(--gl)}
-.sinp{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:8px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;width:230px;direction:rtl;transition:all .3s}
+
+/* Content area */
+.content{padding:16px 20px;flex:1}
+
+/* ─── STATS ─────────────────────────────────── */
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));
+     border:1px solid rgba(201,168,76,.11);border-radius:12px;padding:14px 16px}
+.stlbl{font-size:.65rem;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;
+       margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.stval{font-size:1.7rem;font-weight:900;color:var(--gl);line-height:1;margin-bottom:2px}
+.stsub{font-size:.65rem;color:rgba(245,240,232,.26);font-family:'Tajawal',sans-serif}
+
+/* ─── PANEL ─────────────────────────────────── */
+.pnl{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));
+     border:1px solid rgba(201,168,76,.11);border-radius:14px;overflow:hidden;display:none}
+.pnl.on{display:flex;flex-direction:column}
+.phead{padding:14px 18px;border-bottom:1px solid rgba(201,168,76,.09);
+       display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;flex-shrink:0}
+.ptit{font-size:.92rem;font-weight:700;color:var(--gl)}
+.sinp{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.17);border-radius:8px;
+      padding:7px 12px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.8rem;
+      outline:none;width:200px;direction:rtl;transition:all .3s}
 .sinp:focus{border-color:var(--g)}
-.sinp::placeholder{color:rgba(245,240,232,.22)}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.82rem}
-thead th{background:rgba(201,168,76,.07);padding:12px 14px;text-align:right;font-size:.71rem;text-transform:uppercase;letter-spacing:.5px;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
+.sinp::placeholder{color:rgba(245,240,232,.2)}
+
+/* ─── TABLE (desktop) ───────────────────────── */
+.tw{overflow-x:auto;flex:1}
+table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:600px}
+thead th{background:rgba(201,168,76,.07);padding:10px 12px;text-align:right;
+         font-size:.68rem;text-transform:uppercase;letter-spacing:.5px;
+         color:rgba(245,240,232,.34);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
 tbody tr{border-bottom:1px solid rgba(201,168,76,.05);transition:background .2s}
 tbody tr:hover{background:rgba(201,168,76,.04)}
-tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',sans-serif;white-space:nowrap}
-.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:18px;font-size:.72rem;font-weight:700}
+tbody td{padding:10px 12px;color:rgba(245,240,232,.76);font-family:'Tajawal',sans-serif;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:16px;font-size:.7rem;font-weight:700}
 .tok{background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.28);color:var(--ok)}
 .tpd{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.19);color:var(--gl)}
-.batnd{padding:4px 12px;background:rgba(46,204,113,.09);border:1px solid rgba(46,204,113,.27);border-radius:7px;color:var(--ok);font-size:.75rem;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
+.batnd{padding:3px 11px;background:rgba(46,204,113,.09);border:1px solid rgba(46,204,113,.27);
+       border-radius:6px;color:var(--ok);font-size:.72rem;cursor:pointer;
+       font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
 .batnd:hover{background:rgba(46,204,113,.18)}
-.empty{padding:55px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
-.empty .eic{font-size:2.8rem;margin-bottom:10px}
-/* QR */
-.scwrp{padding:28px;text-align:center}
-.sctit{font-size:1.08rem;font-weight:700;color:var(--gl);margin-bottom:5px}
-.scsub{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:20px}
-#qr-reader{max-width:100%;width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26);background:rgba(0,0,0,.3)}
+
+/* ─── CARD VIEW (mobile table replacement) ───── */
+.cards{display:none;padding:8px}
+.card{background:rgba(13,27,42,.7);border:1px solid rgba(201,168,76,.1);
+      border-radius:12px;padding:14px;margin-bottom:8px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.card-name{font-size:.92rem;font-weight:700;color:var(--cr)}
+.card-id{font-size:.65rem;font-family:monospace;color:var(--g);margin-top:2px}
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.card-item .cl{font-size:.6rem;color:rgba(245,240,232,.3);font-family:'Tajawal',sans-serif;text-transform:uppercase}
+.card-item .cv{font-size:.78rem;font-weight:600;color:rgba(245,240,232,.8)}
+.card-actions{display:flex;justify-content:space-between;align-items:center}
+
+/* ─── EMPTY ─────────────────────────────────── */
+.empty{padding:40px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
+.empty .eic{font-size:2.4rem;margin-bottom:8px}
+
+/* ─── QR SCANNER ────────────────────────────── */
+.scwrp{padding:20px;text-align:center}
+.sctit{font-size:1rem;font-weight:700;color:var(--gl);margin-bottom:4px}
+.scsub{font-size:.8rem;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;margin-bottom:16px}
+#qr-reader{width:100%;max-width:320px;margin:0 auto 14px;border-radius:12px;
+           overflow:hidden;border:2px solid rgba(201,168,76,.26);background:rgba(0,0,0,.3)}
 #qr-reader video{width:100%!important;height:auto!important;display:block!important}
 #qr-reader img{display:none!important}
-.scbts{display:flex;gap:9px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
-.manbox{display:flex;gap:8px;justify-content:center;margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto}
-.manbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:10px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.86rem;outline:none;direction:rtl;transition:all .3s}
+.scbts{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.manbox{display:flex;gap:8px;margin-bottom:16px;max-width:380px;margin-left:auto;margin-right:auto}
+.manbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.17);
+              border-radius:8px;padding:9px 12px;color:var(--cr);font-family:'Cairo',sans-serif;
+              font-size:.84rem;outline:none;direction:rtl;transition:all .3s}
 .manbox input:focus{border-color:var(--g)}
-.manbox input::placeholder{color:rgba(245,240,232,.2)}
-.sres{max-width:460px;margin:0 auto;background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.19);border-radius:14px;padding:22px;display:none;text-align:right}
+.manbox input::placeholder{color:rgba(245,240,232,.18)}
+.sres{max-width:420px;margin:0 auto;
+      background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));
+      border:1px solid rgba(201,168,76,.18);border-radius:12px;padding:18px;display:none;text-align:right}
 .sres.ok{border-color:rgba(46,204,113,.38)}
 .sres.bad{border-color:rgba(231,76,60,.38)}
-.sric{font-size:2.3rem;margin-bottom:10px}
-.sres h3{font-size:1.02rem;font-weight:700;margin-bottom:3px}
+.sric{font-size:2rem;margin-bottom:8px}
+.sres h3{font-size:.97rem;font-weight:700;margin-bottom:2px}
 .sres.ok h3{color:var(--ok)}
 .sres.bad h3{color:var(--er)}
-.srmsg{font-family:'Tajawal',sans-serif;font-size:.8rem;color:rgba(245,240,232,.43);margin-top:3px}
-.srgrd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.srit .srl{font-size:.67rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif;text-transform:uppercase;margin-bottom:1px}
-.srit .srv{font-size:.86rem;font-weight:700;color:var(--cr)}
-.bcf{width:100%;padding:12px;background:linear-gradient(135deg,var(--ok),#27AE60);border:none;border-radius:11px;color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;margin-top:14px;transition:all .3s;box-shadow:0 7px 22px rgba(46,204,113,.28)}
+.srmsg{font-family:'Tajawal',sans-serif;font-size:.77rem;color:rgba(245,240,232,.4);margin-top:2px}
+.srgrd{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.srit .srl{font-size:.63rem;color:rgba(245,240,232,.26);font-family:'Tajawal',sans-serif;text-transform:uppercase;margin-bottom:1px}
+.srit .srv{font-size:.83rem;font-weight:700;color:var(--cr)}
+.bcf{width:100%;padding:11px;background:linear-gradient(135deg,var(--ok),#27AE60);
+     border:none;border-radius:10px;color:#fff;font-family:'Cairo',sans-serif;
+     font-size:.92rem;font-weight:900;cursor:pointer;margin-top:12px;
+     transition:all .3s;box-shadow:0 6px 18px rgba(46,204,113,.28)}
 .bcf:hover{transform:translateY(-2px)}
 .bcf:disabled{opacity:.5;cursor:not-allowed}
-.bag{width:100%;padding:10px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gl);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s}
-.bag:hover{background:rgba(201,168,76,.17)}
-.ovl{position:fixed;inset:0;background:rgba(13,27,42,.84);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.ovl .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
-.ovl p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.52);font-size:.91rem}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cr);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap;max-width:90vw;text-align:center}
+.bag{width:100%;padding:9px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.24);
+     border-radius:10px;color:var(--gl);font-family:'Cairo',sans-serif;
+     font-size:.87rem;font-weight:700;cursor:pointer;margin-top:7px;transition:all .3s}
+.bag:hover{background:rgba(201,168,76,.16)}
+
+/* ─── OVERVIEW RECENT TABLE ─────────────────── */
+.sec-title{padding:14px 18px 10px;font-size:.85rem;font-weight:700;color:var(--gl)}
+
+/* ─── OVERLAY & TOAST ───────────────────────── */
+.ovl{position:fixed;inset:0;background:rgba(13,27,42,.85);z-index:9998;display:none;
+     align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.ovl .sp{width:40px;height:40px;border:3px solid rgba(201,168,76,.15);
+         border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
+.ovl p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.5);font-size:.88rem}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(80px);
+       background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.25);border-radius:12px;
+       padding:10px 18px;font-family:'Tajawal',sans-serif;font-size:.84rem;color:var(--cr);
+       z-index:9999;transition:transform .35s ease;box-shadow:0 7px 28px rgba(0,0,0,.35);
+       white-space:nowrap;max-width:88vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
-@media(max-width:768px){.lay{grid-template-columns:1fr}.sid{position:relative;width:100%;height:auto;border-left:none;border-bottom:1px solid rgba(201,168,76,.09)}.mn{margin-right:0;padding:14px}.sts{grid-template-columns:1fr 1fr}.srgrd{grid-template-columns:1fr}.sinp{width:100%}}
+
+/* ─── MOBILE BOTTOM NAV ─────────────────────── */
+.bnav{display:none;position:fixed;bottom:0;left:0;right:0;
+      background:var(--nm);border-top:1px solid rgba(201,168,76,.12);
+      z-index:20;height:58px}
+.bnav-inner{display:flex;height:100%}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+     gap:3px;cursor:pointer;transition:all .2s;color:rgba(245,240,232,.4);
+     font-family:'Tajawal',sans-serif;font-size:.6rem;border:none;background:none}
+.bni.on{color:var(--gl)}
+.bni .bico{font-size:1.2rem;line-height:1}
+.bni .bcnt{background:var(--gd);color:var(--nv);font-size:.55rem;font-weight:900;
+           padding:1px 5px;border-radius:7px;min-width:16px;text-align:center}
+
+/* ─── HAMBURGER (mobile topbar) ─────────────── */
+.ham{display:none;background:none;border:none;color:var(--cr);font-size:1.3rem;cursor:pointer;padding:4px}
+.mob-sid-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:29}
+.mob-sid-overlay.show{display:block}
+.sid.mob-open{display:flex!important;position:fixed;top:0;right:0;bottom:0;z-index:30;
+              width:240px;box-shadow:-8px 0 32px rgba(0,0,0,.4)}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════ */
+
+/* Tablet: 768–1024 */
+@media(max-width:1024px){
+  :root{--sid:190px}
+  .sts{grid-template-columns:repeat(2,1fr)}
+  .stval{font-size:1.5rem}
+  .content{padding:12px 14px}
+  .topb{padding:12px 14px}
+}
+
+/* Mobile: ≤ 767 */
+@media(max-width:767px){
+  #DP{height:auto;overflow:visible;min-height:100vh}
+  .shell{flex-direction:column;height:auto;min-height:100vh}
+  /* hide desktop sidebar */
+  .sid{display:none}
+  /* main takes full width + bottom padding for nav */
+  .mn{overflow:visible;padding-bottom:58px}
+  .topb{padding:10px 12px}
+  .topb h1{font-size:1rem}
+  .ham{display:block}
+  .content{padding:10px 10px}
+  /* stats 2 cols */
+  .sts{grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .stc{padding:12px}
+  .stval{font-size:1.4rem}
+  .stlbl,.stsub{font-size:.62rem}
+  /* hide desktop table, show cards */
+  .tw{display:none}
+  .cards{display:block}
+  /* panel no flex-col scroll */
+  .pnl{overflow:visible}
+  /* QR full width */
+  #qr-reader{max-width:100%}
+  .srgrd{grid-template-columns:1fr 1fr}
+  .sres{max-width:100%}
+  .sinp{width:100%}
+  .phead{flex-direction:column;align-items:stretch}
+  /* bottom nav */
+  .bnav{display:block}
+  .toast{bottom:68px}
+}
+
+/* Very small: ≤ 380 */
+@media(max-width:380px){
+  .sts{grid-template-columns:1fr 1fr}
+  .stval{font-size:1.25rem}
+  .card-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <div class="ovl" id="OVL"><div class="sp"></div><p id="OVLM">جاري التحميل...</p></div>
 
-<!-- LOGIN -->
+<!-- ═══════════ LOGIN ═══════════ -->
 <div id="LP">
   <div class="lb">
     <div class="ic">🔐</div>
@@ -127,7 +309,7 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
     <div class="lsb">حفل التخرج 2025</div>
     <div class="roles">
       <button class="rb on" onclick="selR('admin')" id="rA">👑 إدارة</button>
-      <button class="rb" onclick="selR('vol')" id="rV">🤝 متطوع</button>
+      <button class="rb" onclick="selR('vol')"  id="rV">🤝 متطوع</button>
     </div>
     <div class="lf"><label>اسم المستخدم</label><input type="text" id="LU" placeholder="أدخل اسم المستخدم" autocomplete="off"></div>
     <div class="lf"><label>كلمة المرور</label><input type="password" id="LP2" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -137,84 +319,135 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
   </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- ═══════════ DASHBOARD ═══════════ -->
 <div id="DP">
- <div class="lay">
-  <div class="sid">
-    <div class="slog"><div class="em">🎓</div><h2>لوحة التحكم</h2><p>حفل التخرج 2025</p><div class="rbdg" id="RBDG">👑 إدارة</div></div>
-    <div class="nav">
-      <div class="nlbl">القائمة</div>
-      <div class="ni on" onclick="goP('ov')" id="N-ov"><span class="ico">📊</span><span>نظرة عامة</span></div>
-      <div class="ni adm" onclick="goP('ls')" id="N-ls"><span class="ico">📋</span><span>المسجلون</span><span class="nbdg" id="RCNT">0</span></div>
-      <div class="ni" onclick="goP('sc')" id="N-sc"><span class="ico">📷</span><span>مسح QR</span></div>
-    </div>
-    <div class="sft"><button class="lout" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
-  </div>
 
-  <div class="mn">
-    <div class="topb">
-      <h1 id="PGTIT">نظرة عامة</h1>
-      <div class="tact">
-        <button class="btn bgh" onclick="loadData()">🔄 تحديث</button>
-        <button class="btn bgold adm" onclick="doExport()">📥 تصدير Excel</button>
-      </div>
-    </div>
+  <!-- Mobile overlay for sidebar -->
+  <div class="mob-sid-overlay" id="MOB_OVL" onclick="closeMobSid()"></div>
 
-    <!-- Overview -->
-    <div class="pnl on" id="P-ov">
-      <div class="sts">
-        <div class="stc"><div class="stlbl">إجمالي المسجلين</div><div class="stval" id="ST">0</div><div class="stsub">خريج مسجل</div></div>
-        <div class="stc"><div class="stlbl">حضروا</div><div class="stval" id="SA">0</div><div class="stsub">تم تأكيد حضورهم</div></div>
-        <div class="stc"><div class="stlbl">لم يحضروا</div><div class="stval" id="SP">0</div><div class="stsub">في انتظار الحضور</div></div>
-        <div class="stc"><div class="stlbl">المرافقون</div><div class="stval" id="SC">0</div><div class="stsub">مرافق متوقع</div></div>
+  <div class="shell">
+
+    <!-- ── Sidebar ── -->
+    <div class="sid" id="SID">
+      <div class="slog">
+        <div class="em">🎓</div>
+        <h2>لوحة التحكم</h2>
+        <p>حفل التخرج 2025</p>
+        <div class="rbdg" id="RBDG">👑 إدارة</div>
       </div>
-      <div style="padding:0 0 22px">
-        <div style="padding:0 22px 13px;font-size:.88rem;font-weight:700;color:var(--gl)">📋 آخر التسجيلات</div>
-        <div class="tw"><table><thead><tr><th>الاسم</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody id="RTB"></tbody></table></div>
+      <div class="nav">
+        <div class="nlbl">القائمة</div>
+        <div class="ni on" onclick="goP('ov')" id="N-ov"><span class="ico">📊</span><span>نظرة عامة</span></div>
+        <div class="ni adm" onclick="goP('ls')" id="N-ls"><span class="ico">📋</span><span>المسجلون</span><span class="nbdg" id="RCNT">0</span></div>
+        <div class="ni" onclick="goP('sc')" id="N-sc"><span class="ico">📷</span><span>مسح QR</span></div>
       </div>
+      <div class="sft"><button class="lout" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
     </div>
 
-    <!-- List -->
-    <div class="pnl" id="P-ls">
-      <div class="phead">
-        <div class="ptit">📋 جميع المسجلين</div>
-        <input class="sinp" placeholder="🔍 بحث..." oninput="doFilter(this.value)">
-      </div>
-      <div class="tw">
-        <table>
-          <thead><tr><th>#</th><th>الاسم الكامل</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>الحالة</th><th>إجراء</th></tr></thead>
-          <tbody id="LTB"></tbody>
-        </table>
-      </div>
-    </div>
+    <!-- ── Main ── -->
+    <div class="mn">
 
-    <!-- Scanner -->
-    <div class="pnl" id="P-sc">
-      <div class="scwrp">
-        <div class="sctit">📷 مسح بطاقة الحضور</div>
-        <div class="scsub">وجّه الكاميرا نحو كود QR على بطاقة الخريج</div>
-        <div id="qr-reader"></div>
-        <div class="scbts">
-          <button class="btn bgold" id="BST" onclick="startScan()">▶ تشغيل الكاميرا</button>
-          <button class="btn bgh" id="BSP" onclick="stopScan()" style="display:none">⏹ إيقاف</button>
+      <!-- Topbar -->
+      <div class="topb">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="ham" id="HAM" onclick="openMobSid()">☰</button>
+          <h1 id="PGTIT">نظرة عامة</h1>
         </div>
-        <div class="manbox">
-          <input id="MID" placeholder="أو أدخل رقم التسجيل يدوياً...">
-          <button class="btn bgold" onclick="doManual()">فحص</button>
-        </div>
-        <div class="sres" id="SRES">
-          <div class="sric" id="SICO">✅</div>
-          <h3 id="STIT">—</h3>
-          <p class="srmsg" id="SMSG"></p>
-          <div class="srgrd" id="SGRD"></div>
-          <button class="bcf" id="BCF" onclick="doConfirm()" style="display:none">✅ تأكيد الحضور</button>
-          <button class="bag" onclick="resetScan()">📷 مسح بطاقة أخرى</button>
+        <div class="tact">
+          <button class="btn bgh" onclick="loadData()">🔄 تحديث</button>
+          <button class="btn bgold adm" onclick="doExport()">📥 Excel</button>
         </div>
       </div>
+
+      <!-- ── Content ── -->
+      <div class="content">
+
+        <!-- Overview -->
+        <div class="pnl on" id="P-ov">
+          <div class="sts">
+            <div class="stc"><div class="stlbl">المسجلون</div><div class="stval" id="ST">0</div><div class="stsub">إجمالي</div></div>
+            <div class="stc"><div class="stlbl">حضروا</div><div class="stval" id="SA">0</div><div class="stsub">مؤكد</div></div>
+            <div class="stc"><div class="stlbl">لم يحضروا</div><div class="stval" id="SP">0</div><div class="stsub">متبقي</div></div>
+            <div class="stc"><div class="stlbl">المرافقون</div><div class="stval" id="SC">0</div><div class="stsub">إجمالي</div></div>
+          </div>
+          <!-- Recent - desktop table -->
+          <div class="pnl on" style="margin:0;border-radius:10px;overflow:hidden">
+            <div class="phead"><div class="ptit">📋 آخر التسجيلات</div></div>
+            <div class="tw">
+              <table><thead><tr><th>الاسم</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+              <tbody id="RTB"><tr><td colspan="4"><div class="empty"><div class="eic">📭</div>لا توجد تسجيلات</div></td></tr></tbody></table>
+            </div>
+            <!-- Recent - mobile cards -->
+            <div class="cards" id="RCARDS"></div>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="pnl" id="P-ls">
+          <div class="phead">
+            <div class="ptit">📋 جميع المسجلين</div>
+            <input class="sinp" placeholder="🔍 بحث..." oninput="doFilter(this.value)">
+          </div>
+          <!-- Desktop table -->
+          <div class="tw">
+            <table>
+              <thead><tr><th>#</th><th>الاسم الكامل</th><th>الهاتف</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>الحالة</th><th>إجراء</th></tr></thead>
+              <tbody id="LTB"></tbody>
+            </table>
+          </div>
+          <!-- Mobile cards -->
+          <div class="cards" id="LCARDS"></div>
+        </div>
+
+        <!-- Scanner -->
+        <div class="pnl" id="P-sc">
+          <div class="scwrp">
+            <div class="sctit">📷 مسح بطاقة الحضور</div>
+            <div class="scsub">وجّه الكاميرا نحو كود QR على بطاقة الخريج</div>
+            <div id="qr-reader"></div>
+            <div class="scbts">
+              <button class="btn bgold" id="BST" onclick="startScan()">▶ تشغيل الكاميرا</button>
+              <button class="btn bgh" id="BSP" onclick="stopScan()" style="display:none">⏹ إيقاف</button>
+            </div>
+            <div class="manbox">
+              <input id="MID" placeholder="أو أدخل رقم التسجيل يدوياً...">
+              <button class="btn bgold" onclick="doManual()">فحص</button>
+            </div>
+            <div class="sres" id="SRES">
+              <div class="sric" id="SICO">✅</div>
+              <h3 id="STIT">—</h3>
+              <p class="srmsg" id="SMSG"></p>
+              <div class="srgrd" id="SGRD"></div>
+              <button class="bcf" id="BCF" onclick="doConfirm()" style="display:none">✅ تأكيد الحضور</button>
+              <button class="bag" onclick="resetScan()">📷 مسح بطاقة أخرى</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end content -->
+    </div><!-- end mn -->
+  </div><!-- end shell -->
+
+  <!-- ── Bottom Nav (mobile) ── -->
+  <nav class="bnav">
+    <div class="bnav-inner">
+      <button class="bni on" id="BN-ov" onclick="goP('ov')">
+        <span class="bico">📊</span><span>الرئيسية</span>
+      </button>
+      <button class="bni adm" id="BN-ls" onclick="goP('ls')">
+        <span class="bico">📋</span><span>المسجلون</span>
+        <span class="bcnt" id="BCNT">0</span>
+      </button>
+      <button class="bni" id="BN-sc" onclick="goP('sc')">
+        <span class="bico">📷</span><span>مسح QR</span>
+      </button>
+      <button class="bni" onclick="doLogout()">
+        <span class="bico">🚪</span><span>خروج</span>
+      </button>
     </div>
-  </div>
- </div>
-</div>
+  </nav>
+
+</div><!-- end DP -->
 
 <div class="toast" id="TST"></div>
 
@@ -613,6 +846,98 @@ function toast(m){
   clearTimeout(tstT);
   tstT=setTimeout(()=>e.classList.remove('show'),3500);
 }
+// ── MOBILE SIDEBAR ────────────────────────────
+function openMobSid(){
+  document.getElementById('SID').classList.add('mob-open');
+  document.getElementById('MOB_OVL').classList.add('show');
+}
+function closeMobSid(){
+  document.getElementById('SID').classList.remove('mob-open');
+  document.getElementById('MOB_OVL').classList.remove('show');
+}
+
+// ── OVERRIDE goP to also update bottom nav ────
+const _goP = goP;
+goP = function(id){
+  _goP(id);
+  // update bottom nav
+  document.querySelectorAll('.bni').forEach(b => b.classList.remove('on'));
+  const bn = document.getElementById('BN-'+id);
+  if(bn) bn.classList.add('on');
+  closeMobSid();
+  // scroll to top of content
+  const mn = document.querySelector('.mn');
+  if(mn) mn.scrollTop = 0;
+};
+
+// ── OVERRIDE render to also render mobile cards ─
+const _render = render;
+render = function(){
+  _render();
+  renderMobileCards();
+};
+
+function renderMobileCards(){
+  // Recent cards
+  const rc = [...regs].reverse().slice(0,6);
+  document.getElementById('RCARDS').innerHTML = rc.length
+    ? rc.map(r => mobileCard(r, true)).join('')
+    : '<div class="empty"><div class="eic">📭</div>لا توجد بيانات</div>';
+
+  // List cards
+  renderListCards(regs);
+
+  // update bottom nav badge
+  document.getElementById('BCNT').textContent = regs.length;
+}
+
+function renderListCards(data){
+  document.getElementById('LCARDS').innerHTML = data.length
+    ? data.map(r => mobileCard(r, false)).join('')
+    : '<div class="empty"><div class="eic">📭</div>لا توجد بيانات</div>';
+}
+
+function mobileCard(r, compact){
+  return `<div class="card">
+    <div class="card-top">
+      <div>
+        <div class="card-name">${esc(r.fullName)||'—'}</div>
+        <div class="card-id">${esc(r.regId)}</div>
+      </div>
+      ${r.attended
+        ? '<span class="tag tok">✓ حضر</span>'
+        : '<span class="tag tpd">⏳ لم يحضر</span>'}
+    </div>
+    ${compact ? '' : `<div class="card-grid">
+      <div class="card-item"><div class="cl">الهاتف</div><div class="cv">${esc(r.phone)||'—'}</div></div>
+      <div class="card-item"><div class="cl">الكلية</div><div class="cv">${esc(r.college)||'—'}</div></div>
+      <div class="card-item"><div class="cl">المرافقون</div><div class="cv">${esc(r.companions)||'0'}</div></div>
+      <div class="card-item"><div class="cl">التاريخ</div><div class="cv">${(r.timestamp||'').slice(0,10)||'—'}</div></div>
+    </div>
+    <div class="card-actions">
+      <span style="font-size:.72rem;color:rgba(245,240,232,.3);">${esc(r.email)||''}</span>
+      ${!r.attended ? `<button class="batnd" onclick="markAtt('${esc(r.regId)}')">✓ تأكيد الحضور</button>` : ''}
+    </div>`}
+  </div>`;
+}
+
+// ── OVERRIDE doFilter for cards ───────────────
+const _doFilter = doFilter;
+doFilter = function(q){
+  _doFilter(q);
+  const fl = regs.filter(r =>
+    (r.fullName||'').includes(q) ||
+    (r.regId||'').toUpperCase().includes(q.toUpperCase()) ||
+    (r.phone||'').includes(q)
+  );
+  renderListCards(fl);
+};
+
+// ── OVERRIDE doLogin to init mobile ──────────
+const _doLogin = doLogin;
+doLogin = function(){
+  _doLogin();
+};
 </script>
 </body>
 </html>
