@@ -7,38 +7,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
-:root{--gold:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;--nv:#0D1B2A;--nm:#1A2E45;--cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C}
+:root{--g:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;--nv:#0D1B2A;--nm:#1A2E45;--cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-height:100vh}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-/* LOGIN */
 #LP{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.1),transparent 50%),var(--nv);padding:20px}
 .lb{background:linear-gradient(145deg,rgba(26,46,69,.96),rgba(13,27,42,.98));border:1px solid rgba(201,168,76,.2);border-radius:22px;padding:44px 38px;width:100%;max-width:420px;box-shadow:0 28px 72px rgba(0,0,0,.4);animation:fu .6s ease;text-align:center}
 .lb .ic{font-size:2.8rem;margin-bottom:18px}
-.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
 .lsb{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:30px}
 .roles{display:flex;gap:9px;margin-bottom:20px}
 .rb{flex:1;padding:11px;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;color:rgba(245,240,232,.45);font-family:'Cairo',sans-serif;font-size:.88rem;cursor:pointer;transition:all .3s}
-.rb.on{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gl);font-weight:700}
+.rb.on{background:rgba(201,168,76,.12);border-color:var(--g);color:var(--gl);font-weight:700}
 .lf{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:right}
 .lf label{font-size:.8rem;color:rgba(245,240,232,.55);font-family:'Tajawal',sans-serif}
 .lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:11px 14px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.92rem;outline:none;width:100%;transition:all .3s}
-.lf input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.lf input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
 .lf input::placeholder{color:rgba(245,240,232,.18)}
 .lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gl),var(--gd));border:none;border-radius:11px;color:var(--nv);font-family:'Cairo',sans-serif;font-size:.98rem;font-weight:900;cursor:pointer;margin-top:7px;transition:all .3s;box-shadow:0 7px 22px rgba(201,168,76,.28)}
 .lbtn:hover{transform:translateY(-2px)}
 .lerr{color:#FF6B6B;font-size:.8rem;font-family:'Tajawal',sans-serif;margin-top:11px;display:none}
 .hint{font-size:.68rem;color:rgba(245,240,232,.18);margin-top:18px;font-family:'Tajawal',sans-serif}
-/* LAYOUT */
 #DP{display:none}
 .lay{display:grid;grid-template-columns:255px 1fr;min-height:100vh}
 .sid{background:linear-gradient(180deg,var(--nm),var(--nv));border-left:1px solid rgba(201,168,76,.09);display:flex;flex-direction:column;padding:26px 0;position:fixed;top:0;right:0;width:255px;height:100vh;overflow-y:auto;z-index:100}
 .slog{padding:0 22px 24px;border-bottom:1px solid rgba(201,168,76,.09);text-align:center}
 .slog .em{font-size:1.9rem;margin-bottom:7px}
-.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .slog p{font-size:.69rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-.rbdg{display:inline-flex;align-items:center;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gl);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
+.rbdg{display:inline-flex;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gl);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
 .nav{padding:18px 14px 0}
 .nlbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.4px;color:rgba(245,240,232,.22);font-family:'Tajawal',sans-serif;padding:0 7px;margin-bottom:7px}
 .ni{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(245,240,232,.46);font-size:.88rem;font-family:'Tajawal',sans-serif;margin-bottom:3px}
@@ -49,7 +47,6 @@ body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-hei
 .sft{margin-top:auto;padding:14px}
 .lout{width:100%;padding:9px;background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.18);border-radius:9px;color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
 .lout:hover{background:rgba(231,76,60,.18)}
-/* MAIN */
 .mn{margin-right:255px;padding:26px;min-height:100vh}
 .topb{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px}
 .topb h1{font-size:1.35rem;font-weight:900}
@@ -58,21 +55,18 @@ body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-hei
 .bgold{background:linear-gradient(135deg,var(--gl),var(--gd));color:var(--nv)}
 .bgh{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.19)!important;color:var(--gl)}
 .bgh:hover{background:rgba(201,168,76,.15)}
-/* STATS */
 .sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:26px}
-.stc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px;animation:fu .5s ease both}
+.stc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px}
 .stlbl{font-size:.72rem;color:rgba(245,240,232,.37);font-family:'Tajawal',sans-serif;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
 .stval{font-size:1.9rem;font-weight:900;color:var(--gl);line-height:1;margin-bottom:3px}
 .stsub{font-size:.72rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-/* PANELS */
 .pnl{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:17px;overflow:hidden;display:none}
 .pnl.on{display:block}
 .phead{padding:18px 22px;border-bottom:1px solid rgba(201,168,76,.09);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .ptit{font-size:.97rem;font-weight:700;color:var(--gl)}
 .sinp{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:8px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;width:230px;direction:rtl;transition:all .3s}
-.sinp:focus{border-color:var(--gold)}
+.sinp:focus{border-color:var(--g)}
 .sinp::placeholder{color:rgba(245,240,232,.22)}
-/* TABLE */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.82rem}
 thead th{background:rgba(201,168,76,.07);padding:12px 14px;text-align:right;font-size:.71rem;text-transform:uppercase;letter-spacing:.5px;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
@@ -86,17 +80,18 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
 .batnd:hover{background:rgba(46,204,113,.18)}
 .empty{padding:55px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
 .empty .eic{font-size:2.8rem;margin-bottom:10px}
-/* QR SCANNER */
+/* QR */
 .scwrp{padding:28px;text-align:center}
 .sctit{font-size:1.08rem;font-weight:700;color:var(--gl);margin-bottom:5px}
 .scsub{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:20px}
-#reader{max-width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26);min-height:10px}
+#qr-reader{max-width:100%;width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26);background:rgba(0,0,0,.3)}
+#qr-reader video{width:100%!important;height:auto!important;display:block!important}
+#qr-reader img{display:none!important}
 .scbts{display:flex;gap:9px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
 .manbox{display:flex;gap:8px;justify-content:center;margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto}
 .manbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:10px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.86rem;outline:none;direction:rtl;transition:all .3s}
-.manbox input:focus{border-color:var(--gold)}
+.manbox input:focus{border-color:var(--g)}
 .manbox input::placeholder{color:rgba(245,240,232,.2)}
-/* SCAN RESULT */
 .sres{max-width:460px;margin:0 auto;background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.19);border-radius:14px;padding:22px;display:none;text-align:right}
 .sres.ok{border-color:rgba(46,204,113,.38)}
 .sres.bad{border-color:rgba(231,76,60,.38)}
@@ -113,19 +108,15 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
 .bcf:disabled{opacity:.5;cursor:not-allowed}
 .bag{width:100%;padding:10px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gl);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s}
 .bag:hover{background:rgba(201,168,76,.17)}
-/* OVERLAY & TOAST */
 .ovl{position:fixed;inset:0;background:rgba(13,27,42,.84);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.ovl .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.ovl .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite}
 .ovl p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.52);font-size:.91rem}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cr);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cr);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{transform:translateX(-50%) translateY(0)}
-/* debug info bar */
-.dbg{background:rgba(52,152,219,.1);border:1px solid rgba(52,152,219,.2);border-radius:8px;padding:8px 14px;font-family:monospace;font-size:.75rem;color:rgba(52,152,219,.8);margin-bottom:14px;display:none}
 @media(max-width:768px){.lay{grid-template-columns:1fr}.sid{position:relative;width:100%;height:auto;border-left:none;border-bottom:1px solid rgba(201,168,76,.09)}.mn{margin-right:0;padding:14px}.sts{grid-template-columns:1fr 1fr}.srgrd{grid-template-columns:1fr}.sinp{width:100%}}
 </style>
 </head>
 <body>
-
 <div class="ovl" id="OVL"><div class="sp"></div><p id="OVLM">جاري التحميل...</p></div>
 
 <!-- LOGIN -->
@@ -149,25 +140,17 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
 <!-- DASHBOARD -->
 <div id="DP">
  <div class="lay">
-
-  <!-- Sidebar -->
   <div class="sid">
-    <div class="slog">
-      <div class="em">🎓</div>
-      <h2>لوحة التحكم</h2>
-      <p>حفل التخرج 2025</p>
-      <div class="rbdg" id="RBDG">👑 إدارة</div>
-    </div>
+    <div class="slog"><div class="em">🎓</div><h2>لوحة التحكم</h2><p>حفل التخرج 2025</p><div class="rbdg" id="RBDG">👑 إدارة</div></div>
     <div class="nav">
       <div class="nlbl">القائمة</div>
-      <div class="ni on" onclick="goPanel('ov')" id="N-ov"><span class="ico">📊</span><span>نظرة عامة</span></div>
-      <div class="ni adm" onclick="goPanel('ls')" id="N-ls"><span class="ico">📋</span><span>المسجلون</span><span class="nbdg" id="RCNT">0</span></div>
-      <div class="ni" onclick="goPanel('sc')" id="N-sc"><span class="ico">📷</span><span>مسح QR</span></div>
+      <div class="ni on" onclick="goP('ov')" id="N-ov"><span class="ico">📊</span><span>نظرة عامة</span></div>
+      <div class="ni adm" onclick="goP('ls')" id="N-ls"><span class="ico">📋</span><span>المسجلون</span><span class="nbdg" id="RCNT">0</span></div>
+      <div class="ni" onclick="goP('sc')" id="N-sc"><span class="ico">📷</span><span>مسح QR</span></div>
     </div>
     <div class="sft"><button class="lout" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
   </div>
 
-  <!-- Main -->
   <div class="mn">
     <div class="topb">
       <h1 id="PGTIT">نظرة عامة</h1>
@@ -176,8 +159,6 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
         <button class="btn bgold adm" onclick="doExport()">📥 تصدير Excel</button>
       </div>
     </div>
-
-    <div class="dbg" id="DBG"></div>
 
     <!-- Overview -->
     <div class="pnl on" id="P-ov">
@@ -197,11 +178,11 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
     <div class="pnl" id="P-ls">
       <div class="phead">
         <div class="ptit">📋 جميع المسجلين</div>
-        <input class="sinp" placeholder="🔍 بحث بالاسم أو رقم التسجيل..." oninput="doFilter(this.value)">
+        <input class="sinp" placeholder="🔍 بحث..." oninput="doFilter(this.value)">
       </div>
       <div class="tw">
         <table>
-          <thead><tr><th>#</th><th>الاسم الكامل</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th><th>إجراء</th></tr></thead>
+          <thead><tr><th>#</th><th>الاسم الكامل</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>الحالة</th><th>إجراء</th></tr></thead>
           <tbody id="LTB"></tbody>
         </table>
       </div>
@@ -211,14 +192,14 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
     <div class="pnl" id="P-sc">
       <div class="scwrp">
         <div class="sctit">📷 مسح بطاقة الحضور</div>
-        <div class="scsub">وجّه الكاميرا نحو كود QR الموجود على بطاقة الخريج</div>
-        <div id="reader"></div>
+        <div class="scsub">وجّه الكاميرا نحو كود QR على بطاقة الخريج</div>
+        <div id="qr-reader"></div>
         <div class="scbts">
           <button class="btn bgold" id="BST" onclick="startScan()">▶ تشغيل الكاميرا</button>
           <button class="btn bgh" id="BSP" onclick="stopScan()" style="display:none">⏹ إيقاف</button>
         </div>
         <div class="manbox">
-          <input id="MID" placeholder="أو أدخل رقم التسجيل يدوياً... مثل: GR1A2B3C">
+          <input id="MID" placeholder="أو أدخل رقم التسجيل يدوياً...">
           <button class="btn bgold" onclick="doManual()">فحص</button>
         </div>
         <div class="sres" id="SRES">
@@ -231,414 +212,406 @@ tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',san
         </div>
       </div>
     </div>
-
-  </div><!-- end mn -->
- </div><!-- end lay -->
-</div><!-- end DP -->
+  </div>
+ </div>
+</div>
 
 <div class="toast" id="TST"></div>
 
 <script>
-// ====================================================
-const SU = 'https://script.google.com/macros/s/AKfycbzgwDoOjtFkkQoydLWB_9hGdTY2ZYPvkk9xMWLZJ98VjVtCq8rDx21taw1BbKAi6SB8/exec';
-// ====================================================
+// ==============================================
+const SURL = 'https://script.google.com/macros/s/AKfycbx2tGIDxYev8eTzirv-Sh0JdlZJWP6EBLdqukzkOdfs8yYV_Gl0c_0OTgcXjHon68f5/exec';
+// ==============================================
 
 const CREDS = {
-  admin: { u:'admin', p:'admin123', r:'admin' },
-  vol:   { u:'vol',   p:'vol123',  r:'vol' }
+  admin:{ u:'admin', p:'admin123', r:'admin' },
+  vol:  { u:'vol',   p:'vol123',  r:'vol'   }
 };
 
-let myRole = 'admin', selRole = 'admin';
-let regs = [];
-let qrInst = null;
-let pendId = null;
-let tstT;
+let myRole='admin', selRole='admin', regs=[], qrObj=null, pendId=null, tstT;
 
-// ---- LOGIN ----
-function selR(r) {
-  selRole = r;
-  document.getElementById('rA').className = 'rb' + (r==='admin'?' on':'');
-  document.getElementById('rV').className = 'rb' + (r==='vol'?' on':'');
+// ── LOGIN ──────────────────────────────────────
+function selR(r){
+  selRole=r;
+  document.getElementById('rA').className='rb'+(r==='admin'?' on':'');
+  document.getElementById('rV').className='rb'+(r==='vol'?' on':'');
 }
-
-function doLogin() {
-  const u = document.getElementById('LU').value.trim();
-  const p = document.getElementById('LP2').value;
-  const m = Object.values(CREDS).find(c => c.u===u && c.p===p && c.r===selRole);
-  if (!m) { document.getElementById('LERR').style.display='block'; return; }
-  document.getElementById('LERR').style.display = 'none';
-  myRole = m.r;
-  document.getElementById('LP').style.display = 'none';
-  document.getElementById('DP').style.display = 'block';
-  document.getElementById('RBDG').textContent = myRole==='admin' ? '👑 إدارة' : '🤝 متطوع';
-  if (myRole !== 'admin') {
-    document.querySelectorAll('.adm').forEach(e => e.style.display='none');
-    goPanel('sc');
+function doLogin(){
+  const u=document.getElementById('LU').value.trim();
+  const p=document.getElementById('LP2').value;
+  const m=Object.values(CREDS).find(c=>c.u===u&&c.p===p&&c.r===selRole);
+  if(!m){document.getElementById('LERR').style.display='block';return;}
+  document.getElementById('LERR').style.display='none';
+  myRole=m.r;
+  document.getElementById('LP').style.display='none';
+  document.getElementById('DP').style.display='block';
+  document.getElementById('RBDG').textContent=myRole==='admin'?'👑 إدارة':'🤝 متطوع';
+  if(myRole!=='admin'){
+    document.querySelectorAll('.adm').forEach(e=>e.style.display='none');
+    goP('sc');
   } else {
     loadData();
-    goPanel('ov');
+    goP('ov');
   }
 }
-
-function doLogout() {
+function doLogout(){
   stopScan();
-  document.getElementById('DP').style.display = 'none';
-  document.getElementById('LP').style.display = 'flex';
-  document.getElementById('LU').value = '';
-  document.getElementById('LP2').value = '';
+  document.getElementById('DP').style.display='none';
+  document.getElementById('LP').style.display='flex';
+  document.getElementById('LU').value='';
+  document.getElementById('LP2').value='';
 }
 
-// ---- JSONP ----
-function jsonpGet(url) {
-  return new Promise((resolve, reject) => {
-    const cb = '__jcb' + Date.now() + Math.floor(Math.random()*9999);
-    const s  = document.createElement('script');
-    const tm = setTimeout(() => {
-      delete window[cb]; s.remove();
-      reject(new Error('JSONP timeout'));
-    }, 12000);
-    window[cb] = function(data) {
-      clearTimeout(tm); delete window[cb]; s.remove();
-      resolve(data);
-    };
-    s.src = url + (url.includes('?')?'&':'?') + 'callback=' + cb;
-    s.onerror = () => { clearTimeout(tm); delete window[cb]; s.remove(); reject(new Error('Script load error')); };
-    document.head.appendChild(s);
+// ── FETCH DATA ────────────────────────────────
+// نستخدم fetch مع no-cors للإرسال، وscript-tag للقراءة
+function callAPI(params){
+  return new Promise((resolve,reject)=>{
+    const cb='__cb'+Date.now()+Math.floor(Math.random()*9999);
+    const sc=document.createElement('script');
+    const qs=Object.entries(params).map(([k,v])=>encodeURIComponent(k)+'='+encodeURIComponent(v)).join('&');
+    const tm=setTimeout(()=>{delete window[cb];sc.remove();reject(new Error('timeout'));},15000);
+    window[cb]=function(data){clearTimeout(tm);delete window[cb];sc.remove();resolve(data);};
+    sc.src=SURL+'?'+qs+'&callback='+cb;
+    sc.onerror=()=>{clearTimeout(tm);delete window[cb];sc.remove();reject(new Error('load error'));};
+    document.head.appendChild(sc);
   });
 }
 
-// ---- LOAD DATA ----
-async function loadData() {
-  showOvl(true, 'جاري تحميل البيانات من Google Sheets...');
-  try {
-    const j = await jsonpGet(SU + '?action=getAll');
-    dbg('Raw response keys: ' + (j.data&&j.data[0] ? Object.keys(j.data[0]).join(' | ') : 'empty'));
+async function loadData(){
+  showOvl(true,'جاري تحميل البيانات...');
+  try{
+    const j=await callAPI({action:'getAll'});
+    console.log('API response:', j);
 
-    if (j.success && Array.isArray(j.data) && j.data.length > 0) {
-      // نستخدم index الأعمدة بدلاً من الاسم لأن Sheets قد يُرجع الأعمدة بأسماء مختلفة
-      // أعمدة الشيت: [0]رقم التسجيل [1]الاسم [2]الهاتف [3]البريد [4]الكلية [5]المرافقون [6]التاريخ [7]الحالة
-      regs = j.data.map(row => {
-        // نحاول القراءة بالاسم العربي أولاً، وإذا فشل نقرأ بالفهرس
-        const keys = Object.keys(row);
-        return {
-          regId:      String(row['رقم التسجيل']      || row[keys[0]] || ''),
-          fullName:   String(row['الاسم الكامل']      || row[keys[1]] || ''),
-          phone:      String(row['رقم الهاتف']        || row[keys[2]] || ''),
-          email:      String(row['البريد الإلكتروني'] || row[keys[3]] || ''),
-          college:    String(row['الكلية / التخصص']   || row[keys[4]] || ''),
-          companions: String(row['عدد المرافقين']     || row[keys[5]] || '0'),
-          timestamp:  String(row['تاريخ التسجيل']     || row[keys[6]] || ''),
-          attended:   String(row['حالة الحضور']       || row[keys[7]] || '').includes('حضر'),
+    if(j.success && Array.isArray(j.data) && j.data.length>0){
+      // نطبع أسماء الأعمدة للتشخيص
+      console.log('Column names:', Object.keys(j.data[0]));
+
+      regs = j.data.map(row=>{
+        // نجرب كل الأسماء المحتملة لكل عمود
+        const v = (keys) => {
+          for(const k of keys){
+            if(row[k] !== undefined && row[k] !== '') return String(row[k]);
+          }
+          return '';
         };
-      }).filter(r => r.regId && r.regId.length > 1);
+        return {
+          regId:      v(['رقم التسجيل','reg_id','regId','id']),
+          fullName:   v(['الاسم الكامل','full_name','fullName','الاسم','name']),
+          phone:      v(['رقم الهاتف','phone','هاتف','الهاتف']),
+          email:      v(['البريد الإلكتروني','email','بريد','البريد']),
+          college:    v(['الكلية / التخصص','الكلية','college','كلية']),
+          companions: v(['عدد المرافقين','companions','مرافقون','المرافقون']) || '0',
+          timestamp:  v(['تاريخ التسجيل','timestamp','تاريخ','date']),
+          attended:   v(['حالة الحضور','attended','حضور','الحضور']).includes('حضر'),
+        };
+      }).filter(r=>r.regId.length > 0);
 
-      dbg('Loaded ' + regs.length + ' records. First: ' + JSON.stringify(regs[0]));
-      toast('✅ تم تحميل ' + regs.length + ' تسجيل');
+      toast('✅ تم تحميل '+regs.length+' تسجيل');
     } else {
-      regs = [];
-      dbg('No data. success=' + j.success + ' data=' + JSON.stringify(j.data));
-      toast('ℹ️ لا توجد بيانات في الشيت حتى الآن');
+      regs=[];
+      console.log('No data or empty:', j);
+      toast('ℹ️ لا توجد بيانات بعد');
     }
-  } catch(e) {
-    dbg('Error: ' + e.message);
-    console.error(e);
-    try { regs = JSON.parse(localStorage.getItem('grad_reg') || '[]'); } catch(_) {}
-    toast('⚠️ تعذر الاتصال - يتم عرض البيانات المحلية (' + regs.length + ')');
+  } catch(e){
+    console.error('loadData error:',e);
+    // fallback محلي
+    try{ regs=JSON.parse(localStorage.getItem('grad_reg')||'[]'); }catch(_){}
+    toast('⚠️ تعذر الاتصال ('+regs.length+' محلي)');
   }
   showOvl(false);
   render();
 }
 
-// ---- RENDER ----
-function render() {
-  const tot  = regs.length;
-  const att  = regs.filter(r => r.attended).length;
-  const comp = regs.reduce((s,r) => s + parseInt(r.companions||0), 0);
-  document.getElementById('ST').textContent   = tot;
-  document.getElementById('SA').textContent   = att;
-  document.getElementById('SP').textContent   = tot - att;
-  document.getElementById('SC').textContent   = comp;
-  document.getElementById('RCNT').textContent = tot;
+// ── RENDER ────────────────────────────────────
+function render(){
+  const tot=regs.length;
+  const att=regs.filter(r=>r.attended).length;
+  const comp=regs.reduce((s,r)=>s+parseInt(r.companions||0),0);
+  document.getElementById('ST').textContent=tot;
+  document.getElementById('SA').textContent=att;
+  document.getElementById('SP').textContent=tot-att;
+  document.getElementById('SC').textContent=comp;
+  document.getElementById('RCNT').textContent=tot;
 
-  // Recent table
-  const recent = [...regs].reverse().slice(0, 6);
-  document.getElementById('RTB').innerHTML = recent.length
-    ? recent.map(r => `<tr>
-        <td style="font-weight:700">${r.fullName||'—'}</td>
-        <td style="font-family:monospace;font-size:.75rem;color:var(--gl)">${r.regId}</td>
-        <td style="font-size:.75rem">${(r.timestamp||'').slice(0,16)||'—'}</td>
-        <td>${r.attended ? '<span class="tag tok">● حضر</span>' : '<span class="tag tpd">● لم يحضر</span>'}</td>
+  // جدول آخر التسجيلات
+  const rc=[...regs].reverse().slice(0,6);
+  document.getElementById('RTB').innerHTML = rc.length
+    ? rc.map(r=>`<tr>
+        <td style="font-weight:700">${esc(r.fullName)||'—'}</td>
+        <td style="font-family:monospace;font-size:.75rem;color:var(--gl)">${esc(r.regId)}</td>
+        <td style="font-size:.75rem">${esc(r.timestamp).slice(0,16)||'—'}</td>
+        <td>${r.attended?'<span class="tag tok">● حضر</span>':'<span class="tag tpd">● لم يحضر</span>'}</td>
       </tr>`).join('')
     : '<tr><td colspan="4"><div class="empty"><div class="eic">📭</div>لا توجد تسجيلات بعد</div></td></tr>';
 
   renderList(regs);
 }
 
-function renderList(data) {
-  const tb = document.getElementById('LTB');
-  if (!data.length) {
-    tb.innerHTML = '<tr><td colspan="10"><div class="empty"><div class="eic">📭</div>لا توجد بيانات</div></td></tr>';
+function renderList(data){
+  const tb=document.getElementById('LTB');
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="9"><div class="empty"><div class="eic">📭</div>لا توجد بيانات</div></td></tr>';
     return;
   }
-  tb.innerHTML = data.map((r,i) => `<tr>
+  tb.innerHTML=data.map((r,i)=>`<tr>
     <td style="color:rgba(245,240,232,.25)">${i+1}</td>
-    <td style="font-weight:700">${r.fullName||'—'}</td>
-    <td style="direction:ltr;font-size:.78rem">${r.phone||'—'}</td>
-    <td style="font-size:.73rem;color:rgba(245,240,232,.44)">${r.email||'—'}</td>
-    <td>${r.college||'—'}</td>
-    <td style="text-align:center;color:var(--gl);font-weight:700">${r.companions||'0'}</td>
-    <td style="font-family:monospace;font-size:.73rem;color:var(--gl)">${r.regId}</td>
-    <td style="font-size:.73rem">${(r.timestamp||'').slice(0,10)||'—'}</td>
-    <td>${r.attended ? '<span class="tag tok">✓ حضر</span>' : '<span class="tag tpd">⏳ لم يحضر</span>'}</td>
+    <td style="font-weight:700">${esc(r.fullName)||'—'}</td>
+    <td style="direction:ltr;font-size:.78rem">${esc(r.phone)||'—'}</td>
+    <td style="font-size:.73rem;color:rgba(245,240,232,.44)">${esc(r.email)||'—'}</td>
+    <td>${esc(r.college)||'—'}</td>
+    <td style="text-align:center;color:var(--gl);font-weight:700">${esc(r.companions)||'0'}</td>
+    <td style="font-family:monospace;font-size:.73rem;color:var(--gl)">${esc(r.regId)}</td>
+    <td>${r.attended?'<span class="tag tok">✓ حضر</span>':'<span class="tag tpd">⏳ لم يحضر</span>'}</td>
     <td>${!r.attended
-      ? `<button class="batnd" onclick="markAtt('${r.regId}')">✓ حضر</button>`
-      : '<span style="color:rgba(245,240,232,.17);font-size:.73rem">—</span>'}</td>
+      ?`<button class="batnd" onclick="markAtt('${esc(r.regId)}')">✓ حضر</button>`
+      :'<span style="opacity:.3;font-size:.73rem">—</span>'}</td>
   </tr>`).join('');
 }
 
-function doFilter(q) {
-  const fl = regs.filter(r =>
-    (r.fullName||'').includes(q) ||
-    (r.regId||'').includes(q.toUpperCase()) ||
+function doFilter(q){
+  const fl=regs.filter(r=>
+    (r.fullName||'').includes(q)||
+    (r.regId||'').toUpperCase().includes(q.toUpperCase())||
     (r.phone||'').includes(q)
   );
   renderList(fl);
 }
 
-// ---- MARK ATTENDED ----
-async function markAtt(id) {
-  const i = regs.findIndex(r => r.regId === id);
-  if (i === -1) return;
-  regs[i].attended = true;
+function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── MARK ATTENDED ─────────────────────────────
+async function markAtt(id){
+  const i=regs.findIndex(r=>r.regId===id);
+  if(i===-1)return;
+  regs[i].attended=true;
   render();
-  toast('⏳ جاري تأكيد الحضور...');
-  try {
-    const j = await jsonpGet(SU + '?action=attend&regId=' + encodeURIComponent(id));
-    toast(j.success ? '✅ تم تأكيد حضور: ' + regs[i].fullName : '⚠️ ' + (j.error||'خطأ'));
-  } catch(e) {
-    new Image().src = SU + '?action=attend&regId=' + encodeURIComponent(id) + '&_t=' + Date.now();
+  toast('⏳ جاري التأكيد...');
+  try{
+    const j=await callAPI({action:'attend',regId:id});
+    toast(j.success?'✅ تم تأكيد حضور: '+regs[i].fullName:'⚠️ '+(j.error||'خطأ'));
+  }catch(e){
+    new Image().src=SURL+'?action=attend&regId='+encodeURIComponent(id)+'&_='+Date.now();
     toast('✅ تم تأكيد الحضور');
   }
 }
 
-// ---- PANELS ----
-function goPanel(id) {
-  document.querySelectorAll('.pnl').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
-  document.getElementById('P-' + id).classList.add('on');
-  document.getElementById('N-' + id).classList.add('on');
-  document.getElementById('PGTIT').textContent = {ov:'نظرة عامة', ls:'المسجلون', sc:'مسح QR'}[id] || id;
-  if (id !== 'sc') stopScan();
+// ── PANELS ────────────────────────────────────
+function goP(id){
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('P-'+id).classList.add('on');
+  document.getElementById('N-'+id).classList.add('on');
+  document.getElementById('PGTIT').textContent={ov:'نظرة عامة',ls:'المسجلون',sc:'مسح QR'}[id]||id;
+  if(id!=='sc') stopScan();
 }
 
-// ---- QR SCANNER ----
-function startScan() {
-  document.getElementById('SRES').style.display = 'none';
-  document.getElementById('BST').style.display  = 'none';
-  document.getElementById('BSP').style.display  = 'inline-block';
+// ── QR SCANNER ───────────────────────────────
+function startScan(){
+  // تنظيف كامل أولاً
+  document.getElementById('SRES').style.display='none';
+  document.getElementById('BST').style.display='none';
+  document.getElementById('BSP').style.display='inline-block';
 
-  // تأكد من تنظيف أي instance سابق
-  if (qrInst) {
-    try { qrInst.stop().catch(()=>{}); } catch(_) {}
-    qrInst = null;
+  if(qrObj){
+    qrObj.stop().catch(()=>{}).finally(()=>{
+      qrObj=null;
+      document.getElementById('qr-reader').innerHTML='';
+      initScanner();
+    });
+  } else {
+    document.getElementById('qr-reader').innerHTML='';
+    initScanner();
   }
-  // امسح محتوى div الـ reader
-  document.getElementById('reader').innerHTML = '';
+}
 
-  qrInst = new Html5Qrcode('reader');
-
+function initScanner(){
+  qrObj = new Html5Qrcode('qr-reader');
   Html5Qrcode.getCameras()
-    .then(cameras => {
-      if (!cameras || cameras.length === 0) {
-        toast('❌ لا توجد كاميرا. تأكد أن الموقع HTTPS');
-        resetScanBtns();
+    .then(cameras=>{
+      if(!cameras||cameras.length===0){
+        toast('❌ لا توجد كاميرا. تأكد أن الموقع يعمل على HTTPS');
+        resetBtns();
         return;
       }
-      // نختار الكاميرا الخلفية إن وجدت
-      const cam = cameras.find(c => /back|rear|environment/i.test(c.label)) || cameras[cameras.length - 1];
-      toast('📷 جاري تشغيل الكاميرا...');
-      return qrInst.start(
-        cam.id,
-        { fps: 10, qrbox: { width: 240, height: 240 } },
-        (decodedText) => {
-          stopScan();
-          processQR(decodedText);
-        },
-        () => {} // ignore errors during scan
+      // الكاميرا الخلفية أولاً
+      const cam = cameras.find(c=>/back|rear|environment/i.test(c.label||'')) || cameras[cameras.length-1];
+      const cfg = { fps:10, qrbox:{ width:250, height:250 }, aspectRatio:1.0 };
+      return qrObj.start(cam.id, cfg,
+        (text)=>{ stopScan(); processQR(text); },
+        ()=>{}
       );
     })
-    .then(() => {
-      toast('✅ الكاميرا تعمل — وجّه نحو QR Code');
-    })
-    .catch(err => {
-      console.error('Camera error:', err);
-      toast('❌ ' + (err.message || 'تعذر تشغيل الكاميرا'));
-      resetScanBtns();
+    .then(()=>{ toast('✅ الكاميرا تعمل — وجّه نحو QR Code'); })
+    .catch(err=>{
+      console.error(err);
+      toast('❌ تعذر تشغيل الكاميرا: '+(err.message||err));
+      resetBtns();
     });
 }
 
-function stopScan() {
-  if (qrInst) {
-    qrInst.stop()
-      .then(() => { try { qrInst.clear(); } catch(_){} qrInst = null; })
-      .catch(() => { qrInst = null; });
+function stopScan(){
+  if(qrObj){
+    qrObj.stop()
+      .catch(()=>{})
+      .finally(()=>{
+        try{ qrObj.clear(); }catch(_){}
+        qrObj=null;
+      });
   }
-  resetScanBtns();
+  resetBtns();
 }
 
-function resetScanBtns() {
-  document.getElementById('BST').style.display = 'inline-block';
-  document.getElementById('BSP').style.display = 'none';
+function resetBtns(){
+  document.getElementById('BST').style.display='inline-block';
+  document.getElementById('BSP').style.display='none';
 }
 
-function processQR(text) {
-  try {
-    const data = JSON.parse(text);
-    if (!data.regId) throw new Error('no regId');
-    showScanResult(data.regId, data);
-  } catch(e) {
-    showScanError('QR Code غير صالح أو تالف');
+function processQR(text){
+  console.log('QR decoded:', text);
+  try{
+    const d=JSON.parse(text);
+    if(!d.regId) throw 0;
+    showResult(d.regId, d);
+  }catch(e){
+    showScanErr('QR Code غير صالح أو تالف');
   }
 }
 
-function doManual() {
-  const id = document.getElementById('MID').value.trim().toUpperCase();
-  if (!id) { toast('⚠️ أدخل رقم التسجيل أولاً'); return; }
-  showScanResult(id, null);
+function doManual(){
+  const id=document.getElementById('MID').value.trim().toUpperCase();
+  if(!id){toast('⚠️ أدخل رقم التسجيل');return;}
+  showResult(id, null);
 }
 
-function showScanResult(regId, raw) {
+function showResult(regId, raw){
   // ابحث في البيانات المحملة
-  let reg = regs.find(r => r.regId === regId);
+  let reg = regs.find(r=>r.regId===regId);
 
-  // ابحث في localStorage
-  if (!reg) {
-    try {
-      const local = JSON.parse(localStorage.getItem('grad_reg') || '[]');
-      reg = local.find(r => r.regId === regId);
-    } catch(_) {}
+  // ابحث في localStorage كـ fallback
+  if(!reg){
+    try{
+      const loc=JSON.parse(localStorage.getItem('grad_reg')||'[]');
+      const match=loc.find(r=>r.regId===regId);
+      if(match) reg={
+        regId:match.regId,
+        fullName:match.fullName||'—',
+        phone:match.phone||'—',
+        college:match.college||'—',
+        companions:match.companions||'0',
+        attended:match.attended||false
+      };
+    }catch(_){}
   }
 
   // استخدم بيانات QR مباشرة
-  if (!reg && raw) {
-    reg = {
-      regId: raw.regId,
-      fullName: raw.name || '—',
-      phone: raw.phone || '—',
-      college: raw.college || '—',
-      companions: raw.companions || '0',
-      attended: false
+  if(!reg && raw){
+    reg={
+      regId:raw.regId,
+      fullName:raw.name||'—',
+      phone:raw.phone||'—',
+      college:raw.college||'—',
+      companions:raw.companions||'0',
+      attended:false
     };
   }
 
-  const box = document.getElementById('SRES');
-  box.style.display = 'block';
+  const box=document.getElementById('SRES');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
 
-  if (!reg) {
-    box.className = 'sres bad';
-    document.getElementById('SICO').textContent = '❌';
-    document.getElementById('STIT').textContent = 'رقم التسجيل غير موجود';
-    document.getElementById('SMSG').textContent = 'تأكد من الرقم أو حدّث البيانات';
-    document.getElementById('BCF').style.display = 'none';
-    document.getElementById('SGRD').innerHTML = '';
-    box.scrollIntoView({behavior:'smooth', block:'center'});
+  if(!reg){
+    box.className='sres bad';
+    document.getElementById('SICO').textContent='❌';
+    document.getElementById('STIT').textContent='رقم التسجيل غير موجود';
+    document.getElementById('SMSG').textContent='تأكد من الرقم أو اضغط تحديث لتحميل أحدث البيانات';
+    document.getElementById('BCF').style.display='none';
+    document.getElementById('SGRD').innerHTML='';
     return;
   }
 
-  if (reg.attended) {
-    box.className = 'sres bad';
-    document.getElementById('SICO').textContent = '⚠️';
-    document.getElementById('STIT').textContent = 'تم تسجيل الحضور مسبقاً!';
-    document.getElementById('SMSG').textContent = 'هذه البطاقة استُخدمت من قبل';
-    document.getElementById('BCF').style.display = 'none';
+  if(reg.attended){
+    box.className='sres bad';
+    document.getElementById('SICO').textContent='⚠️';
+    document.getElementById('STIT').textContent='تم تسجيل الحضور مسبقاً!';
+    document.getElementById('SMSG').textContent='هذه البطاقة استُخدمت من قبل';
+    document.getElementById('BCF').style.display='none';
   } else {
-    box.className = 'sres ok';
-    document.getElementById('SICO').textContent = '✅';
-    document.getElementById('STIT').textContent = 'بطاقة صالحة — يُسمح بالدخول';
-    document.getElementById('SMSG').textContent = 'اضغط تأكيد لتسجيل الحضور في الشيت';
-    const bcf = document.getElementById('BCF');
-    bcf.style.display = 'block';
-    bcf.disabled = false;
-    bcf.textContent = '✅ تأكيد الحضور';
-    pendId = regId;
+    box.className='sres ok';
+    document.getElementById('SICO').textContent='✅';
+    document.getElementById('STIT').textContent='بطاقة صالحة — يُسمح بالدخول';
+    document.getElementById('SMSG').textContent='اضغط تأكيد لتسجيل الحضور';
+    const b=document.getElementById('BCF');
+    b.style.display='block';
+    b.disabled=false;
+    b.textContent='✅ تأكيد الحضور';
+    pendId=regId;
   }
 
-  document.getElementById('SGRD').innerHTML = `
-    <div class="srit"><div class="srl">الاسم</div><div class="srv">${reg.fullName}</div></div>
-    <div class="srit"><div class="srl">الكلية</div><div class="srv">${reg.college}</div></div>
-    <div class="srit"><div class="srl">الهاتف</div><div class="srv">${reg.phone}</div></div>
-    <div class="srit"><div class="srl">المرافقون</div><div class="srv">${reg.companions} أشخاص</div></div>
-    <div class="srit"><div class="srl">رقم التسجيل</div><div class="srv" style="font-family:monospace;font-size:.72rem;color:var(--gl)">${reg.regId}</div></div>
+  document.getElementById('SGRD').innerHTML=`
+    <div class="srit"><div class="srl">الاسم</div><div class="srv">${esc(reg.fullName)}</div></div>
+    <div class="srit"><div class="srl">الكلية</div><div class="srv">${esc(reg.college)}</div></div>
+    <div class="srit"><div class="srl">الهاتف</div><div class="srv">${esc(reg.phone)}</div></div>
+    <div class="srit"><div class="srl">المرافقون</div><div class="srv">${esc(reg.companions)} أشخاص</div></div>
+    <div class="srit"><div class="srl">رقم التسجيل</div><div class="srv" style="font-family:monospace;font-size:.72rem;color:var(--gl)">${esc(reg.regId)}</div></div>
     <div class="srit"><div class="srl">الحالة</div><div class="srv">${reg.attended
-      ? '<span style="color:var(--ok)">حضر ✓</span>'
-      : '<span style="color:var(--gl)">لم يحضر بعد</span>'}</div></div>`;
-
-  box.scrollIntoView({behavior:'smooth', block:'center'});
+      ?'<span style="color:var(--ok)">حضر ✓</span>'
+      :'<span style="color:var(--gl)">لم يحضر بعد</span>'}</div></div>`;
 }
 
-function showScanError(msg) {
-  const box = document.getElementById('SRES');
-  box.style.display = 'block';
-  box.className = 'sres bad';
-  document.getElementById('SICO').textContent = '❌';
-  document.getElementById('STIT').textContent = 'خطأ في القراءة';
-  document.getElementById('SMSG').textContent = msg;
-  document.getElementById('SGRD').innerHTML   = '';
-  document.getElementById('BCF').style.display = 'none';
-  box.scrollIntoView({behavior:'smooth', block:'center'});
+function showScanErr(msg){
+  const b=document.getElementById('SRES');
+  b.style.display='block';
+  b.className='sres bad';
+  document.getElementById('SICO').textContent='❌';
+  document.getElementById('STIT').textContent='خطأ في القراءة';
+  document.getElementById('SMSG').textContent=msg;
+  document.getElementById('SGRD').innerHTML='';
+  document.getElementById('BCF').style.display='none';
+  b.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-async function doConfirm() {
-  if (!pendId) return;
-  const btn = document.getElementById('BCF');
-  btn.disabled = true;
-  btn.textContent = '⏳ جاري التأكيد...';
+async function doConfirm(){
+  if(!pendId)return;
+  const btn=document.getElementById('BCF');
+  btn.disabled=true;
+  btn.textContent='⏳ جاري التأكيد...';
   await markAtt(pendId);
-  document.getElementById('SICO').textContent = '🎉';
-  document.getElementById('STIT').textContent = 'تم تأكيد الحضور!';
-  document.getElementById('SMSG').textContent = 'تم تسجيل الدخول في Google Sheets';
-  btn.style.display = 'none';
-  pendId = null;
+  document.getElementById('SICO').textContent='🎉';
+  document.getElementById('STIT').textContent='تم تأكيد الحضور!';
+  document.getElementById('SMSG').textContent='تم تسجيل الدخول في Google Sheets';
+  btn.style.display='none';
+  pendId=null;
 }
 
-function resetScan() {
-  document.getElementById('SRES').style.display = 'none';
-  document.getElementById('MID').value = '';
-  pendId = null;
+function resetScan(){
+  document.getElementById('SRES').style.display='none';
+  document.getElementById('MID').value='';
+  pendId=null;
 }
 
-// ---- EXPORT ----
-function doExport() {
-  const h = ['رقم التسجيل','الاسم الكامل','رقم الهاتف','البريد','الكلية','المرافقون','التاريخ','الحالة'];
-  const rows = regs.map(r => [r.regId,r.fullName,r.phone,r.email,r.college,r.companions,r.timestamp,r.attended?'حضر':'لم يحضر']);
-  const csv = '\uFEFF' + [h,...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8;'}));
-  a.download = 'تسجيلات_التخرج_' + new Date().toISOString().slice(0,10) + '.csv';
+// ── EXPORT ────────────────────────────────────
+function doExport(){
+  const h=['رقم التسجيل','الاسم الكامل','رقم الهاتف','البريد','الكلية','المرافقون','التاريخ','الحالة'];
+  const rows=regs.map(r=>[r.regId,r.fullName,r.phone,r.email,r.college,r.companions,r.timestamp,r.attended?'حضر':'لم يحضر']);
+  const csv='\uFEFF'+[h,...rows].map(r=>r.map(c=>'"'+String(c||'').replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download='تسجيلات_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
   toast('📥 تم تصدير الملف');
 }
 
-// ---- HELPERS ----
-function showOvl(show, msg) {
-  document.getElementById('OVL').style.display = show ? 'flex' : 'none';
-  if (msg) document.getElementById('OVLM').textContent = msg;
+// ── HELPERS ───────────────────────────────────
+function showOvl(s,m){
+  document.getElementById('OVL').style.display=s?'flex':'none';
+  if(m)document.getElementById('OVLM').textContent=m;
 }
-
-function dbg(msg) {
-  // يمكن تفعيله عند الحاجة
-  // const el = document.getElementById('DBG');
-  // el.style.display = 'block';
-  // el.textContent = msg;
-  console.log('[DBG]', msg);
-}
-
-function toast(msg) {
-  const el = document.getElementById('TST');
-  el.textContent = msg;
-  el.classList.add('show');
+function toast(m){
+  const e=document.getElementById('TST');
+  e.textContent=m;e.classList.add('show');
   clearTimeout(tstT);
-  tstT = setTimeout(() => el.classList.remove('show'), 3500);
+  tstT=setTimeout(()=>e.classList.remove('show'),3500);
 }
 </script>
 </body>
