@@ -7,375 +7,639 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
-:root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7A2E;--navy:#0D1B2A;--navy-mid:#1A2E45;--cream:#F5F0E8;--success:#2ECC71}
+:root{--gold:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;--nv:#0D1B2A;--nm:#1A2E45;--cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Cairo',sans-serif;background:var(--navy);color:var(--cream);min-height:100vh}
+body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-height:100vh}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-#lp{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.1) 0%,transparent 50%),var(--navy);padding:20px}
-.lb{background:linear-gradient(145deg,rgba(26,46,69,.96),rgba(13,27,42,.98));border:1px solid rgba(201,168,76,.2);border-radius:22px;padding:44px 38px;width:100%;max-width:420px;box-shadow:0 28px 72px rgba(0,0,0,.38);animation:fadeUp .6s ease;text-align:center}
-.lb .ico{font-size:2.8rem;margin-bottom:18px}
-.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
-.lb .sb{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:32px}
-.roles{display:flex;gap:9px;margin-bottom:22px}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* LOGIN */
+#LP{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.1),transparent 50%),var(--nv);padding:20px}
+.lb{background:linear-gradient(145deg,rgba(26,46,69,.96),rgba(13,27,42,.98));border:1px solid rgba(201,168,76,.2);border-radius:22px;padding:44px 38px;width:100%;max-width:420px;box-shadow:0 28px 72px rgba(0,0,0,.4);animation:fu .6s ease;text-align:center}
+.lb .ic{font-size:2.8rem;margin-bottom:18px}
+.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.lsb{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:30px}
+.roles{display:flex;gap:9px;margin-bottom:20px}
 .rb{flex:1;padding:11px;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;color:rgba(245,240,232,.45);font-family:'Cairo',sans-serif;font-size:.88rem;cursor:pointer;transition:all .3s}
-.rb.on{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gold-light);font-weight:700}
+.rb.on{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gl);font-weight:700}
 .lf{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:right}
 .lf label{font-size:.8rem;color:rgba(245,240,232,.55);font-family:'Tajawal',sans-serif}
-.lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:11px 14px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.92rem;outline:none;width:100%;transition:all .3s}
+.lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:11px 14px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.92rem;outline:none;width:100%;transition:all .3s}
 .lf input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
 .lf input::placeholder{color:rgba(245,240,232,.18)}
-.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));border:none;border-radius:11px;color:var(--navy);font-family:'Cairo',sans-serif;font-size:.98rem;font-weight:900;cursor:pointer;margin-top:7px;transition:all .3s;box-shadow:0 7px 22px rgba(201,168,76,.28)}
+.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gl),var(--gd));border:none;border-radius:11px;color:var(--nv);font-family:'Cairo',sans-serif;font-size:.98rem;font-weight:900;cursor:pointer;margin-top:7px;transition:all .3s;box-shadow:0 7px 22px rgba(201,168,76,.28)}
 .lbtn:hover{transform:translateY(-2px)}
-.le{color:#FF6B6B;font-size:.8rem;font-family:'Tajawal',sans-serif;margin-top:11px;display:none}
+.lerr{color:#FF6B6B;font-size:.8rem;font-family:'Tajawal',sans-serif;margin-top:11px;display:none}
 .hint{font-size:.68rem;color:rgba(245,240,232,.18);margin-top:18px;font-family:'Tajawal',sans-serif}
-#dp{display:none}
-.layout{display:grid;grid-template-columns:255px 1fr;min-height:100vh}
-.sid{background:linear-gradient(180deg,var(--navy-mid),var(--navy));border-left:1px solid rgba(201,168,76,.09);display:flex;flex-direction:column;padding:26px 0;position:fixed;top:0;right:0;width:255px;height:100vh;overflow-y:auto;z-index:100}
+/* LAYOUT */
+#DP{display:none}
+.lay{display:grid;grid-template-columns:255px 1fr;min-height:100vh}
+.sid{background:linear-gradient(180deg,var(--nm),var(--nv));border-left:1px solid rgba(201,168,76,.09);display:flex;flex-direction:column;padding:26px 0;position:fixed;top:0;right:0;width:255px;height:100vh;overflow-y:auto;z-index:100}
 .slog{padding:0 22px 24px;border-bottom:1px solid rgba(201,168,76,.09);text-align:center}
-.slog .e{font-size:1.9rem;margin-bottom:7px}
-.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slog .em{font-size:1.9rem;margin-bottom:7px}
+.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .slog p{font-size:.69rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-.rbdg{display:inline-flex;align-items:center;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gold-light);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
+.rbdg{display:inline-flex;align-items:center;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gl);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
 .nav{padding:18px 14px 0}
-.nl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.4px;color:rgba(245,240,232,.22);font-family:'Tajawal',sans-serif;padding:0 7px;margin-bottom:7px}
+.nlbl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.4px;color:rgba(245,240,232,.22);font-family:'Tajawal',sans-serif;padding:0 7px;margin-bottom:7px}
 .ni{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(245,240,232,.46);font-size:.88rem;font-family:'Tajawal',sans-serif;margin-bottom:3px}
-.ni:hover{background:rgba(201,168,76,.07);color:var(--cream)}
-.ni.on{background:rgba(201,168,76,.11);color:var(--gold-light);font-weight:700}
-.ni .ic{font-size:1.05rem;width:22px;text-align:center}
-.nb{margin-right:auto;background:var(--gold-dark);color:var(--navy);font-size:.62rem;font-weight:900;padding:2px 7px;border-radius:9px;font-family:'Cairo',sans-serif}
-.sf{margin-top:auto;padding:14px}
-.lo{width:100%;padding:9px;background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.18);border-radius:9px;color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
-.lo:hover{background:rgba(231,76,60,.18)}
+.ni:hover{background:rgba(201,168,76,.07);color:var(--cr)}
+.ni.on{background:rgba(201,168,76,.11);color:var(--gl);font-weight:700}
+.ni .ico{font-size:1.05rem;width:22px;text-align:center}
+.nbdg{margin-right:auto;background:var(--gd);color:var(--nv);font-size:.62rem;font-weight:900;padding:2px 7px;border-radius:9px}
+.sft{margin-top:auto;padding:14px}
+.lout{width:100%;padding:9px;background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.18);border-radius:9px;color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+.lout:hover{background:rgba(231,76,60,.18)}
+/* MAIN */
 .mn{margin-right:255px;padding:26px;min-height:100vh}
-.tb{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px}
-.tb h1{font-size:1.35rem;font-weight:900;color:var(--cream)}
-.ta{display:flex;gap:9px}
-.bs{padding:8px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;font-weight:600;border:none}
-.bg{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));color:var(--navy)}
-.bh{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.19)!important;color:var(--gold-light)}
-.bh:hover{background:rgba(201,168,76,.16)}
-.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:14px;margin-bottom:26px}
-.sc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px;animation:fadeUp .5s ease both}
-.sl{font-size:.72rem;color:rgba(245,240,232,.37);font-family:'Tajawal',sans-serif;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
-.sv{font-size:1.9rem;font-weight:900;color:var(--gold-light);line-height:1;margin-bottom:3px}
-.ss{font-size:.72rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
-.pn{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:17px;overflow:hidden;display:none}
-.pn.on{display:block}
-.ph{padding:18px 22px;border-bottom:1px solid rgba(201,168,76,.09);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.pt{font-size:.97rem;font-weight:700;color:var(--gold-light)}
-.si{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:8px 13px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;width:230px;transition:all .3s;direction:rtl}
-.si:focus{border-color:var(--gold)}
-.si::placeholder{color:rgba(245,240,232,.22)}
+.topb{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px}
+.topb h1{font-size:1.35rem;font-weight:900}
+.tact{display:flex;gap:9px}
+.btn{padding:8px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;font-weight:600;border:none}
+.bgold{background:linear-gradient(135deg,var(--gl),var(--gd));color:var(--nv)}
+.bgh{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.19)!important;color:var(--gl)}
+.bgh:hover{background:rgba(201,168,76,.15)}
+/* STATS */
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:26px}
+.stc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px;animation:fu .5s ease both}
+.stlbl{font-size:.72rem;color:rgba(245,240,232,.37);font-family:'Tajawal',sans-serif;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+.stval{font-size:1.9rem;font-weight:900;color:var(--gl);line-height:1;margin-bottom:3px}
+.stsub{font-size:.72rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
+/* PANELS */
+.pnl{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:17px;overflow:hidden;display:none}
+.pnl.on{display:block}
+.phead{padding:18px 22px;border-bottom:1px solid rgba(201,168,76,.09);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ptit{font-size:.97rem;font-weight:700;color:var(--gl)}
+.sinp{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:8px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;width:230px;direction:rtl;transition:all .3s}
+.sinp:focus{border-color:var(--gold)}
+.sinp::placeholder{color:rgba(245,240,232,.22)}
+/* TABLE */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.82rem}
-thead th{background:rgba(201,168,76,.07);padding:12px 15px;text-align:right;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
-tbody tr{border-bottom:1px solid rgba(201,168,76,.055);transition:background .2s}
+thead th{background:rgba(201,168,76,.07);padding:12px 14px;text-align:right;font-size:.71rem;text-transform:uppercase;letter-spacing:.5px;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(201,168,76,.05);transition:background .2s}
 tbody tr:hover{background:rgba(201,168,76,.04)}
-tbody td{padding:13px 15px;color:rgba(245,240,232,.78);font-family:'Tajawal',sans-serif;white-space:nowrap}
-.pl{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:18px;font-size:.72rem;font-weight:700}
-.py{background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.28);color:var(--success)}
-.pnd{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.19);color:var(--gold-light)}
-.ba{padding:4px 12px;background:rgba(46,204,113,.09);border:1px solid rgba(46,204,113,.27);border-radius:7px;color:var(--success);font-size:.75rem;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
-.ba:hover{background:rgba(46,204,113,.18)}
-.em{padding:55px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
-.em .ei{font-size:2.8rem;margin-bottom:10px}
-.sw{padding:28px;text-align:center}
-.swt{font-size:1.08rem;font-weight:700;color:var(--gold-light);margin-bottom:5px}
-.sws{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:20px}
-#reader{max-width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26)}
-#reader video{width:100%!important;display:block}
-.scbt{display:flex;gap:9px;justify-content:center;margin-bottom:16px}
-.mbox{display:flex;gap:8px;justify-content:center;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto}
-.mbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:10px 13px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.86rem;outline:none;transition:all .3s;direction:rtl}
-.mbox input:focus{border-color:var(--gold)}
-.mbox input::placeholder{color:rgba(245,240,232,.2)}
-.sr{max-width:460px;margin:0 auto;background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.19);border-radius:14px;padding:20px;display:none;text-align:right}
-.sr.ok{border-color:rgba(46,204,113,.38)}
-.sr.bad{border-color:rgba(231,76,60,.38)}
-.sri{font-size:2.2rem;margin-bottom:10px}
-.sr h3{font-size:1.02rem;font-weight:700;margin-bottom:3px}
-.sr.ok h3{color:var(--success)}
-.sr.bad h3{color:#E74C3C}
-.srm{font-family:'Tajawal',sans-serif;font-size:.8rem;color:rgba(245,240,232,.43);margin-top:3px}
-.srg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+tbody td{padding:12px 14px;color:rgba(245,240,232,.78);font-family:'Tajawal',sans-serif;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:18px;font-size:.72rem;font-weight:700}
+.tok{background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.28);color:var(--ok)}
+.tpd{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.19);color:var(--gl)}
+.batnd{padding:4px 12px;background:rgba(46,204,113,.09);border:1px solid rgba(46,204,113,.27);border-radius:7px;color:var(--ok);font-size:.75rem;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
+.batnd:hover{background:rgba(46,204,113,.18)}
+.empty{padding:55px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
+.empty .eic{font-size:2.8rem;margin-bottom:10px}
+/* QR SCANNER */
+.scwrp{padding:28px;text-align:center}
+.sctit{font-size:1.08rem;font-weight:700;color:var(--gl);margin-bottom:5px}
+.scsub{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:20px}
+#reader{max-width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26);min-height:10px}
+.scbts{display:flex;gap:9px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.manbox{display:flex;gap:8px;justify-content:center;margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto}
+.manbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:10px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.86rem;outline:none;direction:rtl;transition:all .3s}
+.manbox input:focus{border-color:var(--gold)}
+.manbox input::placeholder{color:rgba(245,240,232,.2)}
+/* SCAN RESULT */
+.sres{max-width:460px;margin:0 auto;background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.19);border-radius:14px;padding:22px;display:none;text-align:right}
+.sres.ok{border-color:rgba(46,204,113,.38)}
+.sres.bad{border-color:rgba(231,76,60,.38)}
+.sric{font-size:2.3rem;margin-bottom:10px}
+.sres h3{font-size:1.02rem;font-weight:700;margin-bottom:3px}
+.sres.ok h3{color:var(--ok)}
+.sres.bad h3{color:var(--er)}
+.srmsg{font-family:'Tajawal',sans-serif;font-size:.8rem;color:rgba(245,240,232,.43);margin-top:3px}
+.srgrd{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .srit .srl{font-size:.67rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif;text-transform:uppercase;margin-bottom:1px}
-.srit .srv{font-size:.86rem;font-weight:700;color:var(--cream)}
-.bcf{width:100%;padding:12px;background:linear-gradient(135deg,var(--success),#27AE60);border:none;border-radius:11px;color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;margin-top:13px;transition:all .3s;box-shadow:0 7px 22px rgba(46,204,113,.28)}
+.srit .srv{font-size:.86rem;font-weight:700;color:var(--cr)}
+.bcf{width:100%;padding:12px;background:linear-gradient(135deg,var(--ok),#27AE60);border:none;border-radius:11px;color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;margin-top:14px;transition:all .3s;box-shadow:0 7px 22px rgba(46,204,113,.28)}
 .bcf:hover{transform:translateY(-2px)}
 .bcf:disabled{opacity:.5;cursor:not-allowed}
-.bag{width:100%;padding:10px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gold-light);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s}
+.bag{width:100%;padding:10px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gl);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s}
 .bag:hover{background:rgba(201,168,76,.17)}
-.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cream);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap}
+/* OVERLAY & TOAST */
+.ovl{position:fixed;inset:0;background:rgba(13,27,42,.84);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.ovl .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.ovl p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.52);font-size:.91rem}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cr);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.ov{position:fixed;inset:0;background:rgba(13,27,42,.84);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.ov .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
-.ov p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.52);font-size:.91rem}
-@media(max-width:768px){.layout{grid-template-columns:1fr}.sid{position:relative;width:100%;height:auto;border-left:none;border-bottom:1px solid rgba(201,168,76,.09)}.mn{margin-right:0;padding:14px}.sts{grid-template-columns:1fr 1fr}.srg{grid-template-columns:1fr}.si{width:100%}}
+/* debug info bar */
+.dbg{background:rgba(52,152,219,.1);border:1px solid rgba(52,152,219,.2);border-radius:8px;padding:8px 14px;font-family:monospace;font-size:.75rem;color:rgba(52,152,219,.8);margin-bottom:14px;display:none}
+@media(max-width:768px){.lay{grid-template-columns:1fr}.sid{position:relative;width:100%;height:auto;border-left:none;border-bottom:1px solid rgba(201,168,76,.09)}.mn{margin-right:0;padding:14px}.sts{grid-template-columns:1fr 1fr}.srgrd{grid-template-columns:1fr}.sinp{width:100%}}
 </style>
 </head>
 <body>
-<div class="ov" id="ov"><div class="sp"></div><p id="ovm">جاري التحميل...</p></div>
 
-<div id="lp">
+<div class="ovl" id="OVL"><div class="sp"></div><p id="OVLM">جاري التحميل...</p></div>
+
+<!-- LOGIN -->
+<div id="LP">
   <div class="lb">
-    <div class="ico">🔐</div>
+    <div class="ic">🔐</div>
     <h1>لوحة التحكم</h1>
-    <div class="sb">حفل التخرج 2025</div>
+    <div class="lsb">حفل التخرج 2025</div>
     <div class="roles">
       <button class="rb on" onclick="selR('admin')" id="rA">👑 إدارة</button>
       <button class="rb" onclick="selR('vol')" id="rV">🤝 متطوع</button>
     </div>
-    <div class="lf"><label>اسم المستخدم</label><input type="text" id="lU" placeholder="أدخل اسم المستخدم" autocomplete="off"></div>
-    <div class="lf"><label>كلمة المرور</label><input type="password" id="lP" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="lf"><label>اسم المستخدم</label><input type="text" id="LU" placeholder="أدخل اسم المستخدم" autocomplete="off"></div>
+    <div class="lf"><label>كلمة المرور</label><input type="password" id="LP2" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="lbtn" onclick="doLogin()">تسجيل الدخول</button>
-    <div class="le" id="le">❌ بيانات الدخول غير صحيحة</div>
+    <div class="lerr" id="LERR">❌ بيانات الدخول غير صحيحة</div>
     <p class="hint">الإدارة: admin / admin123 &nbsp;•&nbsp; المتطوع: vol / vol123</p>
   </div>
 </div>
 
-<div id="dp">
-  <div class="layout">
-    <div class="sid">
-      <div class="slog"><div class="e">🎓</div><h2>لوحة التحكم</h2><p>حفل التخرج 2025</p><div class="rbdg" id="rBdg">👑 إدارة</div></div>
-      <div class="nav">
-        <div class="nl">القائمة</div>
-        <div class="ni on" onclick="showP('ov')" id="n-ov"><span class="ic">📊</span><span>نظرة عامة</span></div>
-        <div class="ni adm" onclick="showP('ls')" id="n-ls"><span class="ic">📋</span><span>المسجلون</span><span class="nb" id="rCnt">0</span></div>
-        <div class="ni" onclick="showP('sc')" id="n-sc"><span class="ic">📷</span><span>مسح QR</span></div>
-      </div>
-      <div class="sf"><button class="lo" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
+<!-- DASHBOARD -->
+<div id="DP">
+ <div class="lay">
+
+  <!-- Sidebar -->
+  <div class="sid">
+    <div class="slog">
+      <div class="em">🎓</div>
+      <h2>لوحة التحكم</h2>
+      <p>حفل التخرج 2025</p>
+      <div class="rbdg" id="RBDG">👑 إدارة</div>
     </div>
-    <div class="mn">
-      <div class="tb">
-        <h1 id="pgT">نظرة عامة</h1>
-        <div class="ta">
-          <button class="bs bh" onclick="loadData()">🔄 تحديث</button>
-          <button class="bs bg adm" onclick="doExp()">📥 تصدير Excel</button>
-        </div>
-      </div>
-      <div class="pn on" id="p-ov">
-        <div class="sts">
-          <div class="sc"><div class="sl">إجمالي المسجلين</div><div class="sv" id="sT">0</div><div class="ss">خريج مسجل</div></div>
-          <div class="sc"><div class="sl">حضروا</div><div class="sv" id="sA">0</div><div class="ss">تم تأكيد حضورهم</div></div>
-          <div class="sc"><div class="sl">لم يحضروا</div><div class="sv" id="sP">0</div><div class="ss">في انتظار الحضور</div></div>
-          <div class="sc"><div class="sl">المرافقون</div><div class="sv" id="sC">0</div><div class="ss">مرافق متوقع</div></div>
-        </div>
-        <div style="padding:0 0 22px"><div style="padding:0 22px 13px;font-size:.88rem;font-weight:700;color:var(--gold-light)">📋 آخر التسجيلات</div><div class="tw"><table><thead><tr><th>الاسم</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody id="rTb"></tbody></table></div></div>
-      </div>
-      <div class="pn" id="p-ls">
-        <div class="ph"><div class="pt">📋 جميع المسجلين</div><input class="si" placeholder="🔍 بحث بالاسم أو رقم التسجيل..." oninput="filt(this.value)"></div>
-        <div class="tw"><table><thead><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="lTb"></tbody></table></div>
-      </div>
-      <div class="pn" id="p-sc">
-        <div class="sw">
-          <div class="swt">📷 مسح بطاقة الحضور</div>
-          <div class="sws">وجّه الكاميرا نحو كود QR على بطاقة الخريج</div>
-          <div id="reader"></div>
-          <div class="scbt">
-            <button class="bs bg" onclick="startSc()" id="bSt">▶ تشغيل الكاميرا</button>
-            <button class="bs bh" onclick="stopSc()" id="bSp" style="display:none">⏹ إيقاف</button>
-          </div>
-          <div class="mbox"><input id="mId" placeholder="أو أدخل رقم التسجيل يدوياً..."><button class="bs bg" onclick="mCheck()">فحص</button></div>
-          <div class="sr" id="sRes">
-            <div class="sri" id="sIc">✅</div>
-            <h3 id="sTi">—</h3>
-            <p class="srm" id="sMg"></p>
-            <div class="srg" id="sGr"></div>
-            <button class="bcf" id="bCf" onclick="doCf()" style="display:none">✅ تأكيد الحضور</button>
-            <button class="bag" onclick="resetSc()">📷 مسح بطاقة أخرى</button>
-          </div>
-        </div>
-      </div>
+    <div class="nav">
+      <div class="nlbl">القائمة</div>
+      <div class="ni on" onclick="goPanel('ov')" id="N-ov"><span class="ico">📊</span><span>نظرة عامة</span></div>
+      <div class="ni adm" onclick="goPanel('ls')" id="N-ls"><span class="ico">📋</span><span>المسجلون</span><span class="nbdg" id="RCNT">0</span></div>
+      <div class="ni" onclick="goPanel('sc')" id="N-sc"><span class="ico">📷</span><span>مسح QR</span></div>
     </div>
+    <div class="sft"><button class="lout" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
   </div>
-</div>
-<div class="toast" id="tst"></div>
+
+  <!-- Main -->
+  <div class="mn">
+    <div class="topb">
+      <h1 id="PGTIT">نظرة عامة</h1>
+      <div class="tact">
+        <button class="btn bgh" onclick="loadData()">🔄 تحديث</button>
+        <button class="btn bgold adm" onclick="doExport()">📥 تصدير Excel</button>
+      </div>
+    </div>
+
+    <div class="dbg" id="DBG"></div>
+
+    <!-- Overview -->
+    <div class="pnl on" id="P-ov">
+      <div class="sts">
+        <div class="stc"><div class="stlbl">إجمالي المسجلين</div><div class="stval" id="ST">0</div><div class="stsub">خريج مسجل</div></div>
+        <div class="stc"><div class="stlbl">حضروا</div><div class="stval" id="SA">0</div><div class="stsub">تم تأكيد حضورهم</div></div>
+        <div class="stc"><div class="stlbl">لم يحضروا</div><div class="stval" id="SP">0</div><div class="stsub">في انتظار الحضور</div></div>
+        <div class="stc"><div class="stlbl">المرافقون</div><div class="stval" id="SC">0</div><div class="stsub">مرافق متوقع</div></div>
+      </div>
+      <div style="padding:0 0 22px">
+        <div style="padding:0 22px 13px;font-size:.88rem;font-weight:700;color:var(--gl)">📋 آخر التسجيلات</div>
+        <div class="tw"><table><thead><tr><th>الاسم</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody id="RTB"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div class="pnl" id="P-ls">
+      <div class="phead">
+        <div class="ptit">📋 جميع المسجلين</div>
+        <input class="sinp" placeholder="🔍 بحث بالاسم أو رقم التسجيل..." oninput="doFilter(this.value)">
+      </div>
+      <div class="tw">
+        <table>
+          <thead><tr><th>#</th><th>الاسم الكامل</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th><th>إجراء</th></tr></thead>
+          <tbody id="LTB"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Scanner -->
+    <div class="pnl" id="P-sc">
+      <div class="scwrp">
+        <div class="sctit">📷 مسح بطاقة الحضور</div>
+        <div class="scsub">وجّه الكاميرا نحو كود QR الموجود على بطاقة الخريج</div>
+        <div id="reader"></div>
+        <div class="scbts">
+          <button class="btn bgold" id="BST" onclick="startScan()">▶ تشغيل الكاميرا</button>
+          <button class="btn bgh" id="BSP" onclick="stopScan()" style="display:none">⏹ إيقاف</button>
+        </div>
+        <div class="manbox">
+          <input id="MID" placeholder="أو أدخل رقم التسجيل يدوياً... مثل: GR1A2B3C">
+          <button class="btn bgold" onclick="doManual()">فحص</button>
+        </div>
+        <div class="sres" id="SRES">
+          <div class="sric" id="SICO">✅</div>
+          <h3 id="STIT">—</h3>
+          <p class="srmsg" id="SMSG"></p>
+          <div class="srgrd" id="SGRD"></div>
+          <button class="bcf" id="BCF" onclick="doConfirm()" style="display:none">✅ تأكيد الحضور</button>
+          <button class="bag" onclick="resetScan()">📷 مسح بطاقة أخرى</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end mn -->
+ </div><!-- end lay -->
+</div><!-- end DP -->
+
+<div class="toast" id="TST"></div>
+
 <script>
-const SU='https://script.google.com/macros/s/AKfycbzhcJZRwdxc4UWIEfA4W5kMBQneEH1V-SeVumwbvu3cT_mxaVJjhSWN5av9ngbmYQUB/exec';
-const CR={admin:{u:'admin',p:'admin123',r:'admin'},vol:{u:'vol',p:'vol123',r:'vol'}};
-let mR='admin',sR='admin',regs=[],qrScanner=null,pendId=null,tTmr;
+// ====================================================
+const SU = 'https://script.google.com/macros/s/AKfycbwz9h358RDcsZz-tDytQKYITKK0ga1f6VsuFfXbT2By3RaILBaLc23bJ7lMXpV5IcWK/exec';
+// ====================================================
 
-function selR(r){sR=r;document.getElementById('rA').className='rb'+(r==='admin'?' on':'');document.getElementById('rV').className='rb'+(r==='vol'?' on':'');}
+const CREDS = {
+  admin: { u:'admin', p:'admin123', r:'admin' },
+  vol:   { u:'vol',   p:'vol123',  r:'vol' }
+};
 
-function doLogin(){
-  const u=document.getElementById('lU').value.trim(),p=document.getElementById('lP').value;
-  const m=Object.values(CR).find(c=>c.u===u&&c.p===p&&c.r===sR);
-  if(!m){document.getElementById('le').style.display='block';return;}
-  document.getElementById('le').style.display='none';
-  mR=m.r;
-  document.getElementById('lp').style.display='none';
-  document.getElementById('dp').style.display='block';
-  document.getElementById('rBdg').textContent=mR==='admin'?'👑 إدارة':'🤝 متطوع';
-  if(mR!=='admin'){document.querySelectorAll('.adm').forEach(e=>e.style.display='none');showP('sc');}
-  else{loadData();showP('ov');}
+let myRole = 'admin', selRole = 'admin';
+let regs = [];
+let qrInst = null;
+let pendId = null;
+let tstT;
+
+// ---- LOGIN ----
+function selR(r) {
+  selRole = r;
+  document.getElementById('rA').className = 'rb' + (r==='admin'?' on':'');
+  document.getElementById('rV').className = 'rb' + (r==='vol'?' on':'');
 }
 
-function doLogout(){stopSc();document.getElementById('dp').style.display='none';document.getElementById('lp').style.display='flex';document.getElementById('lU').value='';document.getElementById('lP').value='';}
+function doLogin() {
+  const u = document.getElementById('LU').value.trim();
+  const p = document.getElementById('LP2').value;
+  const m = Object.values(CREDS).find(c => c.u===u && c.p===p && c.r===selRole);
+  if (!m) { document.getElementById('LERR').style.display='block'; return; }
+  document.getElementById('LERR').style.display = 'none';
+  myRole = m.r;
+  document.getElementById('LP').style.display = 'none';
+  document.getElementById('DP').style.display = 'block';
+  document.getElementById('RBDG').textContent = myRole==='admin' ? '👑 إدارة' : '🤝 متطوع';
+  if (myRole !== 'admin') {
+    document.querySelectorAll('.adm').forEach(e => e.style.display='none');
+    goPanel('sc');
+  } else {
+    loadData();
+    goPanel('ov');
+  }
+}
 
-async function loadData(){
-  showOv(true,'جاري تحميل البيانات من Google Sheets...');
-  try{
-    const res=await fetch(SU+'?action=getAll');
-    const j=await res.json();
-    if(j.success&&Array.isArray(j.data)){
-      regs=j.data.map(r=>({
-        regId:String(r['رقم التسجيل']||''),
-        fullName:String(r['الاسم الكامل']||''),
-        phone:String(r['رقم الهاتف']||''),
-        email:String(r['البريد الإلكتروني']||''),
-        college:String(r['الكلية / التخصص']||''),
-        companions:String(r['عدد المرافقين']||'0'),
-        timestamp:String(r['تاريخ التسجيل']||''),
-        attended:String(r['حالة الحضور']||'').includes('حضر'),
-      })).filter(r=>r.regId.length>0);
-      toast('✅ تم تحميل '+regs.length+' تسجيل');
-    }else{regs=[];toast('ℹ️ لا توجد بيانات في الشيت');}
-  }catch(e){
+function doLogout() {
+  stopScan();
+  document.getElementById('DP').style.display = 'none';
+  document.getElementById('LP').style.display = 'flex';
+  document.getElementById('LU').value = '';
+  document.getElementById('LP2').value = '';
+}
+
+// ---- JSONP ----
+function jsonpGet(url) {
+  return new Promise((resolve, reject) => {
+    const cb = '__jcb' + Date.now() + Math.floor(Math.random()*9999);
+    const s  = document.createElement('script');
+    const tm = setTimeout(() => {
+      delete window[cb]; s.remove();
+      reject(new Error('JSONP timeout'));
+    }, 12000);
+    window[cb] = function(data) {
+      clearTimeout(tm); delete window[cb]; s.remove();
+      resolve(data);
+    };
+    s.src = url + (url.includes('?')?'&':'?') + 'callback=' + cb;
+    s.onerror = () => { clearTimeout(tm); delete window[cb]; s.remove(); reject(new Error('Script load error')); };
+    document.head.appendChild(s);
+  });
+}
+
+// ---- LOAD DATA ----
+async function loadData() {
+  showOvl(true, 'جاري تحميل البيانات من Google Sheets...');
+  try {
+    const j = await jsonpGet(SU + '?action=getAll');
+    dbg('Raw response keys: ' + (j.data&&j.data[0] ? Object.keys(j.data[0]).join(' | ') : 'empty'));
+
+    if (j.success && Array.isArray(j.data) && j.data.length > 0) {
+      // نستخدم index الأعمدة بدلاً من الاسم لأن Sheets قد يُرجع الأعمدة بأسماء مختلفة
+      // أعمدة الشيت: [0]رقم التسجيل [1]الاسم [2]الهاتف [3]البريد [4]الكلية [5]المرافقون [6]التاريخ [7]الحالة
+      regs = j.data.map(row => {
+        // نحاول القراءة بالاسم العربي أولاً، وإذا فشل نقرأ بالفهرس
+        const keys = Object.keys(row);
+        return {
+          regId:      String(row['رقم التسجيل']      || row[keys[0]] || ''),
+          fullName:   String(row['الاسم الكامل']      || row[keys[1]] || ''),
+          phone:      String(row['رقم الهاتف']        || row[keys[2]] || ''),
+          email:      String(row['البريد الإلكتروني'] || row[keys[3]] || ''),
+          college:    String(row['الكلية / التخصص']   || row[keys[4]] || ''),
+          companions: String(row['عدد المرافقين']     || row[keys[5]] || '0'),
+          timestamp:  String(row['تاريخ التسجيل']     || row[keys[6]] || ''),
+          attended:   String(row['حالة الحضور']       || row[keys[7]] || '').includes('حضر'),
+        };
+      }).filter(r => r.regId && r.regId.length > 1);
+
+      dbg('Loaded ' + regs.length + ' records. First: ' + JSON.stringify(regs[0]));
+      toast('✅ تم تحميل ' + regs.length + ' تسجيل');
+    } else {
+      regs = [];
+      dbg('No data. success=' + j.success + ' data=' + JSON.stringify(j.data));
+      toast('ℹ️ لا توجد بيانات في الشيت حتى الآن');
+    }
+  } catch(e) {
+    dbg('Error: ' + e.message);
     console.error(e);
-    try{regs=JSON.parse(localStorage.getItem('grad_reg')||'[]');}catch(_){}
-    toast('⚠️ تعذر الاتصال، عرض بيانات محلية ('+regs.length+')');
+    try { regs = JSON.parse(localStorage.getItem('grad_reg') || '[]'); } catch(_) {}
+    toast('⚠️ تعذر الاتصال - يتم عرض البيانات المحلية (' + regs.length + ')');
   }
-  showOv(false);render();
+  showOvl(false);
+  render();
 }
 
-function render(){
-  const t=regs.length,a=regs.filter(r=>r.attended).length,c=regs.reduce((s,r)=>s+parseInt(r.companions||0),0);
-  document.getElementById('sT').textContent=t;
-  document.getElementById('sA').textContent=a;
-  document.getElementById('sP').textContent=t-a;
-  document.getElementById('sC').textContent=c;
-  document.getElementById('rCnt').textContent=t;
-  const rt=document.getElementById('rTb'),rc=[...regs].reverse().slice(0,6);
-  rt.innerHTML=rc.length?rc.map(r=>`<tr><td style="font-weight:700">${r.fullName}</td><td style="font-family:monospace;font-size:.75rem;color:var(--gold)">${r.regId}</td><td style="font-size:.75rem">${(r.timestamp||'').slice(0,10)||'—'}</td><td>${r.attended?'<span class="pl py">● حضر</span>':'<span class="pl pnd">● لم يحضر</span>'}</td></tr>`).join(''):'<tr><td colspan="4"><div class="em"><div class="ei">📭</div>لا توجد تسجيلات</div></td></tr>';
-  rList(regs);
+// ---- RENDER ----
+function render() {
+  const tot  = regs.length;
+  const att  = regs.filter(r => r.attended).length;
+  const comp = regs.reduce((s,r) => s + parseInt(r.companions||0), 0);
+  document.getElementById('ST').textContent   = tot;
+  document.getElementById('SA').textContent   = att;
+  document.getElementById('SP').textContent   = tot - att;
+  document.getElementById('SC').textContent   = comp;
+  document.getElementById('RCNT').textContent = tot;
+
+  // Recent table
+  const recent = [...regs].reverse().slice(0, 6);
+  document.getElementById('RTB').innerHTML = recent.length
+    ? recent.map(r => `<tr>
+        <td style="font-weight:700">${r.fullName||'—'}</td>
+        <td style="font-family:monospace;font-size:.75rem;color:var(--gl)">${r.regId}</td>
+        <td style="font-size:.75rem">${(r.timestamp||'').slice(0,16)||'—'}</td>
+        <td>${r.attended ? '<span class="tag tok">● حضر</span>' : '<span class="tag tpd">● لم يحضر</span>'}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="4"><div class="empty"><div class="eic">📭</div>لا توجد تسجيلات بعد</div></td></tr>';
+
+  renderList(regs);
 }
 
-function rList(data){
-  const tb=document.getElementById('lTb');
-  tb.innerHTML=data.length?data.map((r,i)=>`<tr><td style="color:rgba(245,240,232,.25)">${i+1}</td><td style="font-weight:700">${r.fullName}</td><td style="direction:ltr;font-size:.78rem">${r.phone}</td><td style="font-size:.73rem;color:rgba(245,240,232,.44)">${r.email}</td><td>${r.college}</td><td style="text-align:center;color:var(--gold-light);font-weight:700">${r.companions}</td><td style="font-family:monospace;font-size:.73rem;color:var(--gold)">${r.regId}</td><td style="font-size:.73rem">${(r.timestamp||'').slice(0,10)||'—'}</td><td>${r.attended?'<span class="pl py">✓ حضر</span>':'<span class="pl pnd">⏳ لم يحضر</span>'}</td><td>${!r.attended?`<button class="ba" onclick="mAtt('${r.regId}')">✓ حضر</button>`:'<span style="color:rgba(245,240,232,.17);font-size:.73rem">—</span>'}</td></tr>`).join(''):'<tr><td colspan="10"><div class="em"><div class="ei">📭</div>لا توجد بيانات</div></td></tr>';
-}
-
-function filt(q){rList(regs.filter(r=>r.fullName.includes(q)||r.regId.includes(q)||r.phone.includes(q)));}
-
-async function mAtt(id){
-  const i=regs.findIndex(r=>r.regId===id);if(i===-1)return;
-  regs[i].attended=true;render();toast('⏳ جاري تأكيد الحضور...');
-  try{
-    const res=await fetch(SU+'?action=attend&regId='+encodeURIComponent(id));
-    const j=await res.json();
-    toast(j.success?'✅ تم تأكيد حضور: '+regs[i].fullName:'⚠️ خطأ: '+(j.error||''));
-  }catch(e){toast('⚠️ خطأ في الاتصال');}
-}
-
-function showP(id){
-  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  document.getElementById('p-'+id).classList.add('on');
-  document.getElementById('n-'+id).classList.add('on');
-  document.getElementById('pgT').textContent={ov:'نظرة عامة',ls:'المسجلون',sc:'مسح QR'}[id]||id;
-  if(id!=='sc')stopSc();
-}
-
-function startSc(){
-  document.getElementById('sRes').style.display='none';
-  document.getElementById('bSt').style.display='none';
-  document.getElementById('bSp').style.display='inline-block';
-  qrScanner=new Html5Qrcode('reader');
-  Html5Qrcode.getCameras().then(cams=>{
-    if(!cams||!cams.length){toast('❌ لا توجد كاميرا');resetScBtns();return;}
-    const cam=cams.find(c=>c.label.toLowerCase().includes('back'))||cams[cams.length-1];
-    qrScanner.start(cam.id,{fps:10,qrbox:{width:230,height:230}},(txt)=>{stopSc();procQR(txt);},()=>{})
-    .catch(e=>{console.error(e);toast('❌ تعذر تشغيل الكاميرا. تأكد أن الموقع HTTPS');resetScBtns();});
-  }).catch(e=>{console.error(e);toast('❌ تعذر الوصول للكاميرا');resetScBtns();});
-}
-
-function stopSc(){
-  if(qrScanner){qrScanner.stop().catch(()=>{});try{qrScanner.clear();}catch(_){}qrScanner=null;}
-  resetScBtns();
-}
-
-function resetScBtns(){document.getElementById('bSt').style.display='inline-block';document.getElementById('bSp').style.display='none';}
-
-function procQR(txt){
-  try{const d=JSON.parse(txt);if(!d.regId)throw 0;showRes(d.regId,d);}
-  catch(e){showErr('QR Code غير صالح');}
-}
-
-function mCheck(){
-  const id=document.getElementById('mId').value.trim().toUpperCase();
-  if(!id){toast('⚠️ أدخل رقم التسجيل');return;}
-  showRes(id,null);
-}
-
-function showRes(regId,raw){
-  let reg=regs.find(r=>r.regId===regId);
-  if(!reg){try{const l=JSON.parse(localStorage.getItem('grad_reg')||'[]');reg=l.find(r=>r.regId===regId);}catch(_){}}
-  if(!reg&&raw){reg={regId:raw.regId,fullName:raw.name||'—',phone:raw.phone||'—',college:raw.college||'—',companions:raw.companions||'0',attended:false};}
-  if(!reg){showErr('رقم التسجيل غير موجود في النظام');return;}
-  const box=document.getElementById('sRes');
-  box.style.display='block';
-  box.scrollIntoView({behavior:'smooth',block:'center'});
-  if(reg.attended){
-    box.className='sr bad';
-    document.getElementById('sIc').textContent='⚠️';
-    document.getElementById('sTi').textContent='تم تسجيل الحضور مسبقاً!';
-    document.getElementById('sMg').textContent='هذه البطاقة استُخدمت من قبل';
-    document.getElementById('bCf').style.display='none';
-  }else{
-    box.className='sr ok';
-    document.getElementById('sIc').textContent='✅';
-    document.getElementById('sTi').textContent='بطاقة صالحة – يُسمح بالدخول';
-    document.getElementById('sMg').textContent='اضغط تأكيد لتسجيل الحضور';
-    const b=document.getElementById('bCf');b.style.display='block';b.disabled=false;b.textContent='✅ تأكيد الحضور';
-    pendId=regId;
+function renderList(data) {
+  const tb = document.getElementById('LTB');
+  if (!data.length) {
+    tb.innerHTML = '<tr><td colspan="10"><div class="empty"><div class="eic">📭</div>لا توجد بيانات</div></td></tr>';
+    return;
   }
-  document.getElementById('sGr').innerHTML=`
+  tb.innerHTML = data.map((r,i) => `<tr>
+    <td style="color:rgba(245,240,232,.25)">${i+1}</td>
+    <td style="font-weight:700">${r.fullName||'—'}</td>
+    <td style="direction:ltr;font-size:.78rem">${r.phone||'—'}</td>
+    <td style="font-size:.73rem;color:rgba(245,240,232,.44)">${r.email||'—'}</td>
+    <td>${r.college||'—'}</td>
+    <td style="text-align:center;color:var(--gl);font-weight:700">${r.companions||'0'}</td>
+    <td style="font-family:monospace;font-size:.73rem;color:var(--gl)">${r.regId}</td>
+    <td style="font-size:.73rem">${(r.timestamp||'').slice(0,10)||'—'}</td>
+    <td>${r.attended ? '<span class="tag tok">✓ حضر</span>' : '<span class="tag tpd">⏳ لم يحضر</span>'}</td>
+    <td>${!r.attended
+      ? `<button class="batnd" onclick="markAtt('${r.regId}')">✓ حضر</button>`
+      : '<span style="color:rgba(245,240,232,.17);font-size:.73rem">—</span>'}</td>
+  </tr>`).join('');
+}
+
+function doFilter(q) {
+  const fl = regs.filter(r =>
+    (r.fullName||'').includes(q) ||
+    (r.regId||'').includes(q.toUpperCase()) ||
+    (r.phone||'').includes(q)
+  );
+  renderList(fl);
+}
+
+// ---- MARK ATTENDED ----
+async function markAtt(id) {
+  const i = regs.findIndex(r => r.regId === id);
+  if (i === -1) return;
+  regs[i].attended = true;
+  render();
+  toast('⏳ جاري تأكيد الحضور...');
+  try {
+    const j = await jsonpGet(SU + '?action=attend&regId=' + encodeURIComponent(id));
+    toast(j.success ? '✅ تم تأكيد حضور: ' + regs[i].fullName : '⚠️ ' + (j.error||'خطأ'));
+  } catch(e) {
+    new Image().src = SU + '?action=attend&regId=' + encodeURIComponent(id) + '&_t=' + Date.now();
+    toast('✅ تم تأكيد الحضور');
+  }
+}
+
+// ---- PANELS ----
+function goPanel(id) {
+  document.querySelectorAll('.pnl').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
+  document.getElementById('P-' + id).classList.add('on');
+  document.getElementById('N-' + id).classList.add('on');
+  document.getElementById('PGTIT').textContent = {ov:'نظرة عامة', ls:'المسجلون', sc:'مسح QR'}[id] || id;
+  if (id !== 'sc') stopScan();
+}
+
+// ---- QR SCANNER ----
+function startScan() {
+  document.getElementById('SRES').style.display = 'none';
+  document.getElementById('BST').style.display  = 'none';
+  document.getElementById('BSP').style.display  = 'inline-block';
+
+  // تأكد من تنظيف أي instance سابق
+  if (qrInst) {
+    try { qrInst.stop().catch(()=>{}); } catch(_) {}
+    qrInst = null;
+  }
+  // امسح محتوى div الـ reader
+  document.getElementById('reader').innerHTML = '';
+
+  qrInst = new Html5Qrcode('reader');
+
+  Html5Qrcode.getCameras()
+    .then(cameras => {
+      if (!cameras || cameras.length === 0) {
+        toast('❌ لا توجد كاميرا. تأكد أن الموقع HTTPS');
+        resetScanBtns();
+        return;
+      }
+      // نختار الكاميرا الخلفية إن وجدت
+      const cam = cameras.find(c => /back|rear|environment/i.test(c.label)) || cameras[cameras.length - 1];
+      toast('📷 جاري تشغيل الكاميرا...');
+      return qrInst.start(
+        cam.id,
+        { fps: 10, qrbox: { width: 240, height: 240 } },
+        (decodedText) => {
+          stopScan();
+          processQR(decodedText);
+        },
+        () => {} // ignore errors during scan
+      );
+    })
+    .then(() => {
+      toast('✅ الكاميرا تعمل — وجّه نحو QR Code');
+    })
+    .catch(err => {
+      console.error('Camera error:', err);
+      toast('❌ ' + (err.message || 'تعذر تشغيل الكاميرا'));
+      resetScanBtns();
+    });
+}
+
+function stopScan() {
+  if (qrInst) {
+    qrInst.stop()
+      .then(() => { try { qrInst.clear(); } catch(_){} qrInst = null; })
+      .catch(() => { qrInst = null; });
+  }
+  resetScanBtns();
+}
+
+function resetScanBtns() {
+  document.getElementById('BST').style.display = 'inline-block';
+  document.getElementById('BSP').style.display = 'none';
+}
+
+function processQR(text) {
+  try {
+    const data = JSON.parse(text);
+    if (!data.regId) throw new Error('no regId');
+    showScanResult(data.regId, data);
+  } catch(e) {
+    showScanError('QR Code غير صالح أو تالف');
+  }
+}
+
+function doManual() {
+  const id = document.getElementById('MID').value.trim().toUpperCase();
+  if (!id) { toast('⚠️ أدخل رقم التسجيل أولاً'); return; }
+  showScanResult(id, null);
+}
+
+function showScanResult(regId, raw) {
+  // ابحث في البيانات المحملة
+  let reg = regs.find(r => r.regId === regId);
+
+  // ابحث في localStorage
+  if (!reg) {
+    try {
+      const local = JSON.parse(localStorage.getItem('grad_reg') || '[]');
+      reg = local.find(r => r.regId === regId);
+    } catch(_) {}
+  }
+
+  // استخدم بيانات QR مباشرة
+  if (!reg && raw) {
+    reg = {
+      regId: raw.regId,
+      fullName: raw.name || '—',
+      phone: raw.phone || '—',
+      college: raw.college || '—',
+      companions: raw.companions || '0',
+      attended: false
+    };
+  }
+
+  const box = document.getElementById('SRES');
+  box.style.display = 'block';
+
+  if (!reg) {
+    box.className = 'sres bad';
+    document.getElementById('SICO').textContent = '❌';
+    document.getElementById('STIT').textContent = 'رقم التسجيل غير موجود';
+    document.getElementById('SMSG').textContent = 'تأكد من الرقم أو حدّث البيانات';
+    document.getElementById('BCF').style.display = 'none';
+    document.getElementById('SGRD').innerHTML = '';
+    box.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  if (reg.attended) {
+    box.className = 'sres bad';
+    document.getElementById('SICO').textContent = '⚠️';
+    document.getElementById('STIT').textContent = 'تم تسجيل الحضور مسبقاً!';
+    document.getElementById('SMSG').textContent = 'هذه البطاقة استُخدمت من قبل';
+    document.getElementById('BCF').style.display = 'none';
+  } else {
+    box.className = 'sres ok';
+    document.getElementById('SICO').textContent = '✅';
+    document.getElementById('STIT').textContent = 'بطاقة صالحة — يُسمح بالدخول';
+    document.getElementById('SMSG').textContent = 'اضغط تأكيد لتسجيل الحضور في الشيت';
+    const bcf = document.getElementById('BCF');
+    bcf.style.display = 'block';
+    bcf.disabled = false;
+    bcf.textContent = '✅ تأكيد الحضور';
+    pendId = regId;
+  }
+
+  document.getElementById('SGRD').innerHTML = `
     <div class="srit"><div class="srl">الاسم</div><div class="srv">${reg.fullName}</div></div>
     <div class="srit"><div class="srl">الكلية</div><div class="srv">${reg.college}</div></div>
     <div class="srit"><div class="srl">الهاتف</div><div class="srv">${reg.phone}</div></div>
     <div class="srit"><div class="srl">المرافقون</div><div class="srv">${reg.companions} أشخاص</div></div>
-    <div class="srit"><div class="srl">رقم التسجيل</div><div class="srv" style="font-family:monospace;font-size:.72rem;color:var(--gold)">${reg.regId}</div></div>
-    <div class="srit"><div class="srl">الحالة</div><div class="srv">${reg.attended?'<span style="color:var(--success)">حضر ✓</span>':'<span style="color:var(--gold-light)">لم يحضر بعد</span>'}</div></div>`;
+    <div class="srit"><div class="srl">رقم التسجيل</div><div class="srv" style="font-family:monospace;font-size:.72rem;color:var(--gl)">${reg.regId}</div></div>
+    <div class="srit"><div class="srl">الحالة</div><div class="srv">${reg.attended
+      ? '<span style="color:var(--ok)">حضر ✓</span>'
+      : '<span style="color:var(--gl)">لم يحضر بعد</span>'}</div></div>`;
+
+  box.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-function showErr(msg){
-  const b=document.getElementById('sRes');
-  b.style.display='block';b.className='sr bad';
-  document.getElementById('sIc').textContent='❌';
-  document.getElementById('sTi').textContent='خطأ في القراءة';
-  document.getElementById('sMg').textContent=msg;
-  document.getElementById('sGr').innerHTML='';
-  document.getElementById('bCf').style.display='none';
-  b.scrollIntoView({behavior:'smooth',block:'center'});
+function showScanError(msg) {
+  const box = document.getElementById('SRES');
+  box.style.display = 'block';
+  box.className = 'sres bad';
+  document.getElementById('SICO').textContent = '❌';
+  document.getElementById('STIT').textContent = 'خطأ في القراءة';
+  document.getElementById('SMSG').textContent = msg;
+  document.getElementById('SGRD').innerHTML   = '';
+  document.getElementById('BCF').style.display = 'none';
+  box.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
-async function doCf(){
-  if(!pendId)return;
-  const btn=document.getElementById('bCf');
-  btn.disabled=true;btn.textContent='⏳ جاري التأكيد...';
-  await mAtt(pendId);
-  document.getElementById('sIc').textContent='🎉';
-  document.getElementById('sTi').textContent='تم تأكيد الحضور في Google Sheets!';
-  document.getElementById('sMg').textContent='تم تسجيل الدخول بنجاح';
-  btn.style.display='none';pendId=null;
+async function doConfirm() {
+  if (!pendId) return;
+  const btn = document.getElementById('BCF');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التأكيد...';
+  await markAtt(pendId);
+  document.getElementById('SICO').textContent = '🎉';
+  document.getElementById('STIT').textContent = 'تم تأكيد الحضور!';
+  document.getElementById('SMSG').textContent = 'تم تسجيل الدخول في Google Sheets';
+  btn.style.display = 'none';
+  pendId = null;
 }
 
-function resetSc(){document.getElementById('sRes').style.display='none';document.getElementById('mId').value='';pendId=null;}
-
-function doExp(){
-  const h=['رقم التسجيل','الاسم الكامل','رقم الهاتف','البريد','الكلية','المرافقون','التاريخ','الحالة'];
-  const rows=regs.map(r=>[r.regId,r.fullName,r.phone,r.email,r.college,r.companions,r.timestamp,r.attended?'حضر':'لم يحضر']);
-  const csv='\uFEFF'+[h,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-  a.download='تسجيلات_'+new Date().toLocaleDateString('en').replace(/\//g,'-')+'.csv';
-  a.click();toast('📥 تم تصدير الملف');
+function resetScan() {
+  document.getElementById('SRES').style.display = 'none';
+  document.getElementById('MID').value = '';
+  pendId = null;
 }
 
-function showOv(s,m){const e=document.getElementById('ov');e.style.display=s?'flex':'none';if(m)document.getElementById('ovm').textContent=m;}
+// ---- EXPORT ----
+function doExport() {
+  const h = ['رقم التسجيل','الاسم الكامل','رقم الهاتف','البريد','الكلية','المرافقون','التاريخ','الحالة'];
+  const rows = regs.map(r => [r.regId,r.fullName,r.phone,r.email,r.college,r.companions,r.timestamp,r.attended?'حضر':'لم يحضر']);
+  const csv = '\uFEFF' + [h,...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8;'}));
+  a.download = 'تسجيلات_التخرج_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  toast('📥 تم تصدير الملف');
+}
 
-function toast(m){const e=document.getElementById('tst');e.textContent=m;e.classList.add('show');clearTimeout(tTmr);tTmr=setTimeout(()=>e.classList.remove('show'),3200);}
+// ---- HELPERS ----
+function showOvl(show, msg) {
+  document.getElementById('OVL').style.display = show ? 'flex' : 'none';
+  if (msg) document.getElementById('OVLM').textContent = msg;
+}
+
+function dbg(msg) {
+  // يمكن تفعيله عند الحاجة
+  // const el = document.getElementById('DBG');
+  // el.style.display = 'block';
+  // el.textContent = msg;
+  console.log('[DBG]', msg);
+}
+
+function toast(msg) {
+  const el = document.getElementById('TST');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(tstT);
+  tstT = setTimeout(() => el.classList.remove('show'), 3500);
+}
 </script>
 </body>
 </html>
