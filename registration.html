@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل حفل التخرج 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #9A7A2E;
+    --navy: #0D1B2A;
+    --navy-mid: #1A2E45;
+    --navy-light: #243B55;
+    --cream: #F5F0E8;
+    --white: #FFFFFF;
+    --success: #2ECC71;
+    --error: #E74C3C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 60%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(201,168,76,0.02) 40px,
+        rgba(201,168,76,0.02) 41px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fadeDown 0.8s ease;
+  }
+
+  .header-emblem {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.1);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.1); }
+    50% { box-shadow: 0 0 60px rgba(201,168,76,0.6), 0 0 120px rgba(201,168,76,0.2); }
+  }
+
+  .header h1 {
+    font-size: 2.4rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .header p {
+    font-family: 'Tajawal', sans-serif;
+    color: rgba(245,240,232,0.6);
+    font-size: 1rem;
+  }
+
+  .divider {
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  /* Steps indicator */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(245,240,232,0.4);
+    transition: all 0.4s ease;
+    background: transparent;
+  }
+
+  .step-circle.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-color: var(--gold);
+    color: var(--navy);
+    box-shadow: 0 0 20px rgba(201,168,76,0.5);
+  }
+
+  .step-circle.done {
+    background: rgba(46,204,113,0.2);
+    border-color: var(--success);
+    color: var(--success);
+  }
+
+  .step-label {
+    font-size: 0.75rem;
+    color: rgba(245,240,232,0.5);
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .step.active .step-label { color: var(--gold-light); }
+
+  .step-line {
+    width: 60px;
+    height: 2px;
+    background: rgba(201,168,76,0.2);
+    margin: 0 8px;
+  }
+
+  /* Cards */
+  .card {
+    background: linear-gradient(145deg, rgba(26,46,69,0.9), rgba(13,27,42,0.95));
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease both;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(201,168,76,0.1);
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .form-grid .full { grid-column: 1 / -1; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  label {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.7);
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 500;
+  }
+
+  label span.req { color: var(--gold); margin-right: 3px; }
+
+  input, select, textarea {
+    background: rgba(13,27,42,0.8);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--cream);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+
+  input::placeholder { color: rgba(245,240,232,0.25); }
+
+  select option { background: var(--navy-mid); color: var(--cream); }
+
+  /* Bank details */
+  .bank-box {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .bank-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .bank-row:last-child { border-bottom: none; }
+
+  .bank-key {
+    font-size: 0.82rem;
+    color: rgba(245,240,232,0.5);
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .bank-val {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    font-family: 'Tajawal', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 6px;
+    padding: 3px 8px;
+    color: var(--gold);
+    font-size: 0.7rem;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .copy-btn:hover { background: rgba(201,168,76,0.15); }
+
+  /* Upload area */
+  .upload-area {
+    border: 2px dashed rgba(201,168,76,0.3);
+    border-radius: 14px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .upload-area:hover, .upload-area.drag-over {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+  .upload-area p {
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.5);
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .upload-area .upload-name {
+    color: var(--gold-light);
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Fee badge */
+  .fee-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--navy);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+
+  /* Submit button */
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    border: none;
+    border-radius: 12px;
+    color: var(--navy);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.5);
+  }
+
+  .btn-submit:active { transform: translateY(0); }
+
+  .btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Loading */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(201,168,76,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Success card */
+  .success-section {
+    display: none;
+    animation: fadeUp 0.8s ease;
+  }
+
+  .ticket-card {
+    background: linear-gradient(145deg, var(--navy-mid), var(--navy));
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(201,168,76,0.1);
+    position: relative;
+  }
+
+  .ticket-header {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    padding: 28px 32px;
+    text-align: center;
+    position: relative;
+  }
+
+  .ticket-header h2 {
+    color: var(--navy);
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .ticket-header p {
+    color: rgba(13,27,42,0.7);
+    font-size: 0.85rem;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .ticket-notch {
+    display: flex;
+    position: absolute;
+    bottom: -16px;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    padding: 0 24px;
+  }
+
+  .notch {
+    width: 32px;
+    height: 32px;
+    background: var(--navy);
+    border-radius: 50%;
+  }
+
+  .ticket-body {
+    padding: 36px 32px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .ticket-info { }
+
+  .info-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  .info-row:last-child { margin-bottom: 0; }
+
+  .info-label {
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Tajawal', sans-serif;
+    margin-bottom: 2px;
+  }
+
+  .info-val {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  .info-val.gold { color: var(--gold-light); }
+
+  .ticket-qr {
+    text-align: center;
+  }
+
+  .qr-wrap {
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  #qrcode canvas, #qrcode img { display: block; }
+
+  .qr-label {
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.4);
+    font-family: 'Tajawal', sans-serif;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .ticket-footer {
+    border-top: 2px dashed rgba(201,168,76,0.2);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .reg-id {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.4);
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(46,204,113,0.15);
+    border: 1px solid rgba(46,204,113,0.4);
+    color: var(--success);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 600;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Print & Download */
+  .action-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .btn-secondary {
+    flex: 1;
+    padding: 13px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 12px;
+    color: var(--gold-light);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(201,168,76,0.2);
+    border-color: var(--gold);
+  }
+
+  /* Notice */
+  .notice {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.82rem;
+    color: rgba(245,240,232,0.6);
+    font-family: 'Tajawal', sans-serif;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .notice strong { color: var(--gold-light); }
+
+  /* Error message */
+  .error-msg {
+    background: rgba(231,76,60,0.1);
+    border: 1px solid rgba(231,76,60,0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: #FF6B6B;
+    font-size: 0.85rem;
+    font-family: 'Tajawal', sans-serif;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .ticket-body { grid-template-columns: 1fr; text-align: center; }
+    .ticket-qr { margin: 0 auto; }
+    .header h1 { font-size: 1.8rem; }
+    .card { padding: 24px; }
+    .steps { flex-wrap: wrap; gap: 10px; }
+    .step-line { width: 30px; }
+  }
+
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    .card:not(.ticket-card) { display: none; }
+    .action-btns { display: none; }
+    .header { display: none; }
+    .steps { display: none; }
+    .success-section { display: block !important; }
+    .ticket-card { box-shadow: none; border: 2px solid #C9A84C; }
+    .ticket-header { background: linear-gradient(135deg, #9A7A2E, #C9A84C, #E8C97A) !important; -webkit-print-color-adjust: exact; }
+    .form-section { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-emblem">🎓</div>
+    <h1>حفل التخرج 2025</h1>
+    <p>الرجاء إتمام التسجيل بعناية لضمان حضورك</p>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps" id="stepsBar">
+    <div class="step" id="s1">
+      <div class="step-circle active" id="sc1">١</div>
+      <div class="step-label">البيانات</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="s2">
+      <div class="step-circle" id="sc2">٢</div>
+      <div class="step-label">الدفع</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="s3">
+      <div class="step-circle" id="sc3">٣</div>
+      <div class="step-label">البطاقة</div>
+    </div>
+  </div>
+
+  <!-- FORM SECTION -->
+  <div class="form-section" id="formSection">
+
+    <!-- Personal Info -->
+    <div class="card" style="animation-delay:0.1s">
+      <div class="card-title">المعلومات الشخصية</div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>الاسم الكامل <span class="req">*</span></label>
+          <input type="text" id="fullName" placeholder="أدخل اسمك الكامل كما في الوثائق الرسمية">
+        </div>
+        <div class="field">
+          <label>رقم الهاتف <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="05xxxxxxxx">
+        </div>
+        <div class="field">
+          <label>البريد الإلكتروني <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="example@email.com">
+        </div>
+        <div class="field">
+          <label>الكلية / التخصص <span class="req">*</span></label>
+          <input type="text" id="college" placeholder="اسم الكلية أو التخصص">
+        </div>
+        <div class="field">
+          <label>عدد المرافقين <span class="req">*</span></label>
+          <select id="companions">
+            <option value="">اختر العدد</option>
+            <option value="0">بدون مرافق</option>
+            <option value="1">١ شخص</option>
+            <option value="2">٢ شخص</option>
+            <option value="3">٣ أشخاص</option>
+            <option value="4">٤ أشخاص</option>
+            <option value="5">٥ أشخاص</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="card" style="animation-delay:0.2s">
+      <div class="card-title">رسوم الحضور والدفع</div>
+
+      <div style="margin-bottom:18px">
+        <div class="fee-badge">💰 رسوم الحفل: ٥٠ ريال</div>
+        <p style="font-size:0.82rem; color:rgba(245,240,232,0.5); font-family:'Tajawal',sans-serif; margin-top:6px;">
+          تشمل الرسوم بطاقة الدخول للخريج + مرافق واحد. كل مرافق إضافي ٢٠ ريال.
+        </p>
+      </div>
+
+      <div class="bank-box">
+        <div class="bank-title">🏦 بيانات التحويل البنكي</div>
+        <div class="bank-row">
+          <span class="bank-key">اسم البنك</span>
+          <span class="bank-val">بنك الراجحي <button class="copy-btn" onclick="copyText('بنك الراجحي')">نسخ</button></span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-key">اسم المستفيد</span>
+          <span class="bank-val">جمعية خريجي الجامعة <button class="copy-btn" onclick="copyText('جمعية خريجي الجامعة')">نسخ</button></span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-key">رقم الحساب</span>
+          <span class="bank-val">SA12 3456 7890 1234 5678 9012 <button class="copy-btn" onclick="copyText('SA12345678901234567890 12')">نسخ</button></span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-key">رقم الآيبان</span>
+          <span class="bank-val">SA12 3456 7890 1234 5678 <button class="copy-btn" onclick="copyText('SA12345678901234567 8')">نسخ</button></span>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>📋 تعليمات الدفع:</strong><br>
+        ١. قم بالتحويل البنكي على البيانات أعلاه<br>
+        ٢. احتفظ بصورة من إيصال التحويل<br>
+        ٣. ارفع صورة الإيصال في الخانة أدناه<br>
+        ٤. ستظهر لك بطاقة الدخول فور اكتمال التسجيل
+      </div>
+
+      <!-- Upload -->
+      <div class="field">
+        <label>إيصال التحويل <span class="req">*</span></label>
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="receiptFile" accept="image/*,.pdf" onchange="handleFileSelect(this)">
+          <div class="upload-icon">📎</div>
+          <p>اسحب الصورة هنا أو انقر للاختيار</p>
+          <p style="font-size:0.75rem; margin-top:4px;">JPG, PNG, PDF • حد أقصى ٥ ميجا</p>
+          <div class="upload-name" id="fileName"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg" id="errorMsg">⚠️ يرجى ملء جميع الحقول المطلوبة ورفع إيصال الدفع</div>
+
+    <button class="btn-submit" onclick="submitForm()" id="submitBtn">
+      ✅ إتمام التسجيل والحصول على البطاقة
+    </button>
+
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loadingSection">
+    <div class="spinner"></div>
+    <p style="font-family:'Tajawal',sans-serif; color:rgba(245,240,232,0.6);">جاري حفظ بياناتك...</p>
+  </div>
+
+  <!-- SUCCESS SECTION -->
+  <div class="success-section" id="successSection">
+
+    <div style="text-align:center; margin-bottom:30px;">
+      <div style="font-size:3rem; margin-bottom:12px;">🎉</div>
+      <h2 style="font-size:1.5rem; font-weight:900; background:linear-gradient(135deg,#E8C97A,#C9A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
+        تم التسجيل بنجاح!
+      </h2>
+      <p style="color:rgba(245,240,232,0.5); font-family:'Tajawal',sans-serif; margin-top:6px;">
+        احتفظ بهذه البطاقة — ستحتاجها عند الدخول
+      </p>
+    </div>
+
+    <!-- Ticket -->
+    <div class="ticket-card" id="ticketCard">
+      <div class="ticket-header">
+        <h2>🎓 بطاقة دخول حفل التخرج</h2>
+        <p>2025 • Graduation Ceremony</p>
+        <div class="ticket-notch">
+          <div class="notch"></div>
+          <div class="notch"></div>
+        </div>
+      </div>
+
+      <div class="ticket-body">
+        <div class="ticket-info">
+          <div class="info-row">
+            <span class="info-label">الاسم الكامل</span>
+            <span class="info-val" id="tName">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">رقم الهاتف</span>
+            <span class="info-val" id="tPhone">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">الكلية / التخصص</span>
+            <span class="info-val" id="tCollege">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">عدد المرافقين</span>
+            <span class="info-val gold" id="tComp">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">رقم التسجيل</span>
+            <span class="info-val gold" id="tRegId">—</span>
+          </div>
+        </div>
+
+        <div class="ticket-qr">
+          <div class="qr-wrap">
+            <div id="qrcode"></div>
+          </div>
+          <div class="qr-label">امسح للتحقق</div>
+        </div>
+      </div>
+
+      <div class="ticket-footer">
+        <div class="reg-id" id="tDate">—</div>
+        <div class="status-badge">
+          <div class="status-dot"></div>
+          مسجل ✓
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-btns">
+      <button class="btn-secondary" onclick="window.print()">🖨️ طباعة البطاقة</button>
+      <button class="btn-secondary" onclick="downloadTicket()">⬇️ حفظ كصورة</button>
+    </div>
+
+    <div class="notice" style="margin-top:20px;">
+      <strong>⚠️ مهم:</strong> يرجى إحضار هذه البطاقة (مطبوعة أو على هاتفك) عند حضور الحفل. سيتم مسح الـ QR Code للتحقق من هويتك.
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG - ضع هنا رابط Google Apps Script الخاص بك
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo4Ujp6JV-QS-rF3wQwtmlMCQqV1gRjYTY-dWQtriAcanMeLeCFNCR2qGeZUtC2X5D/exec';
+// ============================================================
+
+let receiptBase64 = '';
+let receiptFileName = '';
+
+// File upload
+function handleFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('حجم الملف كبير جدًا! الحد الأقصى ٥ ميجا');
+    return;
+  }
+  receiptFileName = file.name;
+  document.getElementById('fileName').textContent = '✓ ' + file.name;
+  const reader = new FileReader();
+  reader.onload = e => { receiptBase64 = e.target.result; };
+  reader.readAsDataURL(file);
+}
+
+// Copy to clipboard
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.copy-btn');
+    btns.forEach(b => { if (b.onclick.toString().includes(text)) { b.textContent = '✓'; setTimeout(() => b.textContent = 'نسخ', 1500); } });
+  });
+}
+
+// Generate registration ID
+function genRegId() {
+  return 'GR-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,4).toUpperCase();
+}
+
+// Update steps
+function setStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const c = document.getElementById('sc' + i);
+    c.className = 'step-circle' + (i < n ? ' done' : i === n ? ' active' : '');
+    if (i < n) c.textContent = '✓';
+  }
+}
+
+// Validate
+function validate() {
+  const fields = ['fullName','phone','email','college','companions'];
+  for (const f of fields) {
+    if (!document.getElementById(f).value.trim()) return false;
+  }
+  if (!receiptBase64) return false;
+  return true;
+}
+
+// Submit
+async function submitForm() {
+  const errorMsg = document.getElementById('errorMsg');
+  if (!validate()) {
+    errorMsg.style.display = 'block';
+    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  errorMsg.style.display = 'none';
+
+  const regId = genRegId();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ar-SA') + ' ' + now.toLocaleTimeString('ar-SA');
+
+  const data = {
+    regId,
+    fullName: document.getElementById('fullName').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    college: document.getElementById('college').value.trim(),
+    companions: document.getElementById('companions').value,
+    timestamp: now.toISOString(),
+    receipt: receiptBase64,
+    receiptName: receiptFileName,
+    status: 'pending'
+  };
+
+  // Show loading
+  document.getElementById('formSection').style.display = 'none';
+  document.getElementById('loadingSection').style.display = 'block';
+  setStep(2);
+
+  try {
+    // Send to Google Apps Script
+    if (APPS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    }
+  } catch (e) {
+    console.log('Network note:', e);
+  }
+
+  // Show ticket
+  setTimeout(() => {
+    document.getElementById('loadingSection').style.display = 'none';
+    document.getElementById('successSection').style.display = 'block';
+    setStep(3);
+
+    // Fill ticket
+    document.getElementById('tName').textContent = data.fullName;
+    document.getElementById('tPhone').textContent = data.phone;
+    document.getElementById('tCollege').textContent = data.college;
+    document.getElementById('tComp').textContent = data.companions === '0' ? 'بدون مرافق' : data.companions + ' مرافق';
+    document.getElementById('tRegId').textContent = regId;
+    document.getElementById('tDate').textContent = 'تاريخ التسجيل: ' + dateStr;
+
+    // Generate QR
+    document.getElementById('qrcode').innerHTML = '';
+    const qrData = JSON.stringify({ regId, name: data.fullName, phone: data.phone, college: data.college, companions: data.companions });
+    new QRCode(document.getElementById('qrcode'), {
+      text: qrData,
+      width: 140,
+      height: 140,
+      colorDark: '#0D1B2A',
+      colorLight: '#FFFFFF',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Store locally for dashboard
+    const existing = JSON.parse(localStorage.getItem('grad_registrations') || '[]');
+    existing.push({ ...data, attended: false });
+    localStorage.setItem('grad_registrations', JSON.stringify(existing));
+
+    document.getElementById('successSection').scrollIntoView({ behavior: 'smooth' });
+  }, 2000);
+}
+
+// Download ticket as image
+function downloadTicket() {
+  const ticket = document.getElementById('ticketCard');
+  // Simple fallback: print
+  alert('لحفظ البطاقة: استخدم زر الطباعة واختر "حفظ كـ PDF"');
+}
+
+// Drag & drop
+const ua = document.getElementById('uploadArea');
+ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag-over'); });
+ua.addEventListener('dragleave', () => ua.classList.remove('drag-over'));
+ua.addEventListener('drop', e => {
+  e.preventDefault();
+  ua.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    document.getElementById('receiptFile').files = e.dataTransfer.files;
+    handleFileSelect(document.getElementById('receiptFile'));
+  }
+});
+</script>
+</body>
+</html>
