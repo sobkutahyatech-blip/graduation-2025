@@ -210,7 +210,12 @@ select option{background:var(--nm)}
       <button class="btn2" onclick="window.print()">🖨️ طباعة</button>
       <button class="btn2" onclick="alert('استخدم الطباعة واختر حفظ كـ PDF')">⬇️ حفظ PDF</button>
     </div>
-    <div class="notice" style="margin-top:16px">
+    <div id="EMAIL_NOTE" style="display:none;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:11px;padding:12px 16px;margin-top:14px">
+      <p style="font-family:'Tajawal',sans-serif;font-size:.83rem;color:var(--ok)">
+        📧 تم إرسال البطاقة وكود QR على بريدك الإلكتروني
+      </p>
+    </div>
+    <div class="notice" style="margin-top:14px">
       <strong>⚠️ مهم:</strong> أحضر هذه البطاقة يوم الحفل. سيتم مسح الـ QR عند الدخول.
     </div>
   </div>
@@ -308,42 +313,96 @@ async function doSubmit() {
   errEl.style.display = 'none';
   document.getElementById('SUBBTN').disabled = true;
 
-  const regId    = genId();
   const fullName = document.getElementById('I-name').value.trim();
   const phone    = document.getElementById('I-phone').value.trim();
   const email    = document.getElementById('I-email').value.trim();
   const college  = document.getElementById('I-college').value.trim();
   const comp     = document.getElementById('I-comp').value;
 
-  // إظهار شاشة التحميل
+  // ── فحص التكرار أولاً قبل إظهار التحميل ──
+  document.getElementById('LOADMSG').textContent = 'جاري التحقق من البيانات...';
   document.getElementById('FORM').style.display = 'none';
   document.getElementById('LOAD').style.display = 'block';
   setStep(2);
 
-  // ── إرسال البيانات لـ Google Sheets ──
-  document.getElementById('LOADMSG').textContent = 'جاري حفظ بياناتك في Google Sheets...';
-  
-  // أرسل البيانات الأساسية أولاً
-  const baseParams = { action:'save', regId, fullName, phone, email, college, companions:comp };
-  const res = await callAPI(baseParams);
-  console.log('Save response:', res);
-
-  // أرسل الصورة إذا كانت موجودة (حد 200KB للـ URL)
-  if (imgB64 && imgB64.length > 0) {
-    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال...';
-    // قسّم الصورة إذا كانت كبيرة - أرسل أول 150KB فقط
-    const receiptChunk = imgB64.length > 150000 ? imgB64.slice(0, 150000) : imgB64;
-    await callAPI({ ...baseParams, receipt: receiptChunk });
+  try {
+    const dupCheck = await callAPI({
+      action: 'checkDuplicate',
+      email: email,
+      phone: phone
+    });
+    if (dupCheck.duplicate) {
+      // إعادة الفورم مع رسالة خطأ
+      document.getElementById('LOAD').style.display = 'none';
+      document.getElementById('FORM').style.display = 'block';
+      document.getElementById('SUBBTN').disabled = false;
+      setStep(1);
+      const msg = dupCheck.field === 'email'
+        ? '⚠️ هذا البريد الإلكتروني مسجّل مسبقاً باسم: ' + dupCheck.name
+        : '⚠️ رقم الهاتف هذا مسجّل مسبقاً باسم: ' + dupCheck.name;
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      errEl.scrollIntoView({behavior:'smooth',block:'center'});
+      if (dupCheck.field === 'email') {
+        document.getElementById('F-email').classList.add('err');
+      } else {
+        document.getElementById('F-phone').classList.add('err');
+      }
+      return;
+    }
+  } catch(e) {
+    // إذا فشل الفحص نكمل التسجيل
+    console.warn('Duplicate check failed:', e);
   }
 
-  // حفظ محلي
-  try {
-    const arr = JSON.parse(localStorage.getItem('grad_reg')||'[]');
-    arr.push({ regId, fullName, phone, email, college, companions: comp, timestamp: new Date().toISOString(), attended: false });
-    localStorage.setItem('grad_reg', JSON.stringify(arr));
-  } catch(_) {}
+  const regId = genId();
 
-  // عرض البطاقة
+  // ── إرسال البيانات + الصورة لـ Sheets ──
+  document.getElementById('LOADMSG').textContent = 'جاري حفظ بياناتك في Google Sheets...';
+
+  const baseParams = {
+    action: 'save',
+    regId, fullName, phone, email, college, companions: comp
+  };
+
+  // أرسل مع الصورة كاملة إذا أمكن
+  let saveParams = { ...baseParams };
+  if (imgB64 && imgB64.length > 0) {
+    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال إلى Drive...';
+    saveParams.receipt = imgB64;
+  }
+
+  let saveResult = { success: false };
+  try {
+    saveResult = await callAPI(saveParams);
+    console.log('Save result:', saveResult);
+
+    // إذا فشل بسبب التكرار
+    if (saveResult.error === 'email_duplicate' || saveResult.error === 'phone_duplicate') {
+      document.getElementById('LOAD').style.display = 'none';
+      document.getElementById('FORM').style.display = 'block';
+      document.getElementById('SUBBTN').disabled = false;
+      setStep(1);
+      const msg = saveResult.error === 'email_duplicate'
+        ? '⚠️ هذا البريد الإلكتروني مسجّل مسبقاً باسم: ' + (saveResult.name||'')
+        : '⚠️ رقم الهاتف مسجّل مسبقاً باسم: ' + (saveResult.name||'');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      errEl.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+  } catch(e) {
+    console.warn('Save error:', e);
+    // نكمل حتى لو فشل الاتصال
+  }
+
+  // ── رسالة حالة الإيميل ──
+  if (saveResult.emailSent) {
+    document.getElementById('LOADMSG').textContent = '📧 تم إرسال بطاقتك على إيميلك...';
+    await new Promise(r => setTimeout(r, 800));
+  }
+
+  // ── عرض البطاقة ──
   setTimeout(() => {
     document.getElementById('LOAD').style.display = 'none';
     document.getElementById('SUCC').style.display = 'block';
@@ -356,6 +415,7 @@ async function doSubmit() {
     document.getElementById('TR').textContent = regId;
     document.getElementById('TD').textContent = 'تسجيل: ' + new Date().toLocaleDateString('ar-SA');
 
+    // QR Code
     document.getElementById('qrcode').innerHTML = '';
     new QRCode(document.getElementById('qrcode'), {
       text: JSON.stringify({ regId, name: fullName, phone, college, companions: comp }),
@@ -364,9 +424,16 @@ async function doSubmit() {
       correctLevel: QRCode.CorrectLevel.H
     });
 
+    // رسالة الإيميل
+    const emailNote = document.getElementById('EMAIL_NOTE');
+    if (emailNote) {
+      emailNote.style.display = saveResult.emailSent ? 'block' : 'none';
+    }
+
     document.getElementById('SUCC').scrollIntoView({behavior:'smooth'});
-  }, 2000);
+  }, 500);
 }
+
 
 // Drag & drop
 const upl = document.getElementById('UPL');
