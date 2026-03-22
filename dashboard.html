@@ -351,7 +351,10 @@ tbody td{padding:10px 12px;color:rgba(245,240,232,.76);font-family:'Tajawal',san
       <div class="topb">
         <div style="display:flex;align-items:center;gap:10px">
           <button class="ham" id="HAM" onclick="openMobSid()">☰</button>
-          <h1 id="PGTIT">نظرة عامة</h1>
+          <div>
+            <h1 id="PGTIT">نظرة عامة</h1>
+            <div id="LIVEBAR" style="font-size:.6rem;font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.35);margin-top:1px">🟢 مباشر</div>
+          </div>
         </div>
         <div class="tact">
           <button class="btn bgh" onclick="loadData()">🔄 تحديث</button>
@@ -481,14 +484,18 @@ function doLogin(){
   document.getElementById('RBDG').textContent=myRole==='admin'?'👑 إدارة':'🤝 متطوع';
   if(myRole!=='admin'){
     document.querySelectorAll('.adm').forEach(e=>e.style.display='none');
+    loadData(); // المتطوع يحتاج البيانات لتأكيد الحضور
     goP('sc');
   } else {
     loadData();
     goP('ov');
   }
+  startAutoRefresh(); // تحديث تلقائي كل 8 ثوانٍ
 }
 function doLogout(){
   stopScan();
+  stopAutoRefresh();
+  regs = [];
   document.getElementById('DP').style.display='none';
   document.getElementById('LP').style.display='flex';
   document.getElementById('LU').value='';
@@ -554,6 +561,7 @@ async function loadData(){
   }
   showOvl(false);
   render();
+  updateLiveBar(true);
 }
 
 // ── RENDER ────────────────────────────────────
@@ -615,25 +623,27 @@ function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 // ── MARK ATTENDED ─────────────────────────────
 async function markAtt(id){
-  const i=regs.findIndex(r=>r.regId===id);
-  if(i===-1) return;
-  const name = regs[i].fullName;
-  regs[i].attended = true;
-  render();
-  toast('⏳ جاري تسجيل الحضور في Sheets...');
+  const i = regs.findIndex(r=>r.regId===id);
+  const name = i>=0 ? regs[i].fullName : id;
+
+  // تحديث فوري في الذاكرة
+  if(i>=0){ regs[i].attended = true; render(); }
+  toast('⏳ جاري تسجيل الحضور...');
+
   try{
     const j = await callAPI({action:'attend', regId:id});
     if(j.success){
-      toast('✅ تم تأكيد حضور: ' + name);
+      toast('✅ تم تأكيد حضور: ' + (j.name||name));
+      // تحديث فوري بعد التأكيد
+      await loadData();
     } else {
-      regs[i].attended = false; // تراجع إذا فشل
-      render();
-      toast('⚠️ فشل التأكيد: ' + (j.error||'خطأ'));
+      if(i>=0){ regs[i].attended = false; render(); }
+      toast('⚠️ ' + (j.error||'خطأ في التأكيد'));
     }
   } catch(e){
-    // no-cors fallback
     new Image().src = SURL+'?action=attend&regId='+encodeURIComponent(id)+'&_='+Date.now();
-    toast('✅ تم الإرسال (تحقق من الشيت)');
+    toast('✅ تم الإرسال للـ Sheets');
+    setTimeout(loadData, 3000); // تحديث بعد 3 ثوانٍ
   }
 }
 
@@ -831,16 +841,18 @@ function showScanErr(msg){
 }
 
 async function doConfirm(){
-  if(!pendId)return;
-  const btn=document.getElementById('BCF');
-  btn.disabled=true;
-  btn.textContent='⏳ جاري التأكيد...';
-  await markAtt(pendId);
-  document.getElementById('SICO').textContent='🎉';
-  document.getElementById('STIT').textContent='تم تأكيد الحضور!';
-  document.getElementById('SMSG').textContent='تم تسجيل الدخول في Google Sheets';
-  btn.style.display='none';
-  pendId=null;
+  if(!pendId) return;
+  const id = pendId;
+  const btn = document.getElementById('BCF');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التأكيد...';
+  await markAtt(id);
+  // تحديث نتيجة المسح
+  document.getElementById('SICO').textContent = '🎉';
+  document.getElementById('STIT').textContent = 'تم تأكيد الحضور!';
+  document.getElementById('SMSG').textContent = 'تم تسجيل الدخول في Google Sheets ✓';
+  btn.style.display = 'none';
+  pendId = null;
 }
 
 function resetScan(){
@@ -872,6 +884,60 @@ function toast(m){
   clearTimeout(tstT);
   tstT=setTimeout(()=>e.classList.remove('show'),3500);
 }
+// ── AUTO REFRESH ─────────────────────────────
+let autoRefreshTimer = null;
+let lastRefresh = Date.now();
+
+function startAutoRefresh(){
+  stopAutoRefresh();
+  autoRefreshTimer = setInterval(async ()=>{
+    // تحديث صامت بدون overlay
+    try{
+      const j = await callAPI({action:'getAll'});
+      if(j.success && Array.isArray(j.data) && j.data.length>0){
+        const newRegs = j.data.map(row=>{
+          const v=(keys)=>{ for(const k of keys){ if(row[k]!==undefined&&row[k]!=='') return String(row[k]); } return ''; };
+          return {
+            regId:     v(['رقم التسجيل','reg_id','regId','id']),
+            fullName:  v(['الاسم الكامل','full_name','fullName','الاسم','name']),
+            phone:     v(['رقم الهاتف','phone','هاتف','الهاتف']),
+            email:     v(['البريد الإلكتروني','email','بريد','البريد']),
+            college:   v(['الكلية / التخصص','الكلية','college','كلية']),
+            companions:v(['عدد المرافقين','companions','مرافقون','المرافقون'])||'0',
+            timestamp: v(['تاريخ التسجيل','timestamp','تاريخ','date']),
+            attended:  (()=>{ const s=v(['حالة الحضور','attended','حضور','الحضور']); return s==='حضر ✓'||s==='حضر'; })(),
+          };
+        }).filter(r=>r.regId.length>0);
+
+        // تحقق من وجود تغييرات
+        const changed = newRegs.length !== regs.length ||
+          newRegs.some((r,i)=> !regs[i] || r.attended !== regs[i].attended);
+
+        if(changed){
+          regs = newRegs;
+          render();
+          updateLiveBar(true);
+        } else {
+          updateLiveBar(false);
+        }
+        lastRefresh = Date.now();
+      }
+    } catch(e){ /* صامت */ }
+  }, 8000); // كل 8 ثوانٍ
+}
+
+function stopAutoRefresh(){
+  if(autoRefreshTimer){ clearInterval(autoRefreshTimer); autoRefreshTimer=null; }
+}
+
+function updateLiveBar(changed){
+  const el = document.getElementById('LIVEBAR');
+  if(!el) return;
+  const t = new Date().toLocaleTimeString('ar-SA');
+  el.textContent = changed ? '🔄 تم التحديث ' + t : '🟢 مباشر · ' + t;
+  el.style.color = changed ? 'var(--ok)' : 'rgba(245,240,232,.35)';
+}
+
 // ── MOBILE SIDEBAR ────────────────────────────
 function openMobSid(){
   document.getElementById('SID').classList.add('mob-open');
