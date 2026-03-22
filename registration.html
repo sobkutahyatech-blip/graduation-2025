@@ -7,697 +7,142 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --gold-dark: #9A7A2E;
-    --navy: #0D1B2A;
-    --navy-mid: #1A2E45;
-    --navy-light: #243B55;
-    --cream: #F5F0E8;
-    --white: #FFFFFF;
-    --success: #2ECC71;
-    --error: #E74C3C;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: var(--navy);
-    color: var(--cream);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Animated background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.05) 0%, transparent 60%),
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 40px,
-        rgba(201,168,76,0.02) 40px,
-        rgba(201,168,76,0.02) 41px
-      );
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 40px 20px 60px;
-  }
-
-  /* Header */
-  .header {
-    text-align: center;
-    margin-bottom: 50px;
-    animation: fadeDown 0.8s ease;
-  }
-
-  .header-emblem {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border-radius: 50%;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    box-shadow: 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.1);
-    animation: pulse-glow 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 40px rgba(201,168,76,0.4), 0 0 80px rgba(201,168,76,0.1); }
-    50% { box-shadow: 0 0 60px rgba(201,168,76,0.6), 0 0 120px rgba(201,168,76,0.2); }
-  }
-
-  .header h1 {
-    font-size: 2.4rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
-  }
-
-  .header p {
-    font-family: 'Tajawal', sans-serif;
-    color: rgba(245,240,232,0.6);
-    font-size: 1rem;
-  }
-
-  .divider {
-    width: 120px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 16px auto;
-  }
-
-  /* Steps indicator */
-  .steps {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    margin-bottom: 40px;
-    animation: fadeUp 0.8s ease 0.2s both;
-  }
-
-  .step {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .step-circle {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid rgba(201,168,76,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: rgba(245,240,232,0.4);
-    transition: all 0.4s ease;
-    background: transparent;
-  }
-
-  .step-circle.active {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    border-color: var(--gold);
-    color: var(--navy);
-    box-shadow: 0 0 20px rgba(201,168,76,0.5);
-  }
-
-  .step-circle.done {
-    background: rgba(46,204,113,0.2);
-    border-color: var(--success);
-    color: var(--success);
-  }
-
-  .step-label {
-    font-size: 0.75rem;
-    color: rgba(245,240,232,0.5);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .step.active .step-label { color: var(--gold-light); }
-
-  .step-line {
-    width: 60px;
-    height: 2px;
-    background: rgba(201,168,76,0.2);
-    margin: 0 8px;
-  }
-
-  /* Cards */
-  .card {
-    background: linear-gradient(145deg, rgba(26,46,69,0.9), rgba(13,27,42,0.95));
-    border: 1px solid rgba(201,168,76,0.15);
-    border-radius: 20px;
-    padding: 36px;
-    margin-bottom: 24px;
-    animation: fadeUp 0.6s ease both;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(201,168,76,0.1);
-  }
-
-  .card-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .card-title::before {
-    content: '';
-    width: 4px;
-    height: 20px;
-    background: linear-gradient(180deg, var(--gold), var(--gold-dark));
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-
-  /* Form */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-
-  .form-grid .full { grid-column: 1 / -1; }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-
-  label {
-    font-size: 0.85rem;
-    color: rgba(245,240,232,0.7);
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 500;
-  }
-
-  label span.req { color: var(--gold); margin-right: 3px; }
-
-  input, select, textarea {
-    background: rgba(13,27,42,0.8);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: var(--cream);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.95rem;
-    outline: none;
-    transition: all 0.3s ease;
-    width: 100%;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.05);
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-  }
-
-  input::placeholder { color: rgba(245,240,232,0.25); }
-
-  select option { background: var(--navy-mid); color: var(--cream); }
-
-  /* Bank details */
-  .bank-box {
-    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.03));
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 14px;
-    padding: 24px;
-    margin-bottom: 20px;
-  }
-
-  .bank-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .bank-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-  }
-
-  .bank-row:last-child { border-bottom: none; }
-
-  .bank-key {
-    font-size: 0.82rem;
-    color: rgba(245,240,232,0.5);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .bank-val {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    font-family: 'Tajawal', sans-serif;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .copy-btn {
-    background: none;
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 6px;
-    padding: 3px 8px;
-    color: var(--gold);
-    font-size: 0.7rem;
-    cursor: pointer;
-    font-family: 'Tajawal', sans-serif;
-    transition: all 0.2s ease;
-  }
-
-  .copy-btn:hover { background: rgba(201,168,76,0.15); }
-
-  /* Upload area */
-  .upload-area {
-    border: 2px dashed rgba(201,168,76,0.3);
-    border-radius: 14px;
-    padding: 30px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-
-  .upload-area:hover, .upload-area.drag-over {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.05);
-  }
-
-  .upload-area input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-
-  .upload-icon { font-size: 2.5rem; margin-bottom: 10px; }
-
-  .upload-area p {
-    font-size: 0.9rem;
-    color: rgba(245,240,232,0.5);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .upload-area .upload-name {
-    color: var(--gold-light);
-    font-weight: 600;
-    margin-top: 8px;
-    font-size: 0.9rem;
-  }
-
-  /* Fee badge */
-  .fee-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: var(--navy);
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    font-weight: 900;
-    margin-bottom: 20px;
-  }
-
-  /* Submit button */
-  .btn-submit {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-    border: none;
-    border-radius: 12px;
-    color: var(--navy);
-    font-family: 'Cairo', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 900;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 30px rgba(201,168,76,0.3);
-    letter-spacing: 0.5px;
-  }
-
-  .btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(201,168,76,0.5);
-  }
-
-  .btn-submit:active { transform: translateY(0); }
-
-  .btn-submit:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* Loading */
-  .loading {
-    display: none;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(201,168,76,0.2);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Success card */
-  .success-section {
-    display: none;
-    animation: fadeUp 0.8s ease;
-  }
-
-  .ticket-card {
-    background: linear-gradient(145deg, var(--navy-mid), var(--navy));
-    border: 1px solid rgba(201,168,76,0.4);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(201,168,76,0.1);
-    position: relative;
-  }
-
-  .ticket-header {
-    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
-    padding: 28px 32px;
-    text-align: center;
-    position: relative;
-  }
-
-  .ticket-header h2 {
-    color: var(--navy);
-    font-size: 1.4rem;
-    font-weight: 900;
-    margin-bottom: 4px;
-  }
-
-  .ticket-header p {
-    color: rgba(13,27,42,0.7);
-    font-size: 0.85rem;
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .ticket-notch {
-    display: flex;
-    position: absolute;
-    bottom: -16px;
-    left: 0;
-    right: 0;
-    justify-content: space-between;
-    padding: 0 24px;
-  }
-
-  .notch {
-    width: 32px;
-    height: 32px;
-    background: var(--navy);
-    border-radius: 50%;
-  }
-
-  .ticket-body {
-    padding: 36px 32px 28px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 28px;
-    align-items: center;
-  }
-
-  .ticket-info { }
-
-  .info-row {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-  }
-
-  .info-row:last-child { margin-bottom: 0; }
-
-  .info-label {
-    font-size: 0.72rem;
-    color: rgba(245,240,232,0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Tajawal', sans-serif;
-    margin-bottom: 2px;
-  }
-
-  .info-val {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--cream);
-  }
-
-  .info-val.gold { color: var(--gold-light); }
-
-  .ticket-qr {
-    text-align: center;
-  }
-
-  .qr-wrap {
-    background: white;
-    padding: 12px;
-    border-radius: 12px;
-    display: inline-block;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  }
-
-  #qrcode canvas, #qrcode img { display: block; }
-
-  .qr-label {
-    font-size: 0.72rem;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-    margin-top: 8px;
-    letter-spacing: 0.5px;
-  }
-
-  .ticket-footer {
-    border-top: 2px dashed rgba(201,168,76,0.2);
-    padding: 20px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .reg-id {
-    font-size: 0.8rem;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(46,204,113,0.15);
-    border: 1px solid rgba(46,204,113,0.4);
-    color: var(--success);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 600;
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    background: var(--success);
-    border-radius: 50%;
-    animation: blink 1.5s ease-in-out infinite;
-  }
-
-  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-  /* Print & Download */
-  .action-btns {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .btn-secondary {
-    flex: 1;
-    padding: 13px;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 12px;
-    color: var(--gold-light);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btn-secondary:hover {
-    background: rgba(201,168,76,0.2);
-    border-color: var(--gold);
-  }
-
-  /* Notice */
-  .notice {
-    background: rgba(201,168,76,0.06);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 14px 18px;
-    font-size: 0.82rem;
-    color: rgba(245,240,232,0.6);
-    font-family: 'Tajawal', sans-serif;
-    line-height: 1.7;
-    margin-bottom: 24px;
-  }
-
-  .notice strong { color: var(--gold-light); }
-
-  /* Error message */
-  .error-msg {
-    background: rgba(231,76,60,0.1);
-    border: 1px solid rgba(231,76,60,0.3);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: #FF6B6B;
-    font-size: 0.85rem;
-    font-family: 'Tajawal', sans-serif;
-    margin-top: 12px;
-    display: none;
-  }
-
-  /* Animations */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .ticket-body { grid-template-columns: 1fr; text-align: center; }
-    .ticket-qr { margin: 0 auto; }
-    .header h1 { font-size: 1.8rem; }
-    .card { padding: 24px; }
-    .steps { flex-wrap: wrap; gap: 10px; }
-    .step-line { width: 30px; }
-  }
-
-  @media print {
-    body { background: white; }
-    body::before { display: none; }
-    .card:not(.ticket-card) { display: none; }
-    .action-btns { display: none; }
-    .header { display: none; }
-    .steps { display: none; }
-    .success-section { display: block !important; }
-    .ticket-card { box-shadow: none; border: 2px solid #C9A84C; }
-    .ticket-header { background: linear-gradient(135deg, #9A7A2E, #C9A84C, #E8C97A) !important; -webkit-print-color-adjust: exact; }
-    .form-section { display: none !important; }
-  }
+:root {
+  --gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7A2E;
+  --navy:#0D1B2A;--navy-mid:#1A2E45;
+  --cream:#F5F0E8;--success:#2ECC71;--error:#E74C3C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--navy);color:var(--cream);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(201,168,76,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(201,168,76,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:36px 16px 60px}
+.header{text-align:center;margin-bottom:38px;animation:fadeUp .7s ease}
+.emblem{width:84px;height:84px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 40px rgba(201,168,76,.35);animation:glow 3s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 40px rgba(201,168,76,.35)}50%{box-shadow:0 0 65px rgba(201,168,76,.6)}}
+.header h1{font-size:2.1rem;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.5);font-size:.93rem;margin-top:5px}
+.divider{width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:13px auto}
+.steps{display:flex;justify-content:center;align-items:center;margin-bottom:34px}
+.step{display:flex;align-items:center;gap:7px}
+.sc{width:33px;height:33px;border-radius:50%;border:2px solid rgba(201,168,76,.22);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:rgba(245,240,232,.3);transition:all .4s}
+.sc.active{background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-color:var(--gold);color:var(--navy);box-shadow:0 0 18px rgba(201,168,76,.5)}
+.sc.done{background:rgba(46,204,113,.15);border-color:var(--success);color:var(--success)}
+.sl{font-size:.71rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif}
+.step.active .sl{color:var(--gold-light)}
+.sline{width:52px;height:2px;background:rgba(201,168,76,.16);margin:0 5px}
+.card{background:linear-gradient(145deg,rgba(26,46,69,.92),rgba(13,27,42,.96));border:1px solid rgba(201,168,76,.13);border-radius:18px;padding:30px;margin-bottom:18px;animation:fadeUp .6s ease both;box-shadow:0 14px 46px rgba(0,0,0,.22),inset 0 1px 0 rgba(201,168,76,.07)}
+.ctitle{font-size:1.02rem;font-weight:700;color:var(--gold-light);margin-bottom:20px;display:flex;align-items:center;gap:9px}
+.ctitle::before{content:'';width:4px;height:17px;background:linear-gradient(180deg,var(--gold),var(--gold-dark));border-radius:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px}
+label{font-size:.81rem;color:rgba(245,240,232,.62);font-family:'Tajawal',sans-serif;font-weight:500}
+label .req{color:var(--gold)}
+input,select{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.17);border-radius:10px;padding:11px 13px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;transition:all .3s;width:100%}
+input:focus,select:focus{border-color:var(--gold);background:rgba(201,168,76,.04);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+input::placeholder{color:rgba(245,240,232,.18)}
+select option{background:var(--navy-mid)}
+.field.err input,.field.err select{border-color:var(--error)!important}
+.ferr{font-size:.73rem;color:#FF6B6B;font-family:'Tajawal',sans-serif;display:none}
+.field.err .ferr{display:block}
+.bank-box{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:20px;margin-bottom:16px}
+.btitle{font-size:.92rem;font-weight:700;color:var(--gold-light);margin-bottom:13px;display:flex;align-items:center;gap:7px}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.07)}
+.brow:last-child{border-bottom:none}
+.bk{font-size:.78rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif}
+.bv{font-size:.87rem;font-weight:700;color:var(--gold-light);font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:6px}
+.cpb{background:none;border:1px solid rgba(201,168,76,.26);border-radius:5px;padding:2px 7px;color:var(--gold);font-size:.66rem;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s}
+.cpb:hover{background:rgba(201,168,76,.14)}
+.fee{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);padding:8px 17px;border-radius:26px;font-size:1rem;font-weight:900;margin-bottom:14px}
+.notice{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.17);border-radius:11px;padding:12px 16px;font-size:.79rem;color:rgba(245,240,232,.52);font-family:'Tajawal',sans-serif;line-height:1.75;margin-bottom:18px}
+.notice strong{color:var(--gold-light)}
+.upload{border:2px dashed rgba(201,168,76,.26);border-radius:12px;padding:26px;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.upload:hover,.upload.over{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.upload.ok{border-color:var(--success);background:rgba(46,204,113,.04)}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.uico{font-size:2rem;margin-bottom:7px}
+.upload p{font-size:.84rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif}
+.fname{color:var(--gold-light);font-weight:600;margin-top:6px;font-size:.84rem}
+.errbanner{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.26);border-radius:10px;padding:11px 15px;color:#FF6B6B;font-size:.81rem;font-family:'Tajawal',sans-serif;margin-top:10px;display:none}
+.submit{width:100%;padding:15px;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));border:none;border-radius:12px;color:var(--navy);font-family:'Cairo',sans-serif;font-size:1.02rem;font-weight:900;cursor:pointer;transition:all .3s;box-shadow:0 8px 26px rgba(201,168,76,.27)}
+.submit:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,168,76,.44)}
+.submit:disabled{opacity:.5;cursor:not-allowed}
+.loading{display:none;text-align:center;padding:50px 20px}
+.spin{width:44px;height:44px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 13px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.48)}
+.success{display:none;animation:fadeUp .7s ease}
+.ticket{background:linear-gradient(145deg,var(--navy-mid),var(--navy));border:1px solid rgba(201,168,76,.36);border-radius:21px;overflow:hidden;box-shadow:0 26px 65px rgba(0,0,0,.42),0 0 48px rgba(201,168,76,.07)}
+.thead{background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));padding:24px 28px;text-align:center;position:relative}
+.thead h2{color:var(--navy);font-size:1.25rem;font-weight:900;margin-bottom:2px}
+.thead p{color:rgba(13,27,42,.62);font-size:.8rem;font-family:'Tajawal',sans-serif}
+.notches{display:flex;justify-content:space-between;padding:0 20px;position:absolute;bottom:-13px;left:0;right:0}
+.notch{width:26px;height:26px;background:var(--navy);border-radius:50%}
+.tbody{padding:32px 28px 24px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.trow{margin-bottom:13px}
+.trow:last-child{margin-bottom:0}
+.tlbl{font-size:.67rem;color:rgba(245,240,232,.33);text-transform:uppercase;letter-spacing:1px;font-family:'Tajawal',sans-serif;margin-bottom:1px}
+.tval{font-size:.94rem;font-weight:700;color:var(--cream)}
+.tval.g{color:var(--gold-light)}
+.tqr{text-align:center}
+.qrw{background:#fff;padding:10px;border-radius:10px;display:inline-block;box-shadow:0 5px 18px rgba(0,0,0,.22)}
+#qrcode canvas,#qrcode img{display:block}
+.qlbl{font-size:.67rem;color:rgba(245,240,232,.33);font-family:'Tajawal',sans-serif;margin-top:6px}
+.tfoot{border-top:2px dashed rgba(201,168,76,.16);padding:17px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.rid{font-size:.76rem;color:rgba(245,240,232,.33);font-family:'Tajawal',sans-serif}
+.sbadge{display:inline-flex;align-items:center;gap:5px;background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.33);color:var(--success);padding:5px 12px;border-radius:17px;font-size:.78rem;font-family:'Tajawal',sans-serif;font-weight:600}
+.sdot{width:6px;height:6px;background:var(--success);border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.abtn{display:flex;gap:10px;margin-top:16px}
+.btn2{flex:1;padding:12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gold-light);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn2:hover{background:rgba(201,168,76,.17)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.tbody{grid-template-columns:1fr;text-align:center}.tqr{margin:0 auto}.header h1{font-size:1.7rem}.card{padding:20px}.sline{width:28px}}
+@media print{body{background:#fff}body::before{display:none}.form-sec,.steps,.header,.abtn,.errbanner{display:none!important}.success{display:block!important}.ticket{box-shadow:none;border:2px solid #C9A84C}.thead{background:linear-gradient(135deg,#9A7A2E,#C9A84C,#E8C97A)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 </head>
 <body>
-
-<div class="container">
-
-  <!-- Header -->
+<div class="wrap">
   <div class="header">
-    <div class="header-emblem">🎓</div>
+    <div class="emblem">🎓</div>
     <h1>حفل التخرج 2025</h1>
-    <p>الرجاء إتمام التسجيل بعناية لضمان حضورك</p>
+    <p>أكمل التسجيل للحصول على بطاقة دخولك</p>
     <div class="divider"></div>
   </div>
 
-  <!-- Steps -->
-  <div class="steps" id="stepsBar">
-    <div class="step" id="s1">
-      <div class="step-circle active" id="sc1">١</div>
-      <div class="step-label">البيانات</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step" id="s2">
-      <div class="step-circle" id="sc2">٢</div>
-      <div class="step-label">الدفع</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step" id="s3">
-      <div class="step-circle" id="sc3">٣</div>
-      <div class="step-label">البطاقة</div>
-    </div>
+  <div class="steps">
+    <div class="step active" id="s1"><div class="sc active" id="sc1">١</div><div class="sl">البيانات</div></div>
+    <div class="sline"></div>
+    <div class="step" id="s2"><div class="sc" id="sc2">٢</div><div class="sl">الدفع</div></div>
+    <div class="sline"></div>
+    <div class="step" id="s3"><div class="sc" id="sc3">٣</div><div class="sl">البطاقة</div></div>
   </div>
 
-  <!-- FORM SECTION -->
-  <div class="form-section" id="formSection">
-
-    <!-- Personal Info -->
-    <div class="card" style="animation-delay:0.1s">
-      <div class="card-title">المعلومات الشخصية</div>
-      <div class="form-grid">
-        <div class="field full">
+  <div class="form-sec" id="formSec">
+    <div class="card" style="animation-delay:.04s">
+      <div class="ctitle">المعلومات الشخصية</div>
+      <div class="grid">
+        <div class="field full" id="f-fullName">
           <label>الاسم الكامل <span class="req">*</span></label>
-          <input type="text" id="fullName" placeholder="أدخل اسمك الكامل كما في الوثائق الرسمية">
+          <input type="text" id="fullName" placeholder="أدخل اسمك كما في الوثائق الرسمية">
+          <span class="ferr">هذا الحقل مطلوب</span>
         </div>
-        <div class="field">
+        <div class="field" id="f-phone">
           <label>رقم الهاتف <span class="req">*</span></label>
           <input type="tel" id="phone" placeholder="05xxxxxxxx">
+          <span class="ferr">أدخل رقم يبدأ بـ 05</span>
         </div>
-        <div class="field">
+        <div class="field" id="f-email">
           <label>البريد الإلكتروني <span class="req">*</span></label>
           <input type="email" id="email" placeholder="example@email.com">
+          <span class="ferr">أدخل بريد إلكتروني صحيح</span>
         </div>
-        <div class="field">
+        <div class="field" id="f-college">
           <label>الكلية / التخصص <span class="req">*</span></label>
-          <input type="text" id="college" placeholder="اسم الكلية أو التخصص">
+          <input type="text" id="college" placeholder="مثال: كلية الهندسة">
+          <span class="ferr">هذا الحقل مطلوب</span>
         </div>
-        <div class="field">
+        <div class="field" id="f-companions">
           <label>عدد المرافقين <span class="req">*</span></label>
           <select id="companions">
             <option value="">اختر العدد</option>
@@ -708,311 +153,225 @@
             <option value="4">٤ أشخاص</option>
             <option value="5">٥ أشخاص</option>
           </select>
+          <span class="ferr">اختر عدد المرافقين</span>
         </div>
       </div>
     </div>
 
-    <!-- Payment -->
-    <div class="card" style="animation-delay:0.2s">
-      <div class="card-title">رسوم الحضور والدفع</div>
-
-      <div style="margin-bottom:18px">
-        <div class="fee-badge">💰 رسوم الحفل: ٥٠ ريال</div>
-        <p style="font-size:0.82rem; color:rgba(245,240,232,0.5); font-family:'Tajawal',sans-serif; margin-top:6px;">
-          تشمل الرسوم بطاقة الدخول للخريج + مرافق واحد. كل مرافق إضافي ٢٠ ريال.
-        </p>
-      </div>
-
+    <div class="card" style="animation-delay:.11s">
+      <div class="ctitle">رسوم الحضور والدفع</div>
+      <div class="fee">💰 رسوم الحفل: ٥٠ ريال</div>
+      <p style="font-size:.78rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif;margin-bottom:16px">تشمل: بطاقة دخول الخريج + مرافق واحد مجاناً</p>
       <div class="bank-box">
-        <div class="bank-title">🏦 بيانات التحويل البنكي</div>
-        <div class="bank-row">
-          <span class="bank-key">اسم البنك</span>
-          <span class="bank-val">بنك الراجحي <button class="copy-btn" onclick="copyText('بنك الراجحي')">نسخ</button></span>
-        </div>
-        <div class="bank-row">
-          <span class="bank-key">اسم المستفيد</span>
-          <span class="bank-val">جمعية خريجي الجامعة <button class="copy-btn" onclick="copyText('جمعية خريجي الجامعة')">نسخ</button></span>
-        </div>
-        <div class="bank-row">
-          <span class="bank-key">رقم الحساب</span>
-          <span class="bank-val">SA12 3456 7890 1234 5678 9012 <button class="copy-btn" onclick="copyText('SA12345678901234567890 12')">نسخ</button></span>
-        </div>
-        <div class="bank-row">
-          <span class="bank-key">رقم الآيبان</span>
-          <span class="bank-val">SA12 3456 7890 1234 5678 <button class="copy-btn" onclick="copyText('SA12345678901234567 8')">نسخ</button></span>
-        </div>
+        <div class="btitle">🏦 بيانات التحويل البنكي</div>
+        <div class="brow"><span class="bk">اسم البنك</span><span class="bv">بنك الراجحي <button class="cpb" onclick="cp(this,'بنك الراجحي')">نسخ</button></span></div>
+        <div class="brow"><span class="bk">اسم المستفيد</span><span class="bv">جمعية خريجي الجامعة <button class="cpb" onclick="cp(this,'جمعية خريجي الجامعة')">نسخ</button></span></div>
+        <div class="brow"><span class="bk">رقم الحساب / آيبان</span><span class="bv">SA12 3456 7890 1234 5678 <button class="cpb" onclick="cp(this,'SA1234567890123456 78')">نسخ</button></span></div>
       </div>
-
       <div class="notice">
-        <strong>📋 تعليمات الدفع:</strong><br>
-        ١. قم بالتحويل البنكي على البيانات أعلاه<br>
-        ٢. احتفظ بصورة من إيصال التحويل<br>
-        ٣. ارفع صورة الإيصال في الخانة أدناه<br>
-        ٤. ستظهر لك بطاقة الدخول فور اكتمال التسجيل
+        <strong>📋 خطوات الدفع:</strong><br>
+        ١. حوّل المبلغ على الحساب أعلاه<br>
+        ٢. خذ صورة من إيصال التحويل<br>
+        ٣. ارفع الصورة في الخانة التالية<br>
+        ٤. أكمل التسجيل وستظهر بطاقتك فوراً
       </div>
-
-      <!-- Upload -->
-      <div class="field">
+      <div class="field" id="f-receipt">
         <label>إيصال التحويل <span class="req">*</span></label>
-        <div class="upload-area" id="uploadArea">
-          <input type="file" id="receiptFile" accept="image/*,.pdf" onchange="handleFileSelect(this)">
-          <div class="upload-icon">📎</div>
+        <div class="upload" id="uploadBox">
+          <input type="file" id="receiptFile" accept="image/*,.pdf" onchange="onFile(this)">
+          <div class="uico">📎</div>
           <p>اسحب الصورة هنا أو انقر للاختيار</p>
-          <p style="font-size:0.75rem; margin-top:4px;">JPG, PNG, PDF • حد أقصى ٥ ميجا</p>
-          <div class="upload-name" id="fileName"></div>
+          <p style="font-size:.7rem;margin-top:3px">JPG · PNG · PDF · حد أقصى ٥ ميجا</p>
+          <div class="fname" id="fileName"></div>
         </div>
+        <span class="ferr">يرجى رفع صورة الإيصال</span>
       </div>
     </div>
 
-    <div class="error-msg" id="errorMsg">⚠️ يرجى ملء جميع الحقول المطلوبة ورفع إيصال الدفع</div>
-
-    <button class="btn-submit" onclick="submitForm()" id="submitBtn">
-      ✅ إتمام التسجيل والحصول على البطاقة
-    </button>
-
+    <div class="errbanner" id="errBanner">⚠️ يرجى تعبئة جميع الحقول المطلوبة ورفع إيصال الدفع</div>
+    <button class="submit" id="submitBtn" onclick="doSubmit()">✅ إتمام التسجيل والحصول على بطاقة الدخول</button>
   </div>
 
-  <!-- LOADING -->
-  <div class="loading" id="loadingSection">
-    <div class="spinner"></div>
-    <p style="font-family:'Tajawal',sans-serif; color:rgba(245,240,232,0.6);">جاري حفظ بياناتك...</p>
+  <div class="loading" id="loadingSec">
+    <div class="spin"></div>
+    <p>جاري حفظ بياناتك في النظام...</p>
   </div>
 
-  <!-- SUCCESS SECTION -->
-  <div class="success-section" id="successSection">
-
-    <div style="text-align:center; margin-bottom:30px;">
-      <div style="font-size:3rem; margin-bottom:12px;">🎉</div>
-      <h2 style="font-size:1.5rem; font-weight:900; background:linear-gradient(135deg,#E8C97A,#C9A84C); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
-        تم التسجيل بنجاح!
-      </h2>
-      <p style="color:rgba(245,240,232,0.5); font-family:'Tajawal',sans-serif; margin-top:6px;">
-        احتفظ بهذه البطاقة — ستحتاجها عند الدخول
-      </p>
+  <div class="success" id="successSec">
+    <div style="text-align:center;margin-bottom:26px">
+      <div style="font-size:2.6rem;margin-bottom:9px">🎉</div>
+      <h2 style="font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#E8C97A,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">تم التسجيل بنجاح!</h2>
+      <p style="color:rgba(245,240,232,.43);font-family:'Tajawal',sans-serif;margin-top:4px;font-size:.86rem">احتفظ بهذه البطاقة لدخول الحفل</p>
     </div>
-
-    <!-- Ticket -->
-    <div class="ticket-card" id="ticketCard">
-      <div class="ticket-header">
+    <div class="ticket" id="ticketEl">
+      <div class="thead">
         <h2>🎓 بطاقة دخول حفل التخرج</h2>
-        <p>2025 • Graduation Ceremony</p>
-        <div class="ticket-notch">
-          <div class="notch"></div>
-          <div class="notch"></div>
+        <p>Graduation Ceremony 2025</p>
+        <div class="notches"><div class="notch"></div><div class="notch"></div></div>
+      </div>
+      <div class="tbody">
+        <div class="tinfo">
+          <div class="trow"><div class="tlbl">الاسم الكامل</div><div class="tval" id="tName">—</div></div>
+          <div class="trow"><div class="tlbl">رقم الهاتف</div><div class="tval" id="tPhone">—</div></div>
+          <div class="trow"><div class="tlbl">الكلية / التخصص</div><div class="tval" id="tCollege">—</div></div>
+          <div class="trow"><div class="tlbl">عدد المرافقين</div><div class="tval g" id="tComp">—</div></div>
+          <div class="trow"><div class="tlbl">رقم التسجيل</div><div class="tval g" id="tRegId">—</div></div>
+        </div>
+        <div class="tqr">
+          <div class="qrw"><div id="qrcode"></div></div>
+          <div class="qlbl">امسح للتحقق</div>
         </div>
       </div>
-
-      <div class="ticket-body">
-        <div class="ticket-info">
-          <div class="info-row">
-            <span class="info-label">الاسم الكامل</span>
-            <span class="info-val" id="tName">—</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">رقم الهاتف</span>
-            <span class="info-val" id="tPhone">—</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">الكلية / التخصص</span>
-            <span class="info-val" id="tCollege">—</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">عدد المرافقين</span>
-            <span class="info-val gold" id="tComp">—</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">رقم التسجيل</span>
-            <span class="info-val gold" id="tRegId">—</span>
-          </div>
-        </div>
-
-        <div class="ticket-qr">
-          <div class="qr-wrap">
-            <div id="qrcode"></div>
-          </div>
-          <div class="qr-label">امسح للتحقق</div>
-        </div>
-      </div>
-
-      <div class="ticket-footer">
-        <div class="reg-id" id="tDate">—</div>
-        <div class="status-badge">
-          <div class="status-dot"></div>
-          مسجل ✓
-        </div>
+      <div class="tfoot">
+        <div class="rid" id="tDate">—</div>
+        <div class="sbadge"><div class="sdot"></div>مسجل ✓</div>
       </div>
     </div>
-
-    <!-- Actions -->
-    <div class="action-btns">
-      <button class="btn-secondary" onclick="window.print()">🖨️ طباعة البطاقة</button>
-      <button class="btn-secondary" onclick="downloadTicket()">⬇️ حفظ كصورة</button>
+    <div class="abtn">
+      <button class="btn2" onclick="window.print()">🖨️ طباعة</button>
+      <button class="btn2" onclick="alert('استخدم الطباعة واختر حفظ كـ PDF')">⬇️ حفظ PDF</button>
     </div>
-
-    <div class="notice" style="margin-top:20px;">
-      <strong>⚠️ مهم:</strong> يرجى إحضار هذه البطاقة (مطبوعة أو على هاتفك) عند حضور الحفل. سيتم مسح الـ QR Code للتحقق من هويتك.
+    <div class="notice" style="margin-top:16px">
+      <strong>⚠️ مهم:</strong> أحضر هذه البطاقة يوم الحفل. سيتم مسح الـ QR عند الدخول.
     </div>
-
   </div>
 </div>
 
 <script>
-// ============================================================
-// CONFIG - ضع هنا رابط Google Apps Script الخاص بك
-// ============================================================
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo4Ujp6JV-QS-rF3wQwtmlMCQqV1gRjYTY-dWQtriAcanMeLeCFNCR2qGeZUtC2X5D/exec';
-// ============================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhcJZRwdxc4UWIEfA4W5kMBQneEH1V-SeVumwbvu3cT_mxaVJjhSWN5av9ngbmYQUB/exec';
 
-let receiptBase64 = '';
-let receiptFileName = '';
+let b64 = '', fname = '';
 
-// File upload
-function handleFileSelect(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    alert('حجم الملف كبير جدًا! الحد الأقصى ٥ ميجا');
-    return;
-  }
-  receiptFileName = file.name;
-  document.getElementById('fileName').textContent = '✓ ' + file.name;
-  const reader = new FileReader();
-  reader.onload = e => { receiptBase64 = e.target.result; };
-  reader.readAsDataURL(file);
+function onFile(input) {
+  const f = input.files[0];
+  if (!f) return;
+  if (f.size > 5*1024*1024) { alert('الملف كبير جداً!'); return; }
+  fname = f.name;
+  document.getElementById('fileName').textContent = '✓ ' + f.name;
+  document.getElementById('uploadBox').classList.add('ok');
+  const r = new FileReader();
+  r.onload = e => b64 = e.target.result;
+  r.readAsDataURL(f);
+  ce('f-receipt');
 }
 
-// Copy to clipboard
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    const btns = document.querySelectorAll('.copy-btn');
-    btns.forEach(b => { if (b.onclick.toString().includes(text)) { b.textContent = '✓'; setTimeout(() => b.textContent = 'نسخ', 1500); } });
+function cp(btn, txt) {
+  navigator.clipboard.writeText(txt).then(() => { btn.textContent='✓'; setTimeout(()=>btn.textContent='نسخ',1500); });
+}
+
+function se(fid) { document.getElementById(fid).classList.add('err'); }
+function ce(fid) { document.getElementById(fid).classList.remove('err'); }
+
+function validate() {
+  let ok = true;
+  const checks = [
+    {id:'fullName',  fid:'f-fullName',   ok: v => v.trim().length > 1},
+    {id:'phone',     fid:'f-phone',      ok: v => v.trim().length > 5},
+    {id:'email',     fid:'f-email',      ok: v => v.includes('@')},
+    {id:'college',   fid:'f-college',    ok: v => v.trim().length > 1},
+    {id:'companions',fid:'f-companions', ok: v => v !== ''},
+  ];
+  checks.forEach(c => {
+    const v = document.getElementById(c.id).value;
+    if (!c.ok(v)) { se(c.fid); ok = false; }
+    else ce(c.fid);
   });
+  if (!b64) { se('f-receipt'); ok = false; }
+  return ok;
 }
 
-// Generate registration ID
-function genRegId() {
-  return 'GR-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,4).toUpperCase();
+function genId() {
+  return 'GR' + Date.now().toString(36).toUpperCase().slice(-4) + Math.random().toString(36).slice(2,5).toUpperCase();
 }
 
-// Update steps
 function setStep(n) {
   for (let i = 1; i <= 3; i++) {
-    const c = document.getElementById('sc' + i);
-    c.className = 'step-circle' + (i < n ? ' done' : i === n ? ' active' : '');
-    if (i < n) c.textContent = '✓';
+    const sc = document.getElementById('sc'+i);
+    sc.className = 'sc' + (i<n?' done':i===n?' active':'');
+    sc.textContent = i<n ? '✓' : ['١','٢','٣'][i-1];
+    document.getElementById('s'+i).className = 'step' + (i===n?' active':'');
   }
 }
 
-// Validate
-function validate() {
-  const fields = ['fullName','phone','email','college','companions'];
-  for (const f of fields) {
-    if (!document.getElementById(f).value.trim()) return false;
-  }
-  if (!receiptBase64) return false;
-  return true;
-}
+async function doSubmit() {
+  const banner = document.getElementById('errBanner');
+  if (!validate()) { banner.style.display='block'; banner.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  banner.style.display = 'none';
+  document.getElementById('submitBtn').disabled = true;
 
-// Submit
-async function submitForm() {
-  const errorMsg = document.getElementById('errorMsg');
-  if (!validate()) {
-    errorMsg.style.display = 'block';
-    errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
-  errorMsg.style.display = 'none';
+  const regId      = genId();
+  const fullName   = document.getElementById('fullName').value.trim();
+  const phone      = document.getElementById('phone').value.trim();
+  const email      = document.getElementById('email').value.trim();
+  const college    = document.getElementById('college').value.trim();
+  const companions = document.getElementById('companions').value;
 
-  const regId = genRegId();
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('ar-SA') + ' ' + now.toLocaleTimeString('ar-SA');
-
-  const data = {
-    regId,
-    fullName: document.getElementById('fullName').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    email: document.getElementById('email').value.trim(),
-    college: document.getElementById('college').value.trim(),
-    companions: document.getElementById('companions').value,
-    timestamp: now.toISOString(),
-    receipt: receiptBase64,
-    receiptName: receiptFileName,
-    status: 'pending'
-  };
-
-  // Show loading
-  document.getElementById('formSection').style.display = 'none';
-  document.getElementById('loadingSection').style.display = 'block';
+  document.getElementById('formSec').style.display = 'none';
+  document.getElementById('loadingSec').style.display = 'block';
   setStep(2);
 
+  // إرسال البيانات لـ Google Sheets عبر GET
   try {
-    // Send to Google Apps Script
-    if (APPS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    }
-  } catch (e) {
-    console.log('Network note:', e);
+    const url = SCRIPT_URL
+      + '?action=save'
+      + '&regId='      + encodeURIComponent(regId)
+      + '&fullName='   + encodeURIComponent(fullName)
+      + '&phone='      + encodeURIComponent(phone)
+      + '&email='      + encodeURIComponent(email)
+      + '&college='    + encodeURIComponent(college)
+      + '&companions=' + encodeURIComponent(companions);
+    const res = await fetch(url);
+    const json = await res.json();
+    console.log('✅ Sheets:', json);
+  } catch(e) {
+    console.warn('⚠️ Sheet error:', e);
   }
 
-  // Show ticket
+  // حفظ محلي احتياطي
+  try {
+    const arr = JSON.parse(localStorage.getItem('grad_reg')||'[]');
+    arr.push({ regId, fullName, phone, email, college, companions, timestamp: new Date().toISOString(), attended: false });
+    localStorage.setItem('grad_reg', JSON.stringify(arr));
+  } catch(e) {}
+
+  // عرض البطاقة
   setTimeout(() => {
-    document.getElementById('loadingSection').style.display = 'none';
-    document.getElementById('successSection').style.display = 'block';
+    document.getElementById('loadingSec').style.display = 'none';
+    document.getElementById('successSec').style.display = 'block';
     setStep(3);
 
-    // Fill ticket
-    document.getElementById('tName').textContent = data.fullName;
-    document.getElementById('tPhone').textContent = data.phone;
-    document.getElementById('tCollege').textContent = data.college;
-    document.getElementById('tComp').textContent = data.companions === '0' ? 'بدون مرافق' : data.companions + ' مرافق';
-    document.getElementById('tRegId').textContent = regId;
-    document.getElementById('tDate').textContent = 'تاريخ التسجيل: ' + dateStr;
+    document.getElementById('tName').textContent    = fullName;
+    document.getElementById('tPhone').textContent   = phone;
+    document.getElementById('tCollege').textContent = college;
+    document.getElementById('tComp').textContent    = companions==='0' ? 'بدون مرافق' : companions+' مرافق';
+    document.getElementById('tRegId').textContent   = regId;
+    document.getElementById('tDate').textContent    = 'تسجيل: ' + new Date().toLocaleDateString('ar-SA');
 
-    // Generate QR
     document.getElementById('qrcode').innerHTML = '';
-    const qrData = JSON.stringify({ regId, name: data.fullName, phone: data.phone, college: data.college, companions: data.companions });
     new QRCode(document.getElementById('qrcode'), {
-      text: qrData,
-      width: 140,
-      height: 140,
-      colorDark: '#0D1B2A',
-      colorLight: '#FFFFFF',
+      text: JSON.stringify({ regId, name: fullName, phone, college, companions }),
+      width: 134, height: 134,
+      colorDark: '#0D1B2A', colorLight: '#FFFFFF',
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    // Store locally for dashboard
-    const existing = JSON.parse(localStorage.getItem('grad_registrations') || '[]');
-    existing.push({ ...data, attended: false });
-    localStorage.setItem('grad_registrations', JSON.stringify(existing));
-
-    document.getElementById('successSection').scrollIntoView({ behavior: 'smooth' });
-  }, 2000);
-}
-
-// Download ticket as image
-function downloadTicket() {
-  const ticket = document.getElementById('ticketCard');
-  // Simple fallback: print
-  alert('لحفظ البطاقة: استخدم زر الطباعة واختر "حفظ كـ PDF"');
+    document.getElementById('successSec').scrollIntoView({behavior:'smooth'});
+  }, 1800);
 }
 
 // Drag & drop
-const ua = document.getElementById('uploadArea');
-ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag-over'); });
-ua.addEventListener('dragleave', () => ua.classList.remove('drag-over'));
-ua.addEventListener('drop', e => {
-  e.preventDefault();
-  ua.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    document.getElementById('receiptFile').files = e.dataTransfer.files;
-    handleFileSelect(document.getElementById('receiptFile'));
-  }
+const ub = document.getElementById('uploadBox');
+ub.addEventListener('dragover',  e=>{e.preventDefault();ub.classList.add('over')});
+ub.addEventListener('dragleave', ()=>ub.classList.remove('over'));
+ub.addEventListener('drop', e=>{
+  e.preventDefault(); ub.classList.remove('over');
+  const fi = document.getElementById('receiptFile');
+  // eslint-disable-next-line no-undef
+  if(e.dataTransfer.files[0]){ fi.files=e.dataTransfer.files; onFile(fi); }
+});
+
+['fullName','phone','email','college','companions'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', ()=>ce('f-'+id));
 });
 </script>
 </body>
