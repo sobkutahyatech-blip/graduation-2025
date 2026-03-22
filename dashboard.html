@@ -7,1223 +7,375 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --gold-dark: #9A7A2E;
-    --navy: #0D1B2A;
-    --navy-mid: #1A2E45;
-    --navy-light: #243B55;
-    --cream: #F5F0E8;
-    --success: #2ECC71;
-    --error: #E74C3C;
-    --info: #3498DB;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: var(--navy);
-    color: var(--cream);
-    min-height: 100vh;
-  }
-
-  /* ====== LOGIN ====== */
-  #loginPage {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: 
-      radial-gradient(ellipse at 30% 40%, rgba(201,168,76,0.1) 0%, transparent 50%),
-      var(--navy);
-    padding: 20px;
-  }
-
-  .login-box {
-    background: linear-gradient(145deg, rgba(26,46,69,0.95), rgba(13,27,42,0.98));
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 24px;
-    padding: 48px 40px;
-    width: 100%;
-    max-width: 440px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-    animation: fadeUp 0.6s ease;
-    text-align: center;
-  }
-
-  .login-logo {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    animation: pulse-glow 3s ease-in-out infinite;
-  }
-
-  @keyframes pulse-glow {
-    0%,100% { text-shadow: 0 0 20px rgba(201,168,76,0.4); }
-    50% { text-shadow: 0 0 40px rgba(201,168,76,0.7); }
-  }
-
-  .login-box h1 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 6px;
-  }
-
-  .login-box p {
-    font-size: 0.85rem;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-    margin-bottom: 36px;
-  }
-
-  .role-selector {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-
-  .role-btn {
-    flex: 1;
-    padding: 12px;
-    background: rgba(13,27,42,0.8);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 10px;
-    color: rgba(245,240,232,0.5);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .role-btn.selected {
-    background: rgba(201,168,76,0.12);
-    border-color: var(--gold);
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-
-  .login-field {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-bottom: 16px;
-    text-align: right;
-  }
-
-  .login-field label {
-    font-size: 0.82rem;
-    color: rgba(245,240,232,0.6);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .login-field input {
-    background: rgba(13,27,42,0.8);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: var(--cream);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.95rem;
-    outline: none;
-    width: 100%;
-    transition: all 0.3s;
-  }
-
-  .login-field input:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-  }
-
-  .login-field input::placeholder { color: rgba(245,240,232,0.2); }
-
-  .btn-login {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
-    border: none;
-    border-radius: 12px;
-    color: var(--navy);
-    font-family: 'Cairo', sans-serif;
-    font-size: 1rem;
-    font-weight: 900;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 8px 24px rgba(201,168,76,0.3);
-  }
-
-  .btn-login:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(201,168,76,0.5); }
-
-  .login-error {
-    color: #FF6B6B;
-    font-size: 0.82rem;
-    font-family: 'Tajawal', sans-serif;
-    margin-top: 12px;
-    display: none;
-  }
-
-  /* ====== DASHBOARD ====== */
-  #dashPage { display: none; }
-
-  /* Sidebar */
-  .layout {
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    min-height: 100vh;
-  }
-
-  .sidebar {
-    background: linear-gradient(180deg, var(--navy-mid), var(--navy));
-    border-left: 1px solid rgba(201,168,76,0.1);
-    display: flex;
-    flex-direction: column;
-    padding: 28px 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 260px;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 100;
-  }
-
-  .sidebar-logo {
-    padding: 0 24px 28px;
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-    text-align: center;
-  }
-
-  .sidebar-logo .emoji { font-size: 2rem; margin-bottom: 8px; }
-
-  .sidebar-logo h2 {
-    font-size: 1rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .sidebar-logo p {
-    font-size: 0.72rem;
-    color: rgba(245,240,232,0.3);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .role-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    color: var(--gold-light);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.72rem;
-    font-family: 'Tajawal', sans-serif;
-    margin-top: 10px;
-  }
-
-  .nav-section {
-    padding: 20px 16px 0;
-  }
-
-  .nav-label {
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: rgba(245,240,232,0.25);
-    font-family: 'Tajawal', sans-serif;
-    padding: 0 8px;
-    margin-bottom: 8px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: rgba(245,240,232,0.5);
-    font-size: 0.9rem;
-    font-family: 'Tajawal', sans-serif;
-    margin-bottom: 4px;
-  }
-
-  .nav-item:hover { background: rgba(201,168,76,0.08); color: var(--cream); }
-
-  .nav-item.active {
-    background: rgba(201,168,76,0.12);
-    color: var(--gold-light);
-    font-weight: 700;
-  }
-
-  .nav-item .icon { font-size: 1.1rem; width: 24px; text-align: center; }
-
-  .nav-badge {
-    margin-right: auto;
-    background: var(--gold-dark);
-    color: var(--navy);
-    font-size: 0.65rem;
-    font-weight: 900;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-family: 'Cairo', sans-serif;
-  }
-
-  /* Main */
-  .main {
-    margin-right: 260px;
-    padding: 28px;
-    min-height: 100vh;
-  }
-
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .topbar h1 {
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: var(--cream);
-  }
-
-  .topbar-actions { display: flex; gap: 10px; align-items: center; }
-
-  .btn-sm {
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 600;
-    border: none;
-  }
-
-  .btn-gold {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
-    color: var(--navy);
-  }
-
-  .btn-ghost {
-    background: rgba(201,168,76,0.08);
-    border: 1px solid rgba(201,168,76,0.2);
-    color: var(--gold-light);
-  }
-
-  .btn-danger {
-    background: rgba(231,76,60,0.1);
-    border: 1px solid rgba(231,76,60,0.3);
-    color: #FF6B6B;
-  }
-
-  .btn-ghost:hover { background: rgba(201,168,76,0.15); }
-  .btn-danger:hover { background: rgba(231,76,60,0.2); }
-
-  /* Stats */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  .stat-card {
-    background: linear-gradient(145deg, rgba(26,46,69,0.9), rgba(13,27,42,0.95));
-    border: 1px solid rgba(201,168,76,0.12);
-    border-radius: 16px;
-    padding: 22px 20px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .stat-value {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--gold-light);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-sub {
-    font-size: 0.75rem;
-    color: rgba(245,240,232,0.3);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  /* Panel */
-  .panel {
-    background: linear-gradient(145deg, rgba(26,46,69,0.9), rgba(13,27,42,0.95));
-    border: 1px solid rgba(201,168,76,0.12);
-    border-radius: 18px;
-    overflow: hidden;
-    display: none;
-  }
-
-  .panel.active { display: block; }
-
-  .panel-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .panel-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--gold-light);
-  }
-
-  /* Search */
-  .search-input {
-    background: rgba(13,27,42,0.8);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 10px;
-    padding: 9px 14px;
-    color: var(--cream);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.85rem;
-    outline: none;
-    width: 240px;
-    transition: all 0.3s;
-    direction: rtl;
-  }
-
-  .search-input:focus { border-color: var(--gold); }
-  .search-input::placeholder { color: rgba(245,240,232,0.25); }
-
-  /* Table */
-  .table-wrap { overflow-x: auto; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
-  }
-
-  thead th {
-    background: rgba(201,168,76,0.08);
-    padding: 13px 16px;
-    text-align: right;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-    font-weight: 400;
-    white-space: nowrap;
-  }
-
-  tbody tr {
-    border-bottom: 1px solid rgba(201,168,76,0.06);
-    transition: background 0.2s;
-  }
-
-  tbody tr:hover { background: rgba(201,168,76,0.04); }
-
-  tbody td {
-    padding: 14px 16px;
-    color: rgba(245,240,232,0.8);
-    font-family: 'Tajawal', sans-serif;
-    white-space: nowrap;
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-
-  .pill-attended {
-    background: rgba(46,204,113,0.15);
-    border: 1px solid rgba(46,204,113,0.3);
-    color: var(--success);
-  }
-
-  .pill-pending {
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.2);
-    color: var(--gold-light);
-  }
-
-  .btn-attend {
-    padding: 5px 14px;
-    background: rgba(46,204,113,0.1);
-    border: 1px solid rgba(46,204,113,0.3);
-    border-radius: 8px;
-    color: var(--success);
-    font-size: 0.78rem;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    transition: all 0.2s;
-  }
-
-  .btn-attend:hover { background: rgba(46,204,113,0.2); }
-
-  /* QR Scanner */
-  .scanner-wrap {
-    padding: 32px;
-    text-align: center;
-  }
-
-  .scanner-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--gold-light);
-    margin-bottom: 6px;
-  }
-
-  .scanner-sub {
-    font-size: 0.85rem;
-    color: rgba(245,240,232,0.4);
-    font-family: 'Tajawal', sans-serif;
-    margin-bottom: 24px;
-  }
-
-  #reader {
-    max-width: 400px;
-    margin: 0 auto 24px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 2px solid rgba(201,168,76,0.3);
-  }
-
-  .scan-result {
-    max-width: 500px;
-    margin: 0 auto;
-    background: linear-gradient(145deg, rgba(26,46,69,0.9), rgba(13,27,42,0.95));
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 16px;
-    padding: 24px;
-    display: none;
-    text-align: right;
-  }
-
-  .scan-result.success { border-color: rgba(46,204,113,0.4); }
-  .scan-result.error { border-color: rgba(231,76,60,0.4); }
-
-  .scan-result-icon { font-size: 2.5rem; margin-bottom: 12px; }
-
-  .scan-result h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .scan-result.success h3 { color: var(--success); }
-  .scan-result.error h3 { color: #E74C3C; }
-
-  .scan-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 16px;
-  }
-
-  .scan-info-item { }
-
-  .scan-info-label {
-    font-size: 0.72rem;
-    color: rgba(245,240,232,0.3);
-    font-family: 'Tajawal', sans-serif;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-
-  .scan-info-val {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--cream);
-  }
-
-  .btn-confirm {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--success), #27AE60);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-family: 'Cairo', sans-serif;
-    font-size: 1rem;
-    font-weight: 900;
-    cursor: pointer;
-    margin-top: 16px;
-    transition: all 0.3s;
-    box-shadow: 0 8px 24px rgba(46,204,113,0.3);
-  }
-
-  .btn-confirm:hover { transform: translateY(-2px); }
-
-  .btn-scan-again {
-    width: 100%;
-    padding: 12px;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 12px;
-    color: var(--gold-light);
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.3s;
-  }
-
-  /* Empty state */
-  .empty-state {
-    padding: 60px 20px;
-    text-align: center;
-    color: rgba(245,240,232,0.2);
-    font-family: 'Tajawal', sans-serif;
-  }
-
-  .empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
-
-  /* Logout */
-  .sidebar-footer {
-    margin-top: auto;
-    padding: 16px;
-    border-top: 1px solid rgba(201,168,76,0.1);
-  }
-
-  .btn-logout {
-    width: 100%;
-    padding: 10px;
-    background: rgba(231,76,60,0.1);
-    border: 1px solid rgba(231,76,60,0.2);
-    border-radius: 10px;
-    color: #FF6B6B;
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-logout:hover { background: rgba(231,76,60,0.2); }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: rgba(26,46,69,0.98);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 14px;
-    padding: 14px 24px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.9rem;
-    color: var(--cream);
-    z-index: 9999;
-    transition: transform 0.4s ease;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    white-space: nowrap;
-  }
-
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Mobile */
-  @media (max-width: 768px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { position: relative; width: 100%; height: auto; }
-    .main { margin-right: 0; padding: 16px; }
-    .stats-grid { grid-template-columns: 1fr 1fr; }
-    .scan-info-grid { grid-template-columns: 1fr; }
-    .search-input { width: 100%; }
-  }
+:root{--gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7A2E;--navy:#0D1B2A;--navy-mid:#1A2E45;--cream:#F5F0E8;--success:#2ECC71}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--navy);color:var(--cream);min-height:100vh}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+#lp{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.1) 0%,transparent 50%),var(--navy);padding:20px}
+.lb{background:linear-gradient(145deg,rgba(26,46,69,.96),rgba(13,27,42,.98));border:1px solid rgba(201,168,76,.2);border-radius:22px;padding:44px 38px;width:100%;max-width:420px;box-shadow:0 28px 72px rgba(0,0,0,.38);animation:fadeUp .6s ease;text-align:center}
+.lb .ico{font-size:2.8rem;margin-bottom:18px}
+.lb h1{font-size:1.45rem;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:5px}
+.lb .sb{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:32px}
+.roles{display:flex;gap:9px;margin-bottom:22px}
+.rb{flex:1;padding:11px;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;color:rgba(245,240,232,.45);font-family:'Cairo',sans-serif;font-size:.88rem;cursor:pointer;transition:all .3s}
+.rb.on{background:rgba(201,168,76,.12);border-color:var(--gold);color:var(--gold-light);font-weight:700}
+.lf{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:right}
+.lf label{font-size:.8rem;color:rgba(245,240,232,.55);font-family:'Tajawal',sans-serif}
+.lf input{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:11px 14px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.92rem;outline:none;width:100%;transition:all .3s}
+.lf input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+.lf input::placeholder{color:rgba(245,240,232,.18)}
+.lbtn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));border:none;border-radius:11px;color:var(--navy);font-family:'Cairo',sans-serif;font-size:.98rem;font-weight:900;cursor:pointer;margin-top:7px;transition:all .3s;box-shadow:0 7px 22px rgba(201,168,76,.28)}
+.lbtn:hover{transform:translateY(-2px)}
+.le{color:#FF6B6B;font-size:.8rem;font-family:'Tajawal',sans-serif;margin-top:11px;display:none}
+.hint{font-size:.68rem;color:rgba(245,240,232,.18);margin-top:18px;font-family:'Tajawal',sans-serif}
+#dp{display:none}
+.layout{display:grid;grid-template-columns:255px 1fr;min-height:100vh}
+.sid{background:linear-gradient(180deg,var(--navy-mid),var(--navy));border-left:1px solid rgba(201,168,76,.09);display:flex;flex-direction:column;padding:26px 0;position:fixed;top:0;right:0;width:255px;height:100vh;overflow-y:auto;z-index:100}
+.slog{padding:0 22px 24px;border-bottom:1px solid rgba(201,168,76,.09);text-align:center}
+.slog .e{font-size:1.9rem;margin-bottom:7px}
+.slog h2{font-size:.97rem;font-weight:900;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slog p{font-size:.69rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
+.rbdg{display:inline-flex;align-items:center;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.27);color:var(--gold-light);padding:3px 11px;border-radius:18px;font-size:.69rem;font-family:'Tajawal',sans-serif;margin-top:9px}
+.nav{padding:18px 14px 0}
+.nl{font-size:.62rem;text-transform:uppercase;letter-spacing:1.4px;color:rgba(245,240,232,.22);font-family:'Tajawal',sans-serif;padding:0 7px;margin-bottom:7px}
+.ni{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;cursor:pointer;transition:all .2s;color:rgba(245,240,232,.46);font-size:.88rem;font-family:'Tajawal',sans-serif;margin-bottom:3px}
+.ni:hover{background:rgba(201,168,76,.07);color:var(--cream)}
+.ni.on{background:rgba(201,168,76,.11);color:var(--gold-light);font-weight:700}
+.ni .ic{font-size:1.05rem;width:22px;text-align:center}
+.nb{margin-right:auto;background:var(--gold-dark);color:var(--navy);font-size:.62rem;font-weight:900;padding:2px 7px;border-radius:9px;font-family:'Cairo',sans-serif}
+.sf{margin-top:auto;padding:14px}
+.lo{width:100%;padding:9px;background:rgba(231,76,60,.09);border:1px solid rgba(231,76,60,.18);border-radius:9px;color:#FF6B6B;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+.lo:hover{background:rgba(231,76,60,.18)}
+.mn{margin-right:255px;padding:26px;min-height:100vh}
+.tb{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:10px}
+.tb h1{font-size:1.35rem;font-weight:900;color:var(--cream)}
+.ta{display:flex;gap:9px}
+.bs{padding:8px 16px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s;font-weight:600;border:none}
+.bg{background:linear-gradient(135deg,var(--gold-light),var(--gold-dark));color:var(--navy)}
+.bh{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.19)!important;color:var(--gold-light)}
+.bh:hover{background:rgba(201,168,76,.16)}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:14px;margin-bottom:26px}
+.sc{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:15px;padding:20px 18px;animation:fadeUp .5s ease both}
+.sl{font-size:.72rem;color:rgba(245,240,232,.37);font-family:'Tajawal',sans-serif;margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+.sv{font-size:1.9rem;font-weight:900;color:var(--gold-light);line-height:1;margin-bottom:3px}
+.ss{font-size:.72rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif}
+.pn{background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.11);border-radius:17px;overflow:hidden;display:none}
+.pn.on{display:block}
+.ph{padding:18px 22px;border-bottom:1px solid rgba(201,168,76,.09);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.pt{font-size:.97rem;font-weight:700;color:var(--gold-light)}
+.si{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:8px 13px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.82rem;outline:none;width:230px;transition:all .3s;direction:rtl}
+.si:focus{border-color:var(--gold)}
+.si::placeholder{color:rgba(245,240,232,.22)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+thead th{background:rgba(201,168,76,.07);padding:12px 15px;text-align:right;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:rgba(245,240,232,.36);font-family:'Tajawal',sans-serif;font-weight:400;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(201,168,76,.055);transition:background .2s}
+tbody tr:hover{background:rgba(201,168,76,.04)}
+tbody td{padding:13px 15px;color:rgba(245,240,232,.78);font-family:'Tajawal',sans-serif;white-space:nowrap}
+.pl{display:inline-flex;align-items:center;gap:4px;padding:3px 11px;border-radius:18px;font-size:.72rem;font-weight:700}
+.py{background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.28);color:var(--success)}
+.pnd{background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.19);color:var(--gold-light)}
+.ba{padding:4px 12px;background:rgba(46,204,113,.09);border:1px solid rgba(46,204,113,.27);border-radius:7px;color:var(--success);font-size:.75rem;cursor:pointer;font-family:'Cairo',sans-serif;font-weight:700;transition:all .2s}
+.ba:hover{background:rgba(46,204,113,.18)}
+.em{padding:55px 20px;text-align:center;color:rgba(245,240,232,.18);font-family:'Tajawal',sans-serif}
+.em .ei{font-size:2.8rem;margin-bottom:10px}
+.sw{padding:28px;text-align:center}
+.swt{font-size:1.08rem;font-weight:700;color:var(--gold-light);margin-bottom:5px}
+.sws{font-size:.83rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif;margin-bottom:20px}
+#reader{max-width:360px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:2px solid rgba(201,168,76,.26)}
+#reader video{width:100%!important;display:block}
+.scbt{display:flex;gap:9px;justify-content:center;margin-bottom:16px}
+.mbox{display:flex;gap:8px;justify-content:center;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto}
+.mbox input{flex:1;background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.18);border-radius:9px;padding:10px 13px;color:var(--cream);font-family:'Cairo',sans-serif;font-size:.86rem;outline:none;transition:all .3s;direction:rtl}
+.mbox input:focus{border-color:var(--gold)}
+.mbox input::placeholder{color:rgba(245,240,232,.2)}
+.sr{max-width:460px;margin:0 auto;background:linear-gradient(145deg,rgba(26,46,69,.9),rgba(13,27,42,.95));border:1px solid rgba(201,168,76,.19);border-radius:14px;padding:20px;display:none;text-align:right}
+.sr.ok{border-color:rgba(46,204,113,.38)}
+.sr.bad{border-color:rgba(231,76,60,.38)}
+.sri{font-size:2.2rem;margin-bottom:10px}
+.sr h3{font-size:1.02rem;font-weight:700;margin-bottom:3px}
+.sr.ok h3{color:var(--success)}
+.sr.bad h3{color:#E74C3C}
+.srm{font-family:'Tajawal',sans-serif;font-size:.8rem;color:rgba(245,240,232,.43);margin-top:3px}
+.srg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+.srit .srl{font-size:.67rem;color:rgba(245,240,232,.28);font-family:'Tajawal',sans-serif;text-transform:uppercase;margin-bottom:1px}
+.srit .srv{font-size:.86rem;font-weight:700;color:var(--cream)}
+.bcf{width:100%;padding:12px;background:linear-gradient(135deg,var(--success),#27AE60);border:none;border-radius:11px;color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:900;cursor:pointer;margin-top:13px;transition:all .3s;box-shadow:0 7px 22px rgba(46,204,113,.28)}
+.bcf:hover{transform:translateY(-2px)}
+.bcf:disabled{opacity:.5;cursor:not-allowed}
+.bag{width:100%;padding:10px;background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gold-light);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s}
+.bag:hover{background:rgba(201,168,76,.17)}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);background:rgba(26,46,69,.98);border:1px solid rgba(201,168,76,.26);border-radius:13px;padding:11px 20px;font-family:'Tajawal',sans-serif;font-size:.86rem;color:var(--cream);z-index:9999;transition:transform .4s ease;box-shadow:0 8px 34px rgba(0,0,0,.36);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.ov{position:fixed;inset:0;background:rgba(13,27,42,.84);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.ov .sp{width:42px;height:42px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.ov p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.52);font-size:.91rem}
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sid{position:relative;width:100%;height:auto;border-left:none;border-bottom:1px solid rgba(201,168,76,.09)}.mn{margin-right:0;padding:14px}.sts{grid-template-columns:1fr 1fr}.srg{grid-template-columns:1fr}.si{width:100%}}
 </style>
 </head>
 <body>
+<div class="ov" id="ov"><div class="sp"></div><p id="ovm">جاري التحميل...</p></div>
 
-<!-- ========== LOGIN PAGE ========== -->
-<div id="loginPage">
-  <div class="login-box">
-    <div class="login-logo">🔐</div>
+<div id="lp">
+  <div class="lb">
+    <div class="ico">🔐</div>
     <h1>لوحة التحكم</h1>
-    <p>تسجيل الدخول لإدارة حفل التخرج 2025</p>
-
-    <div class="role-selector">
-      <button class="role-btn selected" onclick="selectRole('admin')" id="roleAdminBtn">
-        👑 إدارة
-      </button>
-      <button class="role-btn" onclick="selectRole('volunteer')" id="roleVolBtn">
-        🤝 متطوع
-      </button>
+    <div class="sb">حفل التخرج 2025</div>
+    <div class="roles">
+      <button class="rb on" onclick="selR('admin')" id="rA">👑 إدارة</button>
+      <button class="rb" onclick="selR('vol')" id="rV">🤝 متطوع</button>
     </div>
-
-    <div class="login-field">
-      <label>اسم المستخدم</label>
-      <input type="text" id="loginUser" placeholder="أدخل اسم المستخدم" autocomplete="off">
-    </div>
-    <div class="login-field">
-      <label>كلمة المرور</label>
-      <input type="password" id="loginPass" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-
-    <button class="btn-login" onclick="doLogin()">تسجيل الدخول</button>
-    <div class="login-error" id="loginError">❌ بيانات الدخول غير صحيحة</div>
-
-    <p style="font-size:0.72rem; color:rgba(245,240,232,0.2); margin-top:20px; font-family:'Tajawal',sans-serif;">
-      كلمة مرور الإدارة: admin123 • كلمة مرور المتطوعين: vol123
-    </p>
+    <div class="lf"><label>اسم المستخدم</label><input type="text" id="lU" placeholder="أدخل اسم المستخدم" autocomplete="off"></div>
+    <div class="lf"><label>كلمة المرور</label><input type="password" id="lP" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="lbtn" onclick="doLogin()">تسجيل الدخول</button>
+    <div class="le" id="le">❌ بيانات الدخول غير صحيحة</div>
+    <p class="hint">الإدارة: admin / admin123 &nbsp;•&nbsp; المتطوع: vol / vol123</p>
   </div>
 </div>
 
-<!-- ========== DASHBOARD ========== -->
-<div id="dashPage">
+<div id="dp">
   <div class="layout">
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-logo">
-        <div class="emoji">🎓</div>
-        <h2>لوحة التحكم</h2>
-        <p>حفل التخرج 2025</p>
-        <div class="role-badge" id="roleBadge">👑 إدارة</div>
+    <div class="sid">
+      <div class="slog"><div class="e">🎓</div><h2>لوحة التحكم</h2><p>حفل التخرج 2025</p><div class="rbdg" id="rBdg">👑 إدارة</div></div>
+      <div class="nav">
+        <div class="nl">القائمة</div>
+        <div class="ni on" onclick="showP('ov')" id="n-ov"><span class="ic">📊</span><span>نظرة عامة</span></div>
+        <div class="ni adm" onclick="showP('ls')" id="n-ls"><span class="ic">📋</span><span>المسجلون</span><span class="nb" id="rCnt">0</span></div>
+        <div class="ni" onclick="showP('sc')" id="n-sc"><span class="ic">📷</span><span>مسح QR</span></div>
       </div>
-
-      <div class="nav-section">
-        <div class="nav-label">القائمة الرئيسية</div>
-
-        <div class="nav-item active" onclick="showPanel('overview')" id="nav-overview">
-          <span class="icon">📊</span>
-          <span>نظرة عامة</span>
-        </div>
-
-        <div class="nav-item" onclick="showPanel('registrations')" id="nav-registrations" class="admin-only">
-          <span class="icon">📋</span>
-          <span>المسجلون</span>
-          <span class="nav-badge" id="regCount">0</span>
-        </div>
-
-        <div class="nav-item" onclick="showPanel('scanner')" id="nav-scanner">
-          <span class="icon">📷</span>
-          <span>مسح QR</span>
+      <div class="sf"><button class="lo" onclick="doLogout()">🚪 تسجيل الخروج</button></div>
+    </div>
+    <div class="mn">
+      <div class="tb">
+        <h1 id="pgT">نظرة عامة</h1>
+        <div class="ta">
+          <button class="bs bh" onclick="loadData()">🔄 تحديث</button>
+          <button class="bs bg adm" onclick="doExp()">📥 تصدير Excel</button>
         </div>
       </div>
-
-      <div class="sidebar-footer">
-        <button class="btn-logout" onclick="logout()">🚪 تسجيل الخروج</button>
+      <div class="pn on" id="p-ov">
+        <div class="sts">
+          <div class="sc"><div class="sl">إجمالي المسجلين</div><div class="sv" id="sT">0</div><div class="ss">خريج مسجل</div></div>
+          <div class="sc"><div class="sl">حضروا</div><div class="sv" id="sA">0</div><div class="ss">تم تأكيد حضورهم</div></div>
+          <div class="sc"><div class="sl">لم يحضروا</div><div class="sv" id="sP">0</div><div class="ss">في انتظار الحضور</div></div>
+          <div class="sc"><div class="sl">المرافقون</div><div class="sv" id="sC">0</div><div class="ss">مرافق متوقع</div></div>
+        </div>
+        <div style="padding:0 0 22px"><div style="padding:0 22px 13px;font-size:.88rem;font-weight:700;color:var(--gold-light)">📋 آخر التسجيلات</div><div class="tw"><table><thead><tr><th>الاسم</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th></tr></thead><tbody id="rTb"></tbody></table></div></div>
+      </div>
+      <div class="pn" id="p-ls">
+        <div class="ph"><div class="pt">📋 جميع المسجلين</div><input class="si" placeholder="🔍 بحث بالاسم أو رقم التسجيل..." oninput="filt(this.value)"></div>
+        <div class="tw"><table><thead><tr><th>#</th><th>الاسم</th><th>الهاتف</th><th>البريد</th><th>الكلية</th><th>المرافقون</th><th>رقم التسجيل</th><th>التاريخ</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="lTb"></tbody></table></div>
+      </div>
+      <div class="pn" id="p-sc">
+        <div class="sw">
+          <div class="swt">📷 مسح بطاقة الحضور</div>
+          <div class="sws">وجّه الكاميرا نحو كود QR على بطاقة الخريج</div>
+          <div id="reader"></div>
+          <div class="scbt">
+            <button class="bs bg" onclick="startSc()" id="bSt">▶ تشغيل الكاميرا</button>
+            <button class="bs bh" onclick="stopSc()" id="bSp" style="display:none">⏹ إيقاف</button>
+          </div>
+          <div class="mbox"><input id="mId" placeholder="أو أدخل رقم التسجيل يدوياً..."><button class="bs bg" onclick="mCheck()">فحص</button></div>
+          <div class="sr" id="sRes">
+            <div class="sri" id="sIc">✅</div>
+            <h3 id="sTi">—</h3>
+            <p class="srm" id="sMg"></p>
+            <div class="srg" id="sGr"></div>
+            <button class="bcf" id="bCf" onclick="doCf()" style="display:none">✅ تأكيد الحضور</button>
+            <button class="bag" onclick="resetSc()">📷 مسح بطاقة أخرى</button>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Main Content -->
-    <div class="main">
-
-      <!-- Topbar -->
-      <div class="topbar">
-        <h1 id="pageTitle">نظرة عامة</h1>
-        <div class="topbar-actions">
-          <button class="btn-sm btn-ghost" onclick="refreshData()">🔄 تحديث</button>
-          <button class="btn-sm btn-gold admin-only" onclick="exportCSV()" id="exportBtn">📥 تصدير Excel</button>
-        </div>
-      </div>
-
-      <!-- Overview Panel -->
-      <div class="panel active" id="panel-overview">
-        <div class="stats-grid" id="statsGrid">
-          <div class="stat-card">
-            <div class="stat-label">إجمالي المسجلين</div>
-            <div class="stat-value" id="statTotal">0</div>
-            <div class="stat-sub">خريج مسجل</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">حضروا اليوم</div>
-            <div class="stat-value" id="statAttended">0</div>
-            <div class="stat-sub">تم تأكيد حضورهم</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">لم يحضروا بعد</div>
-            <div class="stat-value" id="statPending">0</div>
-            <div class="stat-sub">في انتظار الحضور</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">إجمالي المرافقين</div>
-            <div class="stat-value" id="statComp">0</div>
-            <div class="stat-sub">مرافق متوقع</div>
-          </div>
-        </div>
-
-        <!-- Recent activity -->
-        <div style="padding: 0 0 24px;">
-          <div style="padding: 0 24px 16px; font-size:0.9rem; font-weight:700; color:var(--gold-light);">
-            📋 آخر التسجيلات
-          </div>
-          <div class="table-wrap">
-            <table id="recentTable">
-              <thead>
-                <tr>
-                  <th>الاسم</th>
-                  <th>رقم التسجيل</th>
-                  <th>وقت التسجيل</th>
-                  <th>الحالة</th>
-                </tr>
-              </thead>
-              <tbody id="recentTbody">
-                <tr><td colspan="4"><div class="empty-state"><div class="emoji">📭</div><div>لا توجد تسجيلات بعد</div></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Registrations Panel (Admin only) -->
-      <div class="panel" id="panel-registrations">
-        <div class="panel-header">
-          <div class="panel-title">📋 جميع المسجلين</div>
-          <input class="search-input" placeholder="🔍 بحث بالاسم أو الرقم..." oninput="filterTable(this.value)" id="searchBox">
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>الاسم الكامل</th>
-                <th>رقم الهاتف</th>
-                <th>البريد</th>
-                <th>الكلية</th>
-                <th>المرافقون</th>
-                <th>رقم التسجيل</th>
-                <th>التاريخ</th>
-                <th>الحالة</th>
-                <th>الإجراء</th>
-              </tr>
-            </thead>
-            <tbody id="regTbody">
-              <tr><td colspan="10"><div class="empty-state"><div class="emoji">📭</div><div>لا توجد بيانات</div></div></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Scanner Panel -->
-      <div class="panel" id="panel-scanner">
-        <div class="scanner-wrap">
-          <div class="scanner-title">📷 مسح بطاقة الحضور</div>
-          <div class="scanner-sub">وجّه الكاميرا نحو كود QR الموجود على بطاقة الخريج</div>
-
-          <div id="reader"></div>
-
-          <div style="display:flex; gap:12px; justify-content:center; margin-bottom:20px;">
-            <button class="btn-sm btn-gold" onclick="startScanner()" id="startScanBtn">▶ تشغيل الكاميرا</button>
-            <button class="btn-sm btn-ghost" onclick="stopScanner()" id="stopScanBtn" style="display:none">⏹ إيقاف</button>
-          </div>
-
-          <!-- Manual entry -->
-          <div style="max-width:400px; margin:0 auto 24px; display:flex; gap:10px;">
-            <input class="search-input" id="manualRegId" placeholder="أو أدخل رقم التسجيل يدوياً..." style="flex:1">
-            <button class="btn-sm btn-gold" onclick="manualCheck()">فحص</button>
-          </div>
-
-          <!-- Result -->
-          <div class="scan-result" id="scanResult">
-            <div class="scan-result-icon" id="scanIcon">✅</div>
-            <h3 id="scanStatus">تم التحقق!</h3>
-            <p id="scanMsg" style="font-family:'Tajawal',sans-serif; font-size:0.85rem; color:rgba(245,240,232,0.5); margin-top:4px;"></p>
-            <div class="scan-info-grid" id="scanInfoGrid"></div>
-            <button class="btn-confirm" id="confirmBtn" onclick="confirmAttendance()" style="display:none">
-              ✅ تأكيد الحضور
-            </button>
-            <button class="btn-scan-again" onclick="resetScanner()">📷 مسح بطاقة أخرى</button>
-          </div>
-
-        </div>
-      </div>
-
-    </div><!-- end main -->
-  </div><!-- end layout -->
+  </div>
 </div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
+<div class="toast" id="tst"></div>
 <script>
-// ============================================================
-// CREDENTIALS - غير هذا قبل النشر
-// ============================================================
-const CREDS = {
-  admin:     { user: 'admin',     pass: 'admin123', role: 'admin' },
-  volunteer: { user: 'volunteer', pass: 'vol123',   role: 'volunteer' }
-};
+const SU='https://script.google.com/macros/s/AKfycbzhcJZRwdxc4UWIEfA4W5kMBQneEH1V-SeVumwbvu3cT_mxaVJjhSWN5av9ngbmYQUB/exec';
+const CR={admin:{u:'admin',p:'admin123',r:'admin'},vol:{u:'vol',p:'vol123',r:'vol'}};
+let mR='admin',sR='admin',regs=[],qrScanner=null,pendId=null,tTmr;
 
-// Google Apps Script URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo4Ujp6JV-QS-rF3wQwtmlMCQqV1gRjYTY-dWQtriAcanMeLeCFNCR2qGeZUtC2X5D/exec';
-// ============================================================
+function selR(r){sR=r;document.getElementById('rA').className='rb'+(r==='admin'?' on':'');document.getElementById('rV').className='rb'+(r==='vol'?' on':'');}
 
-let currentRole = 'admin';
-let selectedRole = 'admin';
-let allRegs = [];
-let scannerInstance = null;
-let currentScanned = null;
-
-// ---- Login ----
-function selectRole(role) {
-  selectedRole = role;
-  document.getElementById('roleAdminBtn').className = 'role-btn' + (role === 'admin' ? ' selected' : '');
-  document.getElementById('roleVolBtn').className = 'role-btn' + (role === 'volunteer' ? ' selected' : '');
+function doLogin(){
+  const u=document.getElementById('lU').value.trim(),p=document.getElementById('lP').value;
+  const m=Object.values(CR).find(c=>c.u===u&&c.p===p&&c.r===sR);
+  if(!m){document.getElementById('le').style.display='block';return;}
+  document.getElementById('le').style.display='none';
+  mR=m.r;
+  document.getElementById('lp').style.display='none';
+  document.getElementById('dp').style.display='block';
+  document.getElementById('rBdg').textContent=mR==='admin'?'👑 إدارة':'🤝 متطوع';
+  if(mR!=='admin'){document.querySelectorAll('.adm').forEach(e=>e.style.display='none');showP('sc');}
+  else{loadData();showP('ov');}
 }
 
-function doLogin() {
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  const err = document.getElementById('loginError');
+function doLogout(){stopSc();document.getElementById('dp').style.display='none';document.getElementById('lp').style.display='flex';document.getElementById('lU').value='';document.getElementById('lP').value='';}
 
-  const match = Object.values(CREDS).find(c => c.user === user && c.pass === pass && c.role === selectedRole);
-  if (!match) { err.style.display = 'block'; return; }
-
-  currentRole = match.role;
-  err.style.display = 'none';
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('dashPage').style.display = 'block';
-  document.getElementById('roleBadge').textContent = currentRole === 'admin' ? '👑 إدارة' : '🤝 متطوع';
-
-  // Show/hide admin elements
-  if (currentRole !== 'admin') {
-    document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-    showPanel('scanner');
-  } else {
-    loadData();
-    showPanel('overview');
+async function loadData(){
+  showOv(true,'جاري تحميل البيانات من Google Sheets...');
+  try{
+    const res=await fetch(SU+'?action=getAll');
+    const j=await res.json();
+    if(j.success&&Array.isArray(j.data)){
+      regs=j.data.map(r=>({
+        regId:String(r['رقم التسجيل']||''),
+        fullName:String(r['الاسم الكامل']||''),
+        phone:String(r['رقم الهاتف']||''),
+        email:String(r['البريد الإلكتروني']||''),
+        college:String(r['الكلية / التخصص']||''),
+        companions:String(r['عدد المرافقين']||'0'),
+        timestamp:String(r['تاريخ التسجيل']||''),
+        attended:String(r['حالة الحضور']||'').includes('حضر'),
+      })).filter(r=>r.regId.length>0);
+      toast('✅ تم تحميل '+regs.length+' تسجيل');
+    }else{regs=[];toast('ℹ️ لا توجد بيانات في الشيت');}
+  }catch(e){
+    console.error(e);
+    try{regs=JSON.parse(localStorage.getItem('grad_reg')||'[]');}catch(_){}
+    toast('⚠️ تعذر الاتصال، عرض بيانات محلية ('+regs.length+')');
   }
+  showOv(false);render();
 }
 
-function logout() {
-  stopScanner();
-  document.getElementById('dashPage').style.display = 'none';
-  document.getElementById('loginPage').style.display = 'flex';
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
+function render(){
+  const t=regs.length,a=regs.filter(r=>r.attended).length,c=regs.reduce((s,r)=>s+parseInt(r.companions||0),0);
+  document.getElementById('sT').textContent=t;
+  document.getElementById('sA').textContent=a;
+  document.getElementById('sP').textContent=t-a;
+  document.getElementById('sC').textContent=c;
+  document.getElementById('rCnt').textContent=t;
+  const rt=document.getElementById('rTb'),rc=[...regs].reverse().slice(0,6);
+  rt.innerHTML=rc.length?rc.map(r=>`<tr><td style="font-weight:700">${r.fullName}</td><td style="font-family:monospace;font-size:.75rem;color:var(--gold)">${r.regId}</td><td style="font-size:.75rem">${(r.timestamp||'').slice(0,10)||'—'}</td><td>${r.attended?'<span class="pl py">● حضر</span>':'<span class="pl pnd">● لم يحضر</span>'}</td></tr>`).join(''):'<tr><td colspan="4"><div class="em"><div class="ei">📭</div>لا توجد تسجيلات</div></td></tr>';
+  rList(regs);
 }
 
-// ---- Data ----
-async function loadData() {
-  showLoadingOverlay(true);
-  try {
-    const res = await fetch(APPS_SCRIPT_URL + '?action=getAll');
-    const json = await res.json();
-    if (json.success && json.data) {
-      allRegs = json.data.map(row => ({
-        regId:      row['رقم التسجيل']      || '',
-        fullName:   row['الاسم الكامل']      || '',
-        phone:      row['رقم الهاتف']        || '',
-        email:      row['البريد الإلكتروني'] || '',
-        college:    row['الكلية / التخصص']   || '',
-        companions: String(row['عدد المرافقين'] || '0'),
-        timestamp:  row['تاريخ التسجيل']     || '',
-        attended:   String(row['حالة الحضور'] || '').includes('حضر'),
-      })).filter(r => r.regId);
-    } else {
-      allRegs = [];
-    }
-  } catch (e) {
-    showToast('⚠️ تعذر الاتصال، يتم عرض بيانات محلية');
-    const stored = localStorage.getItem('grad_registrations');
-    allRegs = stored ? JSON.parse(stored) : [];
+function rList(data){
+  const tb=document.getElementById('lTb');
+  tb.innerHTML=data.length?data.map((r,i)=>`<tr><td style="color:rgba(245,240,232,.25)">${i+1}</td><td style="font-weight:700">${r.fullName}</td><td style="direction:ltr;font-size:.78rem">${r.phone}</td><td style="font-size:.73rem;color:rgba(245,240,232,.44)">${r.email}</td><td>${r.college}</td><td style="text-align:center;color:var(--gold-light);font-weight:700">${r.companions}</td><td style="font-family:monospace;font-size:.73rem;color:var(--gold)">${r.regId}</td><td style="font-size:.73rem">${(r.timestamp||'').slice(0,10)||'—'}</td><td>${r.attended?'<span class="pl py">✓ حضر</span>':'<span class="pl pnd">⏳ لم يحضر</span>'}</td><td>${!r.attended?`<button class="ba" onclick="mAtt('${r.regId}')">✓ حضر</button>`:'<span style="color:rgba(245,240,232,.17);font-size:.73rem">—</span>'}</td></tr>`).join(''):'<tr><td colspan="10"><div class="em"><div class="ei">📭</div>لا توجد بيانات</div></td></tr>';
+}
+
+function filt(q){rList(regs.filter(r=>r.fullName.includes(q)||r.regId.includes(q)||r.phone.includes(q)));}
+
+async function mAtt(id){
+  const i=regs.findIndex(r=>r.regId===id);if(i===-1)return;
+  regs[i].attended=true;render();toast('⏳ جاري تأكيد الحضور...');
+  try{
+    const res=await fetch(SU+'?action=attend&regId='+encodeURIComponent(id));
+    const j=await res.json();
+    toast(j.success?'✅ تم تأكيد حضور: '+regs[i].fullName:'⚠️ خطأ: '+(j.error||''));
+  }catch(e){toast('⚠️ خطأ في الاتصال');}
+}
+
+function showP(id){
+  document.querySelectorAll('.pn').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.getElementById('n-'+id).classList.add('on');
+  document.getElementById('pgT').textContent={ov:'نظرة عامة',ls:'المسجلون',sc:'مسح QR'}[id]||id;
+  if(id!=='sc')stopSc();
+}
+
+function startSc(){
+  document.getElementById('sRes').style.display='none';
+  document.getElementById('bSt').style.display='none';
+  document.getElementById('bSp').style.display='inline-block';
+  qrScanner=new Html5Qrcode('reader');
+  Html5Qrcode.getCameras().then(cams=>{
+    if(!cams||!cams.length){toast('❌ لا توجد كاميرا');resetScBtns();return;}
+    const cam=cams.find(c=>c.label.toLowerCase().includes('back'))||cams[cams.length-1];
+    qrScanner.start(cam.id,{fps:10,qrbox:{width:230,height:230}},(txt)=>{stopSc();procQR(txt);},()=>{})
+    .catch(e=>{console.error(e);toast('❌ تعذر تشغيل الكاميرا. تأكد أن الموقع HTTPS');resetScBtns();});
+  }).catch(e=>{console.error(e);toast('❌ تعذر الوصول للكاميرا');resetScBtns();});
+}
+
+function stopSc(){
+  if(qrScanner){qrScanner.stop().catch(()=>{});try{qrScanner.clear();}catch(_){}qrScanner=null;}
+  resetScBtns();
+}
+
+function resetScBtns(){document.getElementById('bSt').style.display='inline-block';document.getElementById('bSp').style.display='none';}
+
+function procQR(txt){
+  try{const d=JSON.parse(txt);if(!d.regId)throw 0;showRes(d.regId,d);}
+  catch(e){showErr('QR Code غير صالح');}
+}
+
+function mCheck(){
+  const id=document.getElementById('mId').value.trim().toUpperCase();
+  if(!id){toast('⚠️ أدخل رقم التسجيل');return;}
+  showRes(id,null);
+}
+
+function showRes(regId,raw){
+  let reg=regs.find(r=>r.regId===regId);
+  if(!reg){try{const l=JSON.parse(localStorage.getItem('grad_reg')||'[]');reg=l.find(r=>r.regId===regId);}catch(_){}}
+  if(!reg&&raw){reg={regId:raw.regId,fullName:raw.name||'—',phone:raw.phone||'—',college:raw.college||'—',companions:raw.companions||'0',attended:false};}
+  if(!reg){showErr('رقم التسجيل غير موجود في النظام');return;}
+  const box=document.getElementById('sRes');
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'center'});
+  if(reg.attended){
+    box.className='sr bad';
+    document.getElementById('sIc').textContent='⚠️';
+    document.getElementById('sTi').textContent='تم تسجيل الحضور مسبقاً!';
+    document.getElementById('sMg').textContent='هذه البطاقة استُخدمت من قبل';
+    document.getElementById('bCf').style.display='none';
+  }else{
+    box.className='sr ok';
+    document.getElementById('sIc').textContent='✅';
+    document.getElementById('sTi').textContent='بطاقة صالحة – يُسمح بالدخول';
+    document.getElementById('sMg').textContent='اضغط تأكيد لتسجيل الحضور';
+    const b=document.getElementById('bCf');b.style.display='block';b.disabled=false;b.textContent='✅ تأكيد الحضور';
+    pendId=regId;
   }
-  showLoadingOverlay(false);
-  renderAll();
+  document.getElementById('sGr').innerHTML=`
+    <div class="srit"><div class="srl">الاسم</div><div class="srv">${reg.fullName}</div></div>
+    <div class="srit"><div class="srl">الكلية</div><div class="srv">${reg.college}</div></div>
+    <div class="srit"><div class="srl">الهاتف</div><div class="srv">${reg.phone}</div></div>
+    <div class="srit"><div class="srl">المرافقون</div><div class="srv">${reg.companions} أشخاص</div></div>
+    <div class="srit"><div class="srl">رقم التسجيل</div><div class="srv" style="font-family:monospace;font-size:.72rem;color:var(--gold)">${reg.regId}</div></div>
+    <div class="srit"><div class="srl">الحالة</div><div class="srv">${reg.attended?'<span style="color:var(--success)">حضر ✓</span>':'<span style="color:var(--gold-light)">لم يحضر بعد</span>'}</div></div>`;
 }
 
-function showLoadingOverlay(show) {
-  let el = document.getElementById('loadingOverlay');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'loadingOverlay';
-    el.style.cssText = 'position:fixed;inset:0;background:rgba(13,27,42,0.85);z-index:9998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;';
-    el.innerHTML = '<div style="width:44px;height:44px;border:3px solid rgba(201,168,76,0.2);border-top-color:#C9A84C;border-radius:50%;animation:spin 0.8s linear infinite"></div><p style="font-family:Tajawal,sans-serif;color:rgba(245,240,232,0.6);font-size:0.95rem;">جاري تحميل البيانات من Google Sheets...</p>';
-    document.body.appendChild(el);
-  }
-  el.style.display = show ? 'flex' : 'none';
+function showErr(msg){
+  const b=document.getElementById('sRes');
+  b.style.display='block';b.className='sr bad';
+  document.getElementById('sIc').textContent='❌';
+  document.getElementById('sTi').textContent='خطأ في القراءة';
+  document.getElementById('sMg').textContent=msg;
+  document.getElementById('sGr').innerHTML='';
+  document.getElementById('bCf').style.display='none';
+  b.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
-async function refreshData() {
-  await loadData();
-  showToast('🔄 تم تحديث البيانات من Google Sheets');
+async function doCf(){
+  if(!pendId)return;
+  const btn=document.getElementById('bCf');
+  btn.disabled=true;btn.textContent='⏳ جاري التأكيد...';
+  await mAtt(pendId);
+  document.getElementById('sIc').textContent='🎉';
+  document.getElementById('sTi').textContent='تم تأكيد الحضور في Google Sheets!';
+  document.getElementById('sMg').textContent='تم تسجيل الدخول بنجاح';
+  btn.style.display='none';pendId=null;
 }
 
-function renderAll() {
-  const total = allRegs.length;
-  const attended = allRegs.filter(r => r.attended).length;
-  const totalComp = allRegs.reduce((s, r) => s + parseInt(r.companions || 0), 0);
+function resetSc(){document.getElementById('sRes').style.display='none';document.getElementById('mId').value='';pendId=null;}
 
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statAttended').textContent = attended;
-  document.getElementById('statPending').textContent = total - attended;
-  document.getElementById('statComp').textContent = totalComp;
-  document.getElementById('regCount').textContent = total;
-
-  renderRecentTable();
-  renderRegTable(allRegs);
+function doExp(){
+  const h=['رقم التسجيل','الاسم الكامل','رقم الهاتف','البريد','الكلية','المرافقون','التاريخ','الحالة'];
+  const rows=regs.map(r=>[r.regId,r.fullName,r.phone,r.email,r.college,r.companions,r.timestamp,r.attended?'حضر':'لم يحضر']);
+  const csv='\uFEFF'+[h,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download='تسجيلات_'+new Date().toLocaleDateString('en').replace(/\//g,'-')+'.csv';
+  a.click();toast('📥 تم تصدير الملف');
 }
 
-function renderRecentTable() {
-  const tbody = document.getElementById('recentTbody');
-  const recent = [...allRegs].reverse().slice(0, 6);
-  if (!recent.length) { tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="emoji">📭</div><div>لا توجد تسجيلات بعد</div></div></td></tr>'; return; }
-  tbody.innerHTML = recent.map(r => `
-    <tr>
-      <td style="font-weight:700">${r.fullName}</td>
-      <td style="font-family:monospace; font-size:0.8rem; color:var(--gold)">${r.regId}</td>
-      <td style="font-size:0.8rem">${new Date(r.timestamp).toLocaleString('ar-SA')}</td>
-      <td>${r.attended ? '<span class="status-pill pill-attended">● حضر</span>' : '<span class="status-pill pill-pending">● لم يحضر</span>'}</td>
-    </tr>
-  `).join('');
-}
+function showOv(s,m){const e=document.getElementById('ov');e.style.display=s?'flex':'none';if(m)document.getElementById('ovm').textContent=m;}
 
-function renderRegTable(data) {
-  const tbody = document.getElementById('regTbody');
-  if (!data.length) { tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="emoji">📭</div><div>لا توجد بيانات</div></div></td></tr>'; return; }
-  tbody.innerHTML = data.map((r, i) => `
-    <tr>
-      <td style="color:rgba(245,240,232,0.3)">${i+1}</td>
-      <td style="font-weight:700">${r.fullName}</td>
-      <td style="direction:ltr; font-size:0.82rem">${r.phone}</td>
-      <td style="font-size:0.78rem; color:rgba(245,240,232,0.5)">${r.email}</td>
-      <td>${r.college}</td>
-      <td style="text-align:center; color:var(--gold-light); font-weight:700">${r.companions}</td>
-      <td style="font-family:monospace; font-size:0.78rem; color:var(--gold)">${r.regId}</td>
-      <td style="font-size:0.78rem">${new Date(r.timestamp).toLocaleDateString('ar-SA')}</td>
-      <td>${r.attended ? '<span class="status-pill pill-attended">✓ حضر</span>' : '<span class="status-pill pill-pending">⏳ لم يحضر</span>'}</td>
-      <td>${!r.attended ? `<button class="btn-attend" onclick="markAttended('${r.regId}')">✓ حضر</button>` : '<span style="color:rgba(245,240,232,0.2); font-size:0.78rem">—</span>'}</td>
-    </tr>
-  `).join('');
-}
-
-function filterTable(q) {
-  const filtered = allRegs.filter(r =>
-    r.fullName.includes(q) || r.regId.includes(q) || r.phone.includes(q)
-  );
-  renderRegTable(filtered);
-}
-
-// ---- Mark attended ----
-async function markAttended(regId) {
-  const idx = allRegs.findIndex(r => r.regId === regId);
-  if (idx === -1) return;
-
-  // تحديث محلي فوري
-  allRegs[idx].attended = true;
-  renderAll();
-  showToast('⏳ جاري تأكيد الحضور...');
-
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'attend', regId: regId })
-    });
-    showToast('✅ تم تأكيد حضور: ' + allRegs[idx].fullName);
-  } catch (e) {
-    // حفظ محلي كـ fallback
-    localStorage.setItem('grad_registrations', JSON.stringify(allRegs));
-    showToast('✅ تم التأكيد (سيُزامن لاحقاً)');
-  }
-}
-
-// ---- Panels ----
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('nav-' + id).classList.add('active');
-  const titles = { overview: 'نظرة عامة', registrations: 'المسجلون', scanner: 'مسح QR' };
-  document.getElementById('pageTitle').textContent = titles[id] || id;
-  if (id !== 'scanner') stopScanner();
-}
-
-// ---- QR Scanner ----
-function startScanner() {
-  document.getElementById('scanResult').style.display = 'none';
-  document.getElementById('startScanBtn').style.display = 'none';
-  document.getElementById('stopScanBtn').style.display = 'inline-flex';
-
-  scannerInstance = new Html5Qrcode("reader");
-  scannerInstance.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: { width: 250, height: 250 } },
-    (decoded) => {
-      stopScanner();
-      processQR(decoded);
-    },
-    () => {}
-  ).catch(err => {
-    showToast('❌ تعذر الوصول للكاميرا');
-    document.getElementById('startScanBtn').style.display = 'inline-flex';
-    document.getElementById('stopScanBtn').style.display = 'none';
-    console.error(err);
-  });
-}
-
-function stopScanner() {
-  if (scannerInstance) {
-    scannerInstance.stop().catch(() => {});
-    scannerInstance = null;
-  }
-  document.getElementById('startScanBtn').style.display = 'inline-flex';
-  document.getElementById('stopScanBtn').style.display = 'none';
-}
-
-function processQR(text) {
-  try {
-    const data = JSON.parse(text);
-    const reg = allRegs.find(r => r.regId === data.regId);
-    showScanResult(reg, data);
-  } catch (e) {
-    showScanError('QR code غير صالح أو تالف');
-  }
-}
-
-function manualCheck() {
-  const id = document.getElementById('manualRegId').value.trim().toUpperCase();
-  if (!id) return;
-  const reg = allRegs.find(r => r.regId === id);
-  showScanResult(reg, { regId: id });
-}
-
-function showScanResult(reg, rawData) {
-  const box = document.getElementById('scanResult');
-  box.style.display = 'block';
-  box.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  if (!reg) {
-    box.className = 'scan-result error';
-    document.getElementById('scanIcon').textContent = '❌';
-    document.getElementById('scanStatus').textContent = 'رقم التسجيل غير موجود!';
-    document.getElementById('scanMsg').textContent = rawData.regId || 'تعذر العثور على السجل';
-    document.getElementById('scanInfoGrid').innerHTML = '';
-    document.getElementById('confirmBtn').style.display = 'none';
-    return;
-  }
-
-  if (reg.attended) {
-    box.className = 'scan-result error';
-    document.getElementById('scanIcon').textContent = '⚠️';
-    document.getElementById('scanStatus').textContent = 'تم تسجيل هذا الشخص مسبقاً!';
-    document.getElementById('scanMsg').textContent = 'قد تكون هذه بطاقة مكررة';
-    document.getElementById('confirmBtn').style.display = 'none';
-  } else {
-    box.className = 'scan-result success';
-    document.getElementById('scanIcon').textContent = '✅';
-    document.getElementById('scanStatus').textContent = 'بطاقة صالحة!';
-    document.getElementById('scanMsg').textContent = 'يمكن السماح بالدخول';
-    document.getElementById('confirmBtn').style.display = 'block';
-    currentScanned = reg.regId;
-  }
-
-  document.getElementById('scanInfoGrid').innerHTML = `
-    <div class="scan-info-item"><div class="scan-info-label">الاسم</div><div class="scan-info-val">${reg.fullName}</div></div>
-    <div class="scan-info-item"><div class="scan-info-label">الكلية</div><div class="scan-info-val">${reg.college}</div></div>
-    <div class="scan-info-item"><div class="scan-info-label">رقم الهاتف</div><div class="scan-info-val">${reg.phone}</div></div>
-    <div class="scan-info-item"><div class="scan-info-label">المرافقون</div><div class="scan-info-val">${reg.companions} أشخاص</div></div>
-    <div class="scan-info-item"><div class="scan-info-label">رقم التسجيل</div><div class="scan-info-val" style="font-size:0.78rem; font-family:monospace; color:var(--gold)">${reg.regId}</div></div>
-    <div class="scan-info-item"><div class="scan-info-label">الحالة</div><div class="scan-info-val">${reg.attended ? '<span style="color:var(--success)">حضر ✓</span>' : '<span style="color:var(--gold-light)">لم يحضر</span>'}</div></div>
-  `;
-}
-
-function showScanError(msg) {
-  const box = document.getElementById('scanResult');
-  box.style.display = 'block';
-  box.className = 'scan-result error';
-  document.getElementById('scanIcon').textContent = '❌';
-  document.getElementById('scanStatus').textContent = 'خطأ في القراءة';
-  document.getElementById('scanMsg').textContent = msg;
-  document.getElementById('scanInfoGrid').innerHTML = '';
-  document.getElementById('confirmBtn').style.display = 'none';
-}
-
-async function confirmAttendance() {
-  if (!currentScanned) return;
-  const btn = document.getElementById('confirmBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ جاري التأكيد...';
-  await markAttended(currentScanned);
-  document.getElementById('scanIcon').textContent = '🎉';
-  document.getElementById('scanStatus').textContent = 'تم تأكيد الحضور في Google Sheets!';
-  btn.style.display = 'none';
-  currentScanned = null;
-}
-
-function resetScanner() {
-  document.getElementById('scanResult').style.display = 'none';
-  document.getElementById('manualRegId').value = '';
-  currentScanned = null;
-}
-
-// ---- Export CSV ----
-function exportCSV() {
-  const headers = ['رقم التسجيل', 'الاسم الكامل', 'رقم الهاتف', 'البريد الإلكتروني', 'الكلية', 'المرافقون', 'التاريخ', 'الحالة'];
-  const rows = allRegs.map(r => [
-    r.regId, r.fullName, r.phone, r.email, r.college, r.companions,
-    new Date(r.timestamp).toLocaleString('ar-SA'),
-    r.attended ? 'حضر' : 'لم يحضر'
-  ]);
-  const csv = '\uFEFF' + [headers, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'تسجيلات_حفل_التخرج_' + new Date().toLocaleDateString('en').replace(/\//g,'-') + '.csv';
-  a.click();
-  showToast('📥 تم تصدير الملف');
-}
-
-// ---- Sync to Google Sheets ----
-async function syncToSheet(reg) {
-  if (APPS_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') return;
-  try {
-    await fetch(APPS_SCRIPT_URL + '?action=attend', {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ regId: reg.regId, action: 'attend' })
-    });
-  } catch (e) { console.log('Sync note:', e); }
-}
-
-// ---- Toast ----
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// Init
-loadData();
+function toast(m){const e=document.getElementById('tst');e.textContent=m;e.classList.add('show');clearTimeout(tTmr);tTmr=setTimeout(()=>e.classList.remove('show'),3200);}
 </script>
 </body>
 </html>
