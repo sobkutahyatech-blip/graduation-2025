@@ -536,7 +536,7 @@ async function loadData(){
           college:    v(['الكلية / التخصص','الكلية','college','كلية']),
           companions: v(['عدد المرافقين','companions','مرافقون','المرافقون']) || '0',
           timestamp:  v(['تاريخ التسجيل','timestamp','تاريخ','date']),
-          attended:   v(['حالة الحضور','attended','حضور','الحضور']).includes('حضر'),
+          attended:   (()=>{ const s=v(['حالة الحضور','attended','حضور','الحضور']); return s==='حضر ✓'||s==='حضر'||s.startsWith('حضر ✓'); })(),
         };
       }).filter(r=>r.regId.length > 0);
 
@@ -548,9 +548,9 @@ async function loadData(){
     }
   } catch(e){
     console.error('loadData error:',e);
-    // fallback محلي
-    try{ regs=JSON.parse(localStorage.getItem('grad_reg')||'[]'); }catch(_){}
-    toast('⚠️ تعذر الاتصال ('+regs.length+' محلي)');
+    // لا نستخدم localStorage لأنه يحتوي attended قديم
+    regs = [];
+    toast('⚠️ تعذر الاتصال بـ Google Sheets. اضغط تحديث.');
   }
   showOvl(false);
   render();
@@ -616,16 +616,24 @@ function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 // ── MARK ATTENDED ─────────────────────────────
 async function markAtt(id){
   const i=regs.findIndex(r=>r.regId===id);
-  if(i===-1)return;
-  regs[i].attended=true;
+  if(i===-1) return;
+  const name = regs[i].fullName;
+  regs[i].attended = true;
   render();
-  toast('⏳ جاري التأكيد...');
+  toast('⏳ جاري تسجيل الحضور في Sheets...');
   try{
-    const j=await callAPI({action:'attend',regId:id});
-    toast(j.success?'✅ تم تأكيد حضور: '+regs[i].fullName:'⚠️ '+(j.error||'خطأ'));
-  }catch(e){
-    new Image().src=SURL+'?action=attend&regId='+encodeURIComponent(id)+'&_='+Date.now();
-    toast('✅ تم تأكيد الحضور');
+    const j = await callAPI({action:'attend', regId:id});
+    if(j.success){
+      toast('✅ تم تأكيد حضور: ' + name);
+    } else {
+      regs[i].attended = false; // تراجع إذا فشل
+      render();
+      toast('⚠️ فشل التأكيد: ' + (j.error||'خطأ'));
+    }
+  } catch(e){
+    // no-cors fallback
+    new Image().src = SURL+'?action=attend&regId='+encodeURIComponent(id)+'&_='+Date.now();
+    toast('✅ تم الإرسال (تحقق من الشيت)');
   }
 }
 
@@ -667,11 +675,25 @@ function initScanner(){
         resetBtns();
         return;
       }
-      // الكاميرا الخلفية أولاً
-      const cam = cameras.find(c=>/back|rear|environment/i.test(c.label||'')) || cameras[cameras.length-1];
-      const cfg = { fps:10, qrbox:{ width:250, height:250 }, aspectRatio:1.0 };
+      // الكاميرا الخلفية أولاً - نبحث بدقة
+      const cam = 
+        cameras.find(c=>/back/i.test(c.label||'')) ||
+        cameras.find(c=>/rear/i.test(c.label||'')) ||
+        cameras.find(c=>/environment/i.test(c.label||'')) ||
+        cameras[cameras.length-1];
+      toast('📷 كاميرا: ' + (cam.label||cam.id).slice(0,30));
+      const cfg = {
+        fps: 20,
+        qrbox: (w, h) => {
+          const s = Math.min(w, h) * 0.7;
+          return { width: Math.round(s), height: Math.round(s) };
+        },
+        aspectRatio: 1.0,
+        disableFlip: false,
+        experimentalFeatures: { useBarCodeDetectorIfSupported: true }
+      };
       return qrObj.start(cam.id, cfg,
-        (text)=>{ stopScan(); processQR(text); },
+        (text, result)=>{ stopScan(); processQR(text); },
         ()=>{}
       );
     })
@@ -721,20 +743,24 @@ function showResult(regId, raw){
   // ابحث في البيانات المحملة
   let reg = regs.find(r=>r.regId===regId);
 
-  // ابحث في localStorage كـ fallback
-  if(!reg){
-    try{
-      const loc=JSON.parse(localStorage.getItem('grad_reg')||'[]');
-      const match=loc.find(r=>r.regId===regId);
-      if(match) reg={
-        regId:match.regId,
-        fullName:match.fullName||'—',
-        phone:match.phone||'—',
-        college:match.college||'—',
-        companions:match.companions||'0',
-        attended:match.attended||false
-      };
-    }catch(_){}
+  // إذا لم يوجد في regs المحملة، اطلب من Sheets مباشرة
+  if(!reg && raw){
+    // استخدم بيانات QR مباشرة مع attended=false حتى نتحقق
+    reg = {
+      regId: raw.regId,
+      fullName: raw.name || '—',
+      phone: raw.phone || '—',
+      college: raw.college || '—',
+      companions: raw.companions || '0',
+      attended: false
+    };
+    // تحقق من الحضور من Sheets
+    callAPI({action:'checkAttend', regId: raw.regId}).then(j=>{
+      if(j && j.attended) {
+        reg.attended = true;
+        showResult(raw.regId, raw); // أعد العرض
+      }
+    }).catch(()=>{});
   }
 
   // استخدم بيانات QR مباشرة
