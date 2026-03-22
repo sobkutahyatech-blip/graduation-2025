@@ -238,7 +238,7 @@ select option{background:var(--navy-mid)}
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhcJZRwdxc4UWIEfA4W5kMBQneEH1V-SeVumwbvu3cT_mxaVJjhSWN5av9ngbmYQUB/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwz9h358RDcsZz-tDytQKYITKK0ga1f6VsuFfXbT2By3RaILBaLc23bJ7lMXpV5IcWK/exec';
 
 let b64 = '', fname = '';
 
@@ -310,22 +310,30 @@ async function doSubmit() {
   document.getElementById('loadingSec').style.display = 'block';
   setStep(2);
 
-  // إرسال البيانات لـ Google Sheets عبر GET
-  try {
-    const url = SCRIPT_URL
-      + '?action=save'
-      + '&regId='      + encodeURIComponent(regId)
-      + '&fullName='   + encodeURIComponent(fullName)
-      + '&phone='      + encodeURIComponent(phone)
-      + '&email='      + encodeURIComponent(email)
-      + '&college='    + encodeURIComponent(college)
-      + '&companions=' + encodeURIComponent(companions);
-    const res = await fetch(url);
-    const json = await res.json();
-    console.log('✅ Sheets:', json);
-  } catch(e) {
-    console.warn('⚠️ Sheet error:', e);
-  }
+  // إرسال البيانات لـ Google Sheets عبر JSONP (يتجاوز CORS)
+  const sheetUrl = SCRIPT_URL
+    + '?action=save'
+    + '&regId='      + encodeURIComponent(regId)
+    + '&fullName='   + encodeURIComponent(fullName)
+    + '&phone='      + encodeURIComponent(phone)
+    + '&email='      + encodeURIComponent(email)
+    + '&college='    + encodeURIComponent(college)
+    + '&companions=' + encodeURIComponent(companions)
+    + '&receipt='    + encodeURIComponent(b64.slice(0, 50000)); // أول 50KB من الصورة
+
+  await new Promise((resolve) => {
+    const cbName = '__save_' + Date.now();
+    const script = document.createElement('script');
+    const timer  = setTimeout(() => { delete window[cbName]; script.remove(); resolve(); }, 10000);
+    window[cbName] = (res) => {
+      clearTimeout(timer); delete window[cbName]; script.remove();
+      console.log('✅ Sheets:', res);
+      resolve();
+    };
+    script.src = sheetUrl + '&callback=' + cbName;
+    script.onerror = () => { clearTimeout(timer); delete window[cbName]; script.remove(); resolve(); };
+    document.head.appendChild(script);
+  });
 
   // حفظ محلي احتياطي
   try {
