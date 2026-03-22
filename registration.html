@@ -218,7 +218,7 @@ select option{background:var(--nm)}
 
 <script>
 // ====================================================
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgwDoOjtFkkQoydLWB_9hGdTY2ZYPvkk9xMWLZJ98VjVtCq8rDx21taw1BbKAi6SB8/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2tGIDxYev8eTzirv-Sh0JdlZJWP6EBLdqukzkOdfs8yYV_Gl0c_0OTgcXjHon68f5/exec';
 // ====================================================
 
 let imgB64 = '', imgName = '';
@@ -272,28 +272,29 @@ function setStep(n) {
 }
 
 // ---- الإرسال عبر Image (أبسط وأموثق طريقة تتجاوز CORS) ----
-function sendToSheets(params) {
+// ── إرسال البيانات عبر JSONP (يتجاوز CORS) ──
+function callAPI(params) {
   return new Promise((resolve) => {
-    // نرسل البيانات الأساسية (بدون الصورة) عبر Image ping
-    // الصورة تُرسل منفصلة
+    const cb = '__c' + Date.now() + Math.floor(Math.random()*9999);
     const qs = Object.entries(params)
       .map(([k,v]) => encodeURIComponent(k)+'='+encodeURIComponent(v))
       .join('&');
-    
-    const url = SCRIPT_URL + '?' + qs;
-    
-    // الطريقة ١: fetch no-cors (يرسل ولا ينتظر response)
-    fetch(url, { mode: 'no-cors' })
-      .then(() => resolve({ sent: true }))
-      .catch(() => {
-        // الطريقة ٢: Image fallback
-        const img = new Image();
-        img.onload = img.onerror = () => resolve({ sent: true });
-        img.src = url + '&_t=' + Date.now();
-      });
-
-    // تأكد من الحل بعد ٥ ثوانٍ على أي حال
-    setTimeout(() => resolve({ sent: true }), 5000);
+    const sc = document.createElement('script');
+    const tm = setTimeout(() => {
+      delete window[cb]; sc.remove(); resolve({ sent:true, timeout:true });
+    }, 12000);
+    window[cb] = (res) => {
+      clearTimeout(tm); delete window[cb]; sc.remove();
+      resolve(res || { sent:true });
+    };
+    sc.src = SCRIPT_URL + '?' + qs + '&callback=' + cb;
+    sc.onerror = () => {
+      clearTimeout(tm); delete window[cb]; sc.remove();
+      // fallback: no-cors fetch
+      fetch(SCRIPT_URL + '?' + qs, { mode:'no-cors' }).catch(()=>{});
+      resolve({ sent:true, fallback:true });
+    };
+    document.head.appendChild(sc);
   });
 }
 
@@ -319,22 +320,20 @@ async function doSubmit() {
   document.getElementById('LOAD').style.display = 'block';
   setStep(2);
 
-  // إرسال البيانات الأساسية (بدون الصورة أولاً)
+  // ── إرسال البيانات لـ Google Sheets ──
   document.getElementById('LOADMSG').textContent = 'جاري حفظ بياناتك في Google Sheets...';
   
-  await sendToSheets({
-    action: 'save',
-    regId, fullName, phone, email, college, companions: comp
-  });
+  // أرسل البيانات الأساسية أولاً
+  const baseParams = { action:'save', regId, fullName, phone, email, college, companions:comp };
+  const res = await callAPI(baseParams);
+  console.log('Save response:', res);
 
-  // إرسال الصورة منفصلة إذا كانت صغيرة بما يكفي
-  if (imgB64 && imgB64.length < 100000) { // أقل من ~75KB
-    document.getElementById('LOADMSG').textContent = 'جاري رفع الإيصال...';
-    await sendToSheets({
-      action: 'save',
-      regId, fullName, phone, email, college, companions: comp,
-      receipt: imgB64
-    });
+  // أرسل الصورة إذا كانت موجودة (حد 200KB للـ URL)
+  if (imgB64 && imgB64.length > 0) {
+    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال...';
+    // قسّم الصورة إذا كانت كبيرة - أرسل أول 150KB فقط
+    const receiptChunk = imgB64.length > 150000 ? imgB64.slice(0, 150000) : imgB64;
+    await callAPI({ ...baseParams, receipt: receiptChunk });
   }
 
   // حفظ محلي
