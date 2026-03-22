@@ -846,13 +846,59 @@ async function doConfirm(){
   const btn = document.getElementById('BCF');
   btn.disabled = true;
   btn.textContent = '⏳ جاري التأكيد...';
-  await markAtt(id);
-  // تحديث نتيجة المسح
-  document.getElementById('SICO').textContent = '🎉';
-  document.getElementById('STIT').textContent = 'تم تأكيد الحضور!';
-  document.getElementById('SMSG').textContent = 'تم تسجيل الدخول في Google Sheets ✓';
-  btn.style.display = 'none';
-  pendId = null;
+
+  // تأكيد الحضور
+  const i = regs.findIndex(r=>r.regId===id);
+  const name = i>=0 ? regs[i].fullName : id;
+
+  try {
+    const j = await callAPI({action:'attend', regId:id});
+    if(j.success){
+      if(i>=0){ regs[i].attended=true; render(); }
+      document.getElementById('SICO').textContent = '🎉';
+      document.getElementById('STIT').textContent = 'تم تأكيد حضور ' + (j.name||name) + '!';
+      document.getElementById('SMSG').textContent = 'سيفتح الماسح تلقائياً...';
+      btn.style.display = 'none';
+      pendId = null;
+      toast('✅ ' + (j.name||name) + ' — تم تسجيل الدخول');
+      // إعادة فتح الماسح تلقائياً بعد 2 ثانية
+      setTimeout(()=>{
+        document.getElementById('SRES').style.display = 'none';
+        document.getElementById('MID').value = '';
+        startScan();
+      }, 2000);
+    } else if(j.alreadyAttended){
+      document.getElementById('SICO').textContent = '⚠️';
+      document.getElementById('STIT').textContent = 'تم تسجيل حضوره مسبقاً!';
+      document.getElementById('SMSG').textContent = j.name || '';
+      btn.style.display = 'none';
+      pendId = null;
+      setTimeout(()=>{
+        document.getElementById('SRES').style.display='none';
+        startScan();
+      }, 2500);
+    } else {
+      btn.disabled = false;
+      btn.textContent = '✅ تأكيد الحضور';
+      toast('⚠️ ' + (j.error||'خطأ في التأكيد'));
+      pendId = null;
+    }
+  } catch(e){
+    // fallback no-cors
+    new Image().src = SURL+'?action=attend&regId='+encodeURIComponent(id)+'&_='+Date.now();
+    if(i>=0){ regs[i].attended=true; render(); }
+    document.getElementById('SICO').textContent = '🎉';
+    document.getElementById('STIT').textContent = 'تم إرسال التأكيد';
+    document.getElementById('SMSG').textContent = 'سيفتح الماسح تلقائياً...';
+    btn.style.display = 'none';
+    pendId = null;
+    toast('✅ تم الإرسال');
+    setTimeout(()=>{
+      document.getElementById('SRES').style.display='none';
+      document.getElementById('MID').value='';
+      startScan();
+    }, 2000);
+  }
 }
 
 function resetScan(){
