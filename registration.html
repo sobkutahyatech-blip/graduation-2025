@@ -17,6 +17,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes spin{to{transform:rotate(360deg)}}
 .hdr{text-align:center;margin-bottom:38px;animation:fu .7s ease}
 .embl{width:84px;height:84px;background:linear-gradient(135deg,var(--gold),var(--gd));border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 40px rgba(201,168,76,.35);animation:glow 3s ease-in-out infinite}
+.hdr h1{font-size:2.1rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold),var(--gd));-webki<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل حفل التخرج 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--gold:#C9A84C;--gl:#E8C97A;--gd:#9A7A2E;--nv:#0D1B2A;--nm:#1A2E45;--cr:#F5F0E8;--ok:#2ECC71;--er:#E74C3C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--nv);color:var(--cr);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(201,168,76,.07),transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(201,168,76,.05),transparent 60%);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:36px 16px 60px}
+@keyframes glow{0%,100%{box-shadow:0 0 40px rgba(201,168,76,.35)}50%{box-shadow:0 0 65px rgba(201,168,76,.6)}}
+@keyframes fu{from{opacity:0;transform:translateY(17px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hdr{text-align:center;margin-bottom:38px;animation:fu .7s ease}
+.embl{width:84px;height:84px;background:linear-gradient(135deg,var(--gold),var(--gd));border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 40px rgba(201,168,76,.35);animation:glow 3s ease-in-out infinite}
 .hdr h1{font-size:2.1rem;font-weight:900;background:linear-gradient(135deg,var(--gl),var(--gold),var(--gd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hdr p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.5);font-size:.93rem;margin-top:5px}
 .div{width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:13px auto}
@@ -223,7 +242,441 @@ select option{background:var(--nm)}
 
 <script>
 // ====================================================
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2tGIDxYev8eTzirv-Sh0JdlZJWP6EBLdqukzkOdfs8yYV_Gl0c_0OTgcXjHon68f5/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxo4Ujp6JV-QS-rF3wQwtmlMCQqV1gRjYTY-dWQtriAcanMeLeCFNCR2qGeZUtC2X5D/exec';
+// ====================================================
+
+let imgB64 = '', imgName = '';
+
+function onFile(inp) {
+  const f = inp.files[0];
+  if (!f) return;
+  if (f.size > 5*1024*1024) { alert('الملف كبير جداً! الحد ٥ ميجا'); inp.value=''; return; }
+  imgName = f.name;
+  document.getElementById('FNAME').textContent = '✓ ' + f.name;
+  document.getElementById('UPL').classList.add('ok');
+  const r = new FileReader();
+  r.onload = e => { imgB64 = e.target.result; };
+  r.readAsDataURL(f);
+  clrErr('F-rec');
+}
+
+function cp(btn, t) {
+  navigator.clipboard.writeText(t).then(() => { btn.textContent='✓'; setTimeout(()=>btn.textContent='نسخ',1500); });
+}
+
+function setErr(id) { document.getElementById(id).classList.add('err'); }
+function clrErr(id) { document.getElementById(id).classList.remove('err'); }
+
+function validate() {
+  let ok = true;
+  [['I-name','F-name',v=>v.trim().length>1],
+   ['I-phone','F-phone',v=>v.trim().length>5],
+   ['I-email','F-email',v=>v.includes('@')],
+   ['I-college','F-college',v=>v.trim().length>1],
+   ['I-comp','F-comp',v=>v!=='']
+  ].forEach(([id,fid,fn])=>{
+    const v=document.getElementById(id).value;
+    if(!fn(v)){setErr(fid);ok=false;}else clrErr(fid);
+  });
+  if(!imgB64){setErr('F-rec');ok=false;}
+  return ok;
+}
+
+function genId() {
+  return 'GR' + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).slice(2,5).toUpperCase();
+}
+
+function setStep(n) {
+  for(let i=1;i<=3;i++){
+    const sc=document.getElementById('SC'+i);
+    sc.className='sc'+(i<n?' dn':i===n?' act':'');
+    sc.textContent=i<n?'✓':['١','٢','٣'][i-1];
+    document.getElementById('S'+i).className='stp'+(i===n?' act':'');
+  }
+}
+
+// ---- الإرسال عبر Image (أبسط وأموثق طريقة تتجاوز CORS) ----
+// ── إرسال البيانات عبر JSONP (يتجاوز CORS) ──
+function callAPI(params) {
+  return new Promise((resolve) => {
+    const cb = '__c' + Date.now() + Math.floor(Math.random()*9999);
+    const qs = Object.entries(params)
+      .map(([k,v]) => encodeURIComponent(k)+'='+encodeURIComponent(v))
+      .join('&');
+    const sc = document.createElement('script');
+    const tm = setTimeout(() => {
+      delete window[cb]; sc.remove(); resolve({ sent:true, timeout:true });
+    }, 12000);
+    window[cb] = (res) => {
+      clearTimeout(tm); delete window[cb]; sc.remove();
+      resolve(res || { sent:true });
+    };
+    sc.src = SCRIPT_URL + '?' + qs + '&callback=' + cb;
+    sc.onerror = () => {
+      clearTimeout(tm); delete window[cb]; sc.remove();
+      // fallback: no-cors fetch
+      fetch(SCRIPT_URL + '?' + qs, { mode:'no-cors' }).catch(()=>{});
+      resolve({ sent:true, fallback:true });
+    };
+    document.head.appendChild(sc);
+  });
+}
+
+async function doSubmit() {
+  const errEl = document.getElementById('ERR');
+  if (!validate()) {
+    errEl.style.display = 'block';
+    errEl.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  errEl.style.display = 'none';
+  document.getElementById('SUBBTN').disabled = true;
+
+  const fullName = document.getElementById('I-name').value.trim();
+  const phone    = document.getElementById('I-phone').value.trim();
+  const email    = document.getElementById('I-email').value.trim();
+  const college  = document.getElementById('I-college').value.trim();
+  const comp     = document.getElementById('I-comp').value;
+
+  // ── فحص التكرار أولاً قبل إظهار التحميل ──
+  document.getElementById('LOADMSG').textContent = 'جاري التحقق من البيانات...';
+  document.getElementById('FORM').style.display = 'none';
+  document.getElementById('LOAD').style.display = 'block';
+  setStep(2);
+
+  try {
+    const dupCheck = await callAPI({
+      action: 'checkDuplicate',
+      email: email,
+      phone: phone
+    });
+    if (dupCheck.duplicate) {
+      // إعادة الفورم مع رسالة خطأ
+      document.getElementById('LOAD').style.display = 'none';
+      document.getElementById('FORM').style.display = 'block';
+      document.getElementById('SUBBTN').disabled = false;
+      setStep(1);
+      const msg = dupCheck.field === 'email'
+        ? '⚠️ هذا البريد الإلكتروني مسجّل مسبقاً باسم: ' + dupCheck.name
+        : '⚠️ رقم الهاتف هذا مسجّل مسبقاً باسم: ' + dupCheck.name;
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      errEl.scrollIntoView({behavior:'smooth',block:'center'});
+      if (dupCheck.field === 'email') {
+        document.getElementById('F-email').classList.add('err');
+      } else {
+        document.getElementById('F-phone').classList.add('err');
+      }
+      return;
+    }
+  } catch(e) {
+    // إذا فشل الفحص نكمل التسجيل
+    console.warn('Duplicate check failed:', e);
+  }
+
+  const regId = genId();
+
+  // ── إرسال البيانات + الصورة لـ Sheets ──
+  document.getElementById('LOADMSG').textContent = 'جاري حفظ بياناتك في Google Sheets...';
+
+  const baseParams = {
+    action: 'save',
+    regId, fullName, phone, email, college, companions: comp
+  };
+
+  // أرسل مع الصورة كاملة إذا أمكن
+  let saveParams = { ...baseParams };
+  if (imgB64 && imgB64.length > 0) {
+    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال إلى Drive...';
+    saveParams.receipt = imgB64;
+  }
+
+  let saveResult = { success: false };
+  try {
+    saveResult = await callAPI(saveParams);
+    console.log('Save result:', saveResult);
+
+    // إذا فشل بسبب التكرار
+    if (saveResult.error === 'email_duplicate' || saveResult.error === 'phone_duplicate') {
+      document.getElementById('LOAD').style.display = 'none';
+      document.getElementById('FORM').style.display = 'block';
+      document.getElementById('SUBBTN').disabled = false;
+      setStep(1);
+      const msg = saveResult.error === 'email_duplicate'
+        ? '⚠️ هذا البريد الإلكتروني مسجّل مسبقاً باسم: ' + (saveResult.name||'')
+        : '⚠️ رقم الهاتف مسجّل مسبقاً باسم: ' + (saveResult.name||'');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      errEl.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+  } catch(e) {
+    console.warn('Save error:', e);
+    // نكمل حتى لو فشل الاتصال
+  }
+
+  // ── رسالة حالة الإيميل ──
+  if (saveResult.emailSent) {
+    document.getElementById('LOADMSG').textContent = '📧 تم إرسال بطاقتك على إيميلك...';
+    await new Promise(r => setTimeout(r, 800));
+  }
+
+  // ── عرض البطاقة ──
+  setTimeout(() => {
+    document.getElementById('LOAD').style.display = 'none';
+    document.getElementById('SUCC').style.display = 'block';
+    setStep(3);
+
+    document.getElementById('TN').textContent = fullName;
+    document.getElementById('TP').textContent = phone;
+    document.getElementById('TC').textContent = college;
+    document.getElementById('TM').textContent = comp==='0' ? 'بدون مرافق' : comp+' مرافق';
+    document.getElementById('TR').textContent = regId;
+    document.getElementById('TD').textContent = 'تسجيل: ' + new Date().toLocaleDateString('ar-SA');
+
+    // QR Code
+    document.getElementById('qrcode').innerHTML = '';
+    new QRCode(document.getElementById('qrcode'), {
+      text: JSON.stringify({ regId, name: fullName, phone, college, companions: comp }),
+      width: 134, height: 134,
+      colorDark: '#0D1B2A', colorLight: '#FFFFFF',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // رسالة الإيميل
+    const emailNote = document.getElementById('EMAIL_NOTE');
+    if (emailNote) {
+      emailNote.style.display = saveResult.emailSent ? 'block' : 'none';
+    }
+
+    document.getElementById('SUCC').scrollIntoView({behavior:'smooth'});
+  }, 500);
+}
+
+
+// Drag & drop
+const upl = document.getElementById('UPL');
+upl.addEventListener('dragover',  e=>{e.preventDefault();upl.classList.add('over')});
+upl.addEventListener('dragleave', ()=>upl.classList.remove('over'));
+upl.addEventListener('drop', e=>{
+  e.preventDefault(); upl.classList.remove('over');
+  const fi = document.getElementById('FILE');
+  if(e.dataTransfer.files[0]){ fi.files=e.dataTransfer.files; onFile(fi); }
+});
+
+['I-name','I-phone','I-email','I-college','I-comp'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>clrErr('F-'+id.slice(2).toLowerCase()));
+});
+document.getElementById('I-comp').addEventListener('change',()=>clrErr('F-comp'));
+</script>
+</body>
+</html>t-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.5);font-size:.93rem;margin-top:5px}
+.div{width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:13px auto}
+.steps{display:flex;justify-content:center;align-items:center;margin-bottom:34px}
+.stp{display:flex;align-items:center;gap:7px}
+.sc{width:33px;height:33px;border-radius:50%;border:2px solid rgba(201,168,76,.22);display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:rgba(245,240,232,.3);transition:all .4s}
+.sc.act{background:linear-gradient(135deg,var(--gold),var(--gd));border-color:var(--gold);color:var(--nv);box-shadow:0 0 18px rgba(201,168,76,.5)}
+.sc.dn{background:rgba(46,204,113,.15);border-color:var(--ok);color:var(--ok)}
+.sl{font-size:.71rem;color:rgba(245,240,232,.38);font-family:'Tajawal',sans-serif}
+.stp.act .sl{color:var(--gl)}
+.sln{width:52px;height:2px;background:rgba(201,168,76,.16);margin:0 5px}
+.card{background:linear-gradient(145deg,rgba(26,46,69,.92),rgba(13,27,42,.96));border:1px solid rgba(201,168,76,.13);border-radius:18px;padding:30px;margin-bottom:18px;animation:fu .6s ease both;box-shadow:0 14px 46px rgba(0,0,0,.22),inset 0 1px 0 rgba(201,168,76,.07)}
+.ctit{font-size:1.02rem;font-weight:700;color:var(--gl);margin-bottom:20px;display:flex;align-items:center;gap:9px}
+.ctit::before{content:'';width:4px;height:17px;background:linear-gradient(180deg,var(--gold),var(--gd));border-radius:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:5px}
+label{font-size:.81rem;color:rgba(245,240,232,.62);font-family:'Tajawal',sans-serif;font-weight:500}
+label .req{color:var(--gold)}
+input,select{background:rgba(13,27,42,.8);border:1px solid rgba(201,168,76,.17);border-radius:10px;padding:11px 13px;color:var(--cr);font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;transition:all .3s;width:100%}
+input:focus,select:focus{border-color:var(--gold);background:rgba(201,168,76,.04);box-shadow:0 0 0 3px rgba(201,168,76,.1)}
+input::placeholder{color:rgba(245,240,232,.18)}
+select option{background:var(--nm)}
+.fld.err input,.fld.err select{border-color:var(--er)!important}
+.ferr{font-size:.73rem;color:#FF6B6B;font-family:'Tajawal',sans-serif;display:none}
+.fld.err .ferr{display:block}
+.bank{background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(201,168,76,.02));border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:20px;margin-bottom:16px}
+.btit{font-size:.92rem;font-weight:700;color:var(--gl);margin-bottom:13px;display:flex;align-items:center;gap:7px}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.07)}
+.brow:last-child{border-bottom:none}
+.bk{font-size:.78rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif}
+.bv{font-size:.87rem;font-weight:700;color:var(--gl);font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:6px}
+.cpb{background:none;border:1px solid rgba(201,168,76,.26);border-radius:5px;padding:2px 7px;color:var(--gold);font-size:.66rem;cursor:pointer;font-family:'Tajawal',sans-serif;transition:all .2s}
+.cpb:hover{background:rgba(201,168,76,.14)}
+.fee{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--gold),var(--gd));color:var(--nv);padding:8px 17px;border-radius:26px;font-size:1rem;font-weight:900;margin-bottom:14px}
+.notice{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.17);border-radius:11px;padding:12px 16px;font-size:.79rem;color:rgba(245,240,232,.52);font-family:'Tajawal',sans-serif;line-height:1.75;margin-bottom:18px}
+.notice strong{color:var(--gl)}
+.upl{border:2px dashed rgba(201,168,76,.26);border-radius:12px;padding:26px;text-align:center;cursor:pointer;transition:all .3s;position:relative}
+.upl:hover,.upl.over{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.upl.ok{border-color:var(--ok);background:rgba(46,204,113,.04)}
+.upl input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.uico{font-size:2rem;margin-bottom:7px}
+.upl p{font-size:.84rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif}
+.fname{color:var(--gl);font-weight:600;margin-top:6px;font-size:.84rem}
+.errbanner{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.26);border-radius:10px;padding:11px 15px;color:#FF6B6B;font-size:.81rem;font-family:'Tajawal',sans-serif;margin-top:10px;display:none}
+.subbtn{width:100%;padding:15px;background:linear-gradient(135deg,var(--gl),var(--gold),var(--gd));border:none;border-radius:12px;color:var(--nv);font-family:'Cairo',sans-serif;font-size:1.02rem;font-weight:900;cursor:pointer;transition:all .3s;box-shadow:0 8px 26px rgba(201,168,76,.27)}
+.subbtn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,168,76,.44)}
+.subbtn:disabled{opacity:.5;cursor:not-allowed}
+.loading{display:none;text-align:center;padding:50px 20px}
+.spin{width:44px;height:44px;border:3px solid rgba(201,168,76,.17);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 13px}
+.loading p{font-family:'Tajawal',sans-serif;color:rgba(245,240,232,.48)}
+.success{display:none;animation:fu .7s ease}
+.ticket{background:linear-gradient(145deg,var(--nm),var(--nv));border:1px solid rgba(201,168,76,.36);border-radius:21px;overflow:hidden;box-shadow:0 26px 65px rgba(0,0,0,.42)}
+.thead{background:linear-gradient(135deg,var(--gd),var(--gold),var(--gl));padding:24px 28px;text-align:center;position:relative}
+.thead h2{color:var(--nv);font-size:1.25rem;font-weight:900;margin-bottom:2px}
+.thead p{color:rgba(13,27,42,.62);font-size:.8rem;font-family:'Tajawal',sans-serif}
+.notches{display:flex;justify-content:space-between;padding:0 20px;position:absolute;bottom:-13px;left:0;right:0}
+.notch{width:26px;height:26px;background:var(--nv);border-radius:50%}
+.tbody{padding:32px 28px 24px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center}
+.trow{margin-bottom:13px}
+.trow:last-child{margin-bottom:0}
+.tlbl{font-size:.67rem;color:rgba(245,240,232,.33);text-transform:uppercase;letter-spacing:1px;font-family:'Tajawal',sans-serif;margin-bottom:1px}
+.tval{font-size:.94rem;font-weight:700;color:var(--cr)}
+.tval.g{color:var(--gl)}
+.tqr{text-align:center}
+.qrw{background:#fff;padding:10px;border-radius:10px;display:inline-block;box-shadow:0 5px 18px rgba(0,0,0,.22)}
+#qrcode canvas,#qrcode img{display:block}
+.qlbl{font-size:.67rem;color:rgba(245,240,232,.33);font-family:'Tajawal',sans-serif;margin-top:6px}
+.tfoot{border-top:2px dashed rgba(201,168,76,.16);padding:17px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.rid{font-size:.76rem;color:rgba(245,240,232,.33);font-family:'Tajawal',sans-serif}
+.sbdg{display:inline-flex;align-items:center;gap:5px;background:rgba(46,204,113,.13);border:1px solid rgba(46,204,113,.33);color:var(--ok);padding:5px 12px;border-radius:17px;font-size:.78rem;font-family:'Tajawal',sans-serif;font-weight:600}
+.sdot{width:6px;height:6px;background:var(--ok);border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.abtn{display:flex;gap:10px;margin-top:16px}
+.btn2{flex:1;padding:12px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.26);border-radius:11px;color:var(--gl);font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn2:hover{background:rgba(201,168,76,.17)}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.tbody{grid-template-columns:1fr;text-align:center}.tqr{margin:0 auto}.hdr h1{font-size:1.7rem}.card{padding:20px}.sln{width:28px}}
+@media print{body{background:#fff}body::before{display:none}.form-sec,.steps,.hdr,.abtn{display:none!important}.success{display:block!important}.ticket{box-shadow:none;border:2px solid #C9A84C}.thead{background:linear-gradient(135deg,#9A7A2E,#C9A84C,#E8C97A)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="embl">🎓</div>
+    <h1>حفل التخرج 2025</h1>
+    <p>أكمل التسجيل للحصول على بطاقة دخولك</p>
+    <div class="div"></div>
+  </div>
+
+  <div class="steps" id="STEPS">
+    <div class="stp act" id="S1"><div class="sc act" id="SC1">١</div><div class="sl">البيانات</div></div>
+    <div class="sln"></div>
+    <div class="stp" id="S2"><div class="sc" id="SC2">٢</div><div class="sl">الدفع</div></div>
+    <div class="sln"></div>
+    <div class="stp" id="S3"><div class="sc" id="SC3">٣</div><div class="sl">البطاقة</div></div>
+  </div>
+
+  <div id="FORM">
+    <div class="card" style="animation-delay:.04s">
+      <div class="ctit">المعلومات الشخصية</div>
+      <div class="grid">
+        <div class="fld full" id="F-name"><label>الاسم الكامل <span class="req">*</span></label><input type="text" id="I-name" placeholder="أدخل اسمك كما في الوثائق الرسمية"><span class="ferr">هذا الحقل مطلوب</span></div>
+        <div class="fld" id="F-phone"><label>رقم الهاتف <span class="req">*</span></label><input type="tel" id="I-phone" placeholder="05xxxxxxxx"><span class="ferr">أدخل رقم صحيح</span></div>
+        <div class="fld" id="F-email"><label>البريد الإلكتروني <span class="req">*</span></label><input type="email" id="I-email" placeholder="example@email.com"><span class="ferr">أدخل بريد صحيح</span></div>
+        <div class="fld" id="F-college"><label>الكلية / التخصص <span class="req">*</span></label><input type="text" id="I-college" placeholder="مثال: كلية الهندسة"><span class="ferr">هذا الحقل مطلوب</span></div>
+        <div class="fld" id="F-comp"><label>عدد المرافقين <span class="req">*</span></label>
+          <select id="I-comp">
+            <option value="">اختر العدد</option>
+            <option value="0">بدون مرافق</option>
+            <option value="1">١ شخص</option>
+            <option value="2">٢ شخص</option>
+            <option value="3">٣ أشخاص</option>
+            <option value="4">٤ أشخاص</option>
+            <option value="5">٥ أشخاص</option>
+          </select>
+          <span class="ferr">اختر العدد</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="animation-delay:.11s">
+      <div class="ctit">رسوم الحضور والدفع</div>
+      <div class="fee">💰 رسوم الحفل: ٥٠ ريال</div>
+      <p style="font-size:.78rem;color:rgba(245,240,232,.42);font-family:'Tajawal',sans-serif;margin-bottom:16px">تشمل: بطاقة دخول الخريج + مرافق واحد مجاناً</p>
+      <div class="bank">
+        <div class="btit">🏦 بيانات التحويل البنكي</div>
+        <div class="brow"><span class="bk">اسم البنك</span><span class="bv">بنك الراجحي <button class="cpb" onclick="cp(this,'بنك الراجحي')">نسخ</button></span></div>
+        <div class="brow"><span class="bk">اسم المستفيد</span><span class="bv">جمعية خريجي الجامعة <button class="cpb" onclick="cp(this,'جمعية خريجي الجامعة')">نسخ</button></span></div>
+        <div class="brow"><span class="bk">رقم الآيبان</span><span class="bv">SA12 3456 7890 1234 5678 <button class="cpb" onclick="cp(this,'SA1234567890123456 78')">نسخ</button></span></div>
+      </div>
+      <div class="notice">
+        <strong>📋 خطوات الدفع:</strong><br>
+        ١. حوّل المبلغ على الحساب أعلاه<br>
+        ٢. خذ صورة من إيصال التحويل<br>
+        ٣. ارفع الصورة في الخانة التالية<br>
+        ٤. أكمل التسجيل وستظهر بطاقتك فوراً
+      </div>
+      <div class="fld" id="F-rec">
+        <label>إيصال التحويل <span class="req">*</span></label>
+        <div class="upl" id="UPL">
+          <input type="file" id="FILE" accept="image/*,.pdf" onchange="onFile(this)">
+          <div class="uico">📎</div>
+          <p>اسحب الصورة هنا أو انقر للاختيار</p>
+          <p style="font-size:.7rem;margin-top:3px">JPG · PNG · PDF · حد أقصى ٥ ميجا</p>
+          <div class="fname" id="FNAME"></div>
+        </div>
+        <span class="ferr">يرجى رفع صورة الإيصال</span>
+      </div>
+    </div>
+
+    <div class="errbanner" id="ERR">⚠️ يرجى تعبئة جميع الحقول المطلوبة ورفع إيصال الدفع</div>
+    <button class="subbtn" id="SUBBTN" onclick="doSubmit()">✅ إتمام التسجيل والحصول على بطاقة الدخول</button>
+  </div>
+
+  <div class="loading" id="LOAD">
+    <div class="spin"></div>
+    <p id="LOADMSG">جاري حفظ بياناتك...</p>
+  </div>
+
+  <div class="success" id="SUCC">
+    <div style="text-align:center;margin-bottom:26px">
+      <div style="font-size:2.6rem;margin-bottom:9px">🎉</div>
+      <h2 style="font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#E8C97A,#C9A84C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">تم التسجيل بنجاح!</h2>
+      <p style="color:rgba(245,240,232,.43);font-family:'Tajawal',sans-serif;margin-top:4px;font-size:.86rem">احتفظ بهذه البطاقة لدخول الحفل</p>
+    </div>
+    <div class="ticket">
+      <div class="thead">
+        <h2>🎓 بطاقة دخول حفل التخرج</h2>
+        <p>Graduation Ceremony 2025</p>
+        <div class="notches"><div class="notch"></div><div class="notch"></div></div>
+      </div>
+      <div class="tbody">
+        <div>
+          <div class="trow"><div class="tlbl">الاسم الكامل</div><div class="tval" id="TN">—</div></div>
+          <div class="trow"><div class="tlbl">رقم الهاتف</div><div class="tval" id="TP">—</div></div>
+          <div class="trow"><div class="tlbl">الكلية / التخصص</div><div class="tval" id="TC">—</div></div>
+          <div class="trow"><div class="tlbl">عدد المرافقين</div><div class="tval g" id="TM">—</div></div>
+          <div class="trow"><div class="tlbl">رقم التسجيل</div><div class="tval g" id="TR">—</div></div>
+        </div>
+        <div class="tqr">
+          <div class="qrw"><div id="qrcode"></div></div>
+          <div class="qlbl">امسح للتحقق</div>
+        </div>
+      </div>
+      <div class="tfoot">
+        <div class="rid" id="TD">—</div>
+        <div class="sbdg"><div class="sdot"></div>مسجل ✓</div>
+      </div>
+    </div>
+    <div class="abtn">
+      <button class="btn2" onclick="window.print()">🖨️ طباعة</button>
+      <button class="btn2" onclick="alert('استخدم الطباعة واختر حفظ كـ PDF')">⬇️ حفظ PDF</button>
+    </div>
+    <div id="EMAIL_NOTE" style="display:none;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:11px;padding:12px 16px;margin-top:14px">
+      <p style="font-family:'Tajawal',sans-serif;font-size:.83rem;color:var(--ok)">
+        📧 تم إرسال البطاقة وكود QR على بريدك الإلكتروني
+      </p>
+    </div>
+    <div class="notice" style="margin-top:14px">
+      <strong>⚠️ مهم:</strong> أحضر هذه البطاقة يوم الحفل. سيتم مسح الـ QR عند الدخول.
+    </div>
+  </div>
+</div>
+
+<script>
+// ====================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxXCNkiuOJ2kXozc-xol9_J-x81ohkL0U-CjCsqy4arE7w2FeIysrdXagXx4uKdvBJb/exec';
 // ====================================================
 
 let imgB64 = '', imgName = '';
