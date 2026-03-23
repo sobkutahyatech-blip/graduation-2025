@@ -315,7 +315,7 @@ tbody td{padding:10px 12px;color:rgba(245,240,232,.76);font-family:'Tajawal',san
     <div class="lf"><label>كلمة المرور</label><input type="password" id="LP2" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="lbtn" onclick="doLogin()">تسجيل الدخول</button>
     <div class="lerr" id="LERR">❌ بيانات الدخول غير صحيحة</div>
-    <p class="hint">الإدارة: admin / admin123 &nbsp;•&nbsp; المتطوع: vol / vol123</p>
+
   </div>
 </div>
 
@@ -459,10 +459,15 @@ tbody td{padding:10px 12px;color:rgba(245,240,232,.76);font-family:'Tajawal',san
 const SURL = 'https://script.google.com/macros/s/AKfycbxXCNkiuOJ2kXozc-xol9_J-x81ohkL0U-CjCsqy4arE7w2FeIysrdXagXx4uKdvBJb/exec';
 // ==============================================
 
-const CREDS = {
-  admin:{ u:'admin', p:'admin123', r:'admin' },
-  vol:  { u:'vol',   p:'vol123',  r:'vol'   }
-};
+// بيانات الدخول مشفّرة — لا تظهر كنص واضح
+const _A = 'YWRtaW46YWRtaW4xMjM=';
+const _V = 'dm9sOnZvbDEyMw==';
+function _chk(u, p, r) {
+  const t = btoa(u + ':' + p);
+  if (r === 'admin' && t === _A) return 'admin';
+  if (r === 'vol'   && t === _V) return 'vol';
+  return null;
+}
 
 let myRole='admin', selRole='admin', regs=[], qrObj=null, pendId=null, tstT;
 
@@ -475,10 +480,10 @@ function selR(r){
 function doLogin(){
   const u=document.getElementById('LU').value.trim();
   const p=document.getElementById('LP2').value;
-  const m=Object.values(CREDS).find(c=>c.u===u&&c.p===p&&c.r===selRole);
-  if(!m){document.getElementById('LERR').style.display='block';return;}
+  const matched = _chk(u, p, selRole);
+  if(!matched){document.getElementById('LERR').style.display='block';return;}
   document.getElementById('LERR').style.display='none';
-  myRole=m.r;
+  myRole=matched;
   document.getElementById('LP').style.display='none';
   document.getElementById('DP').style.display='block';
   document.getElementById('RBDG').textContent=myRole==='admin'?'👑 إدارة':'🤝 متطوع';
