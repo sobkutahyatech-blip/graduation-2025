@@ -467,14 +467,25 @@ async function doSubmit() {
     document.getElementById('TR').textContent = regId;
     document.getElementById('TD').textContent = 'تسجيل: ' + new Date().toLocaleDateString('ar-SA');
 
-    // QR Code
+    // QR Code — ننتظر حتى يصبح الـ div مرئياً ثم ننشئ QR
     document.getElementById('qrcode').innerHTML = '';
-    new QRCode(document.getElementById('qrcode'), {
-      text: JSON.stringify({ regId, name: fullName, phone, college, companions: comp }),
-      width: 134, height: 134,
-      colorDark: '#0D1B2A', colorLight: '#FFFFFF',
-      correctLevel: QRCode.CorrectLevel.H
-    });
+    setTimeout(() => {
+      try {
+        new QRCode(document.getElementById('qrcode'), {
+          text: JSON.stringify({ regId, name: fullName, phone, college, companions: comp }),
+          width: 140, height: 140,
+          colorDark: '#0D1B2A', colorLight: '#FFFFFF',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } catch(e) {
+        // fallback: صورة QR من Google Charts
+        const qrData = encodeURIComponent(JSON.stringify({ regId, name: fullName, phone, college, companions: comp }));
+        const img = document.createElement('img');
+        img.src = 'https://chart.googleapis.com/chart?chs=140x140&cht=qr&chl=' + qrData + '&choe=UTF-8&chld=H|1';
+        img.style.display = 'block';
+        document.getElementById('qrcode').appendChild(img);
+      }
+    }, 300);
 
     // رسالة الإيميل
     const emailNote = document.getElementById('EMAIL_NOTE');
