@@ -277,17 +277,22 @@ function setStep(n) {
 }
 
 // ---- الإرسال عبر Image (أبسط وأموثق طريقة تتجاوز CORS) ----
-// ── إرسال البيانات عبر JSONP (يتجاوز CORS) ──
+// ── JSONP للبيانات الصغيرة (بدون صورة) ──────
 function callAPI(params) {
+  // نحذف الصورة من JSONP لأنها كبيرة جداً
+  const safeParams = {};
+  for (const k in params) {
+    if (k !== 'receipt') safeParams[k] = params[k];
+  }
   return new Promise((resolve) => {
     const cb = '__c' + Date.now() + Math.floor(Math.random()*9999);
-    const qs = Object.entries(params)
-      .map(([k,v]) => encodeURIComponent(k)+'='+encodeURIComponent(v))
+    const qs = Object.entries(safeParams)
+      .map(([k,v]) => encodeURIComponent(k)+'='+encodeURIComponent(String(v||'')))
       .join('&');
     const sc = document.createElement('script');
     const tm = setTimeout(() => {
       delete window[cb]; sc.remove(); resolve({ sent:true, timeout:true });
-    }, 12000);
+    }, 15000);
     window[cb] = (res) => {
       clearTimeout(tm); delete window[cb]; sc.remove();
       resolve(res || { sent:true });
@@ -295,11 +300,59 @@ function callAPI(params) {
     sc.src = SCRIPT_URL + '?' + qs + '&callback=' + cb;
     sc.onerror = () => {
       clearTimeout(tm); delete window[cb]; sc.remove();
-      // fallback: no-cors fetch
       fetch(SCRIPT_URL + '?' + qs, { mode:'no-cors' }).catch(()=>{});
       resolve({ sent:true, fallback:true });
     };
     document.head.appendChild(sc);
+  });
+}
+
+// ── إرسال الصورة عبر hidden form POST ─────────
+function sendReceiptViaForm(regId, fullName, receiptB64) {
+  return new Promise((resolve) => {
+    if (!receiptB64 || receiptB64.length < 10) { resolve(false); return; }
+
+    // إنشاء iframe مخفي
+    const iframeId = 'receipt_iframe_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.id = iframeId;
+    iframe.name = iframeId;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    // إنشاء form مخفي
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = iframeId;
+    form.style.display = 'none';
+
+    const fields = {
+      action: 'saveReceipt',
+      regId: regId,
+      fullName: fullName,
+      receipt: receiptB64
+    };
+
+    for (const key in fields) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = fields[key];
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+
+    // تنظيف بعد 10 ثوانٍ
+    setTimeout(() => {
+      try { form.remove(); iframe.remove(); } catch(_){}
+      resolve(true);
+    }, 10000);
+
+    form.submit();
+    // نحل بعد ثانيتين بدون انتظار response
+    setTimeout(() => resolve(true), 2000);
   });
 }
 
@@ -357,7 +410,7 @@ async function doSubmit() {
 
   const regId = genId();
 
-  // ── إرسال البيانات + الصورة لـ Sheets ──
+  // ── إرسال البيانات الأساسية عبر JSONP ──────
   document.getElementById('LOADMSG').textContent = 'جاري حفظ بياناتك في Google Sheets...';
 
   const baseParams = {
@@ -365,19 +418,13 @@ async function doSubmit() {
     regId, fullName, phone, email, college, companions: comp
   };
 
-  // أرسل مع الصورة كاملة إذا أمكن
-  let saveParams = { ...baseParams };
-  if (imgB64 && imgB64.length > 0) {
-    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال إلى Drive...';
-    saveParams.receipt = imgB64;
-  }
-
   let saveResult = { success: false };
   try {
-    saveResult = await callAPI(saveParams);
+    // أرسل بدون صورة أولاً (JSONP)
+    saveResult = await callAPI(baseParams);
     console.log('Save result:', saveResult);
 
-    // إذا فشل بسبب التكرار
+    // فحص التكرار من الـ server
     if (saveResult.error === 'email_duplicate' || saveResult.error === 'phone_duplicate') {
       document.getElementById('LOAD').style.display = 'none';
       document.getElementById('FORM').style.display = 'block';
@@ -393,13 +440,18 @@ async function doSubmit() {
     }
   } catch(e) {
     console.warn('Save error:', e);
-    // نكمل حتى لو فشل الاتصال
   }
 
-  // ── رسالة حالة الإيميل ──
+  // ── إرسال الصورة منفصلة عبر POST form ───────
+  if (imgB64 && imgB64.length > 10) {
+    document.getElementById('LOADMSG').textContent = 'جاري رفع صورة الإيصال إلى Drive...';
+    await sendReceiptViaForm(regId, fullName, imgB64);
+  }
+
+  // ── إشعار الإيميل ────────────────────────────
   if (saveResult.emailSent) {
-    document.getElementById('LOADMSG').textContent = '📧 تم إرسال بطاقتك على إيميلك...';
-    await new Promise(r => setTimeout(r, 800));
+    document.getElementById('LOADMSG').textContent = '📧 تم إرسال البطاقة على بريدك...';
+    await new Promise(r => setTimeout(r, 600));
   }
 
   // ── عرض البطاقة ──
